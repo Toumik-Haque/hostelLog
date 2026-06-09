@@ -1,0 +1,83 @@
+.admin-footer{
+    background-color: azure;
+}
+
+.admin-bg{
+    background-color: rgb(219, 226, 234);
+}
+
+.hide-scrollbar {
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
+  scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  width: 0;
+}
+
+.color-official{
+  color: #8c52ff !important;
+}
+
+.btn-official{
+  background-color: #8c52ff !important;
+  color: white !important;
+}
+
+.btn-outline-official,
+.border-official{
+  border-color: #8c52ff !important;
+}
+
+.bg-official{
+  background-color: #8c52ff !important;
+}
+
+.color-official2{
+  color: rgb(199, 161, 234);
+}
+
+.center-view{
+    max-width: 400 !important;
+}
+
+.activeTab{
+  color: #8c52ff;
+  background-color: rgb(224, 199, 247);
+}
+
+.activeTabText{
+  color: #8c52ff;
+  font-weight: bold;
+}
+
+.red-info{
+  color: red;
+  background-color: rgb(251, 227, 227);
+}
+
+.green-info{
+  color: rgb(0, 121, 30);
+  background-color: rgb(219, 250, 225);
+}
+
+.card1{
+  background-color: rgb(246, 237, 255);
+}
+
+.card2{
+  background-color: rgb(237, 249, 255);
+}
+
+.green-card{
+  background-color: rgb(235, 255, 245);
+}
+
+.red-card{
+  background-color: rgb(255, 235, 235);
+}
+
+.bg-search{
+  background-color: rgba(164, 164, 164, 0.048);
+}
