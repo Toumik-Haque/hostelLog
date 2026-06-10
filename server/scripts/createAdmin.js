@@ -1,6 +1,6 @@
-const mongoose = require('mongoose')
-const Admin = require('../models/Admin')
-const bcrypt = require('bcryptjs')
+import mongoose from "mongoose"
+import Admin from "../models/Admin"
+import bcrypt from "bcryptjs"
 
 const MONGO_URI =
   'mongodb+srv://hosteladmin:%40786Toumik@hostel-connect.c5f3u9r.mongodb.net/hostelconnect?retryWrites=true&w=majority&appName=hostel-connect'

@@ -1,8 +1,8 @@
-const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
-const User = require('../models/User')
-const ApprovedStudent = require('../models/ApprovedStudent')
-const nodemailer = require('nodemailer')
+import bcrypt from "bcryptjs"
+import jwt from "jsonwebtoken"
+import User from "../models/User"
+import ApprovedStudent from "../models/ApprovedStudent"
+import nodemailer from "nodemailer"
 
 // Temporary OTP store (for now)
 const otpStore = {}
@@ -207,11 +207,7 @@ const loginUser = async (req, res) => {
     }
 
     // 2. Check password
-    const isMatch =
-      await require('bcryptjs').compare(
-        password,
-        user.password
-      )
+    const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
       return res.status(400).json({
@@ -507,7 +503,7 @@ const resetPassword = async (
 
 }
 
-module.exports = {
+export default {
   sendOtp,
   verifyOtp,
   completeRegistration,

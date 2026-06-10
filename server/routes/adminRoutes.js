@@ -1,14 +1,14 @@
-const express = require('express')
+import express from "express"
 const router = express.Router()
 
-const adminAuth = require('../middleware/adminAuth')
+import adminAuth from "../middleware/adminAuth"
 
-const {
+import {
   getAllStudentsView,
   getStudentDetails,
   deleteStudent,
   updateStudent
-} = require('../controllers/adminController')
+} from "../controllers/adminController"
 
 router.use(adminAuth)
 router.get('/students-view', getAllStudentsView)
@@ -20,4 +20,4 @@ router.delete('/student/:id', deleteStudent)
 // update student
 router.put('/student/:id', updateStudent)
 
-module.exports = router
+export default router

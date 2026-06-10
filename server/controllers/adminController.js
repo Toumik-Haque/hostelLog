@@ -1,5 +1,5 @@
-const User = require('../models/User')
-const ApprovedStudent = require('../models/ApprovedStudent')
+import User from "../models/User"
+import ApprovedStudent from "../models/ApprovedStudent"
 
 const getStudentDetails = async (req, res) => {
 
@@ -290,7 +290,7 @@ const updateStudent = async (req, res) => {
 
 }
 
-module.exports = {
+export default {
   getAllStudentsView,
   getStudentDetails,
   deleteStudent,

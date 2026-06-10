@@ -1,8 +1,8 @@
-const express = require('express')
+import express from "express"
 const router = express.Router()
-const protect = require('../middleware/authMiddleware')
+import protect from "../middleware/authMiddleware"
 
-const {
+import {
   sendOtp,
   verifyOtp,
   completeRegistration,
@@ -11,14 +11,11 @@ const {
   forgotPasswordSendOtp,
   verifyForgotPasswordOtp,
   resetPassword
-} = require('../controllers/authController')
+} from "../controllers/authController"
 
 router.post('/send-otp', sendOtp)
-
 router.post('/verify-otp', verifyOtp)
-
 router.post('/register', completeRegistration)
-
 router.post('/login', loginUser)
 
 router.put(
@@ -49,4 +46,4 @@ router.put(
   resetPassword
 )
 
-module.exports = router
+export default router

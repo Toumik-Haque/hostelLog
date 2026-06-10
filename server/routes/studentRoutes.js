@@ -1,11 +1,11 @@
-const express = require('express')
+import express from "express"
 const router = express.Router()
 
-const protect = require('../middleware/authMiddleware')
+import protect from "../middleware/authMiddleware"
 
-const {
+import {
   getAllStudentsView
-} = require('../controllers/adminController')
+} from "../controllers/adminController"
 
 router.get(
   '/students-view',
@@ -13,4 +13,4 @@ router.get(
   getAllStudentsView
 )
 
-module.exports = router
+export default router

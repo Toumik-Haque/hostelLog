@@ -1,6 +1,6 @@
-const jwt = require('jsonwebtoken')
-const bcrypt = require('bcryptjs')
-const Admin = require('../models/Admin')
+import jwt from "jsonwebtoken"
+import bcrypt from "bcryptjs"
+import Admin from "../models/Admin"
 
 const loginAdmin = async (req, res) => {
 
@@ -38,4 +38,4 @@ const loginAdmin = async (req, res) => {
 
 }
 
-module.exports = { loginAdmin }
+export default { loginAdmin }

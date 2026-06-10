@@ -1,12 +1,12 @@
-const express = require('express')
+import express from "express"
 const router = express.Router()
 
-const protect = require('../middleware/authMiddleware')
+import protect from "../middleware/authMiddleware"
 
-const {
+import {
   toggleHostelStatus,
   getHostelStats
-} = require('../controllers/hostelController')
+} from "../controllers/hostelController"
 
 // Toggle IN/OUT
 router.put(
@@ -17,4 +17,4 @@ router.put(
 
 router.get('/stats', getHostelStats)
 
-module.exports = router
+export default router

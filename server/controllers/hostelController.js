@@ -1,5 +1,5 @@
-const User = require('../models/User')
-const ApprovedStudent = require('../models/ApprovedStudent')
+import User from "../models/User"
+import ApprovedStudent from "../models/ApprovedStudent"
 
 // Toggle IN / OUT
 const toggleHostelStatus = async (req, res) => {
@@ -113,7 +113,7 @@ const getHostelStats = async (req, res) => {
   }
 }
 
-module.exports = {
+export default {
     toggleHostelStatus,
     getHostelStats
 }

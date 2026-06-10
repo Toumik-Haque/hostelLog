@@ -1,11 +1,11 @@
 import dns from "dns";
 dns.setDefaultResultOrder("ipv4first");
 
-const express = require('express')
-const cors = require('cors')
-const dotenv = require('dotenv')
 
-const connectDB = require('./config/db')
+import express from "express"
+import cors from "cors"
+import dotenv from "dotenv"
+import connectDB from "./config/db"
 
 dotenv.config()
 
@@ -16,25 +16,25 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 
-const approvedStudentRoutes = require('./routes/approvedStudentRoutes')
+import approvedStudentRoutes from "./routes/approvedStudentRoutes"
 app.use(
   '/api/approved-students',
   approvedStudentRoutes
 )
 
-const adminAuthRoutes = require('./routes/adminAuthRoutes')
+import adminAuthRoutes from "./routes/adminAuthRoutes"
 app.use('/api/admin-auth', adminAuthRoutes)
 
-const authRoutes = require('./routes/authRoutes')
+import authRoutes from "./routes/authRoutes"
 app.use('/api/auth', authRoutes)
 
-const hostelRoutes = require('./routes/hostelRoutes')
+import hostelRoutes from "./routes/hostelRoutes"
 app.use('/api/hostel', hostelRoutes)
 
-const adminRoutes = require('./routes/adminRoutes')
+import adminRoutes from "./routes/adminRoutes"
 app.use('/api/admin', adminRoutes)
 
-const studentRoutes = require('./routes/studentRoutes')
+import studentRoutes from "./routes/studentRoutes"
 app.use('/api/student', studentRoutes)
 
 app.get('/', (req, res) => {

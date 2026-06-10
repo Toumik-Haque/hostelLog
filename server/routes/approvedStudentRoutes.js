@@ -1,11 +1,9 @@
-const express = require('express')
+import express from "express"
 const router = express.Router()
 
-const {
+import {
   addApprovedStudent
-} = require(
-  '../controllers/approvedStudentController'
-)
+} from "../controllers/approvedStudentController"
 
 router.post(
   '/',
@@ -19,4 +17,4 @@ router.get('/', (req, res) => {
   })
 })
 
-module.exports = router
+export default router
