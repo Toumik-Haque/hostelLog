@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const studentApi = axios.create({
-  baseURL: 'http://localhost:5000/api'
+  baseURL: 'https://hostellog-api.onrender.com/api'
 })
 
 studentApi.interceptors.request.use((config) => {
