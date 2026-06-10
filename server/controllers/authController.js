@@ -1,12 +1,16 @@
-import { Resend } from "resend";
+import Brevo from "@getbrevo/brevo";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const apiInstance = new Brevo.TransactionalEmailsApi();
+
+apiInstance.setApiKey(
+  Brevo.TransactionalEmailsApiApiKeys.apiKey,
+  process.env.BREVO_API_KEY
+);
 
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
 import User from "../models/User.js"
 import ApprovedStudent from "../models/ApprovedStudent.js"
-import nodemailer from "nodemailer"
 
 // Temporary OTP store (for now)
 export const otpStore = {}
@@ -43,13 +47,29 @@ export const sendOtp = async (req, res) => {
     }
 
     // 4. Create email transporter
-    await resend.emails.send({
-      from: "hostelLog <onboarding@resend.dev>",
-      to: [email],
-      replyTo: "hostellog.india@gmail.com",
-      subject: "hostelLog OTP Verification",
-      text: `Your OTP is ${otp}. It will expire in 5 minutes.`
-    });
+    const sendSmtpEmail = new Brevo.SendSmtpEmail();
+
+    sendSmtpEmail.subject =
+      "hostelLog OTP Verification";
+
+    sendSmtpEmail.htmlContent =
+      `<p>Your OTP is <b>${otp}</b></p>
+       <p>Valid for 5 minutes.</p>`;
+
+    sendSmtpEmail.sender = {
+      name: "hostelLog",
+      email: "hostellog.india@gmail.com"
+    };
+
+    sendSmtpEmail.to = [
+      {
+        email: email
+      }
+    ];
+
+    await apiInstance.sendTransacEmail(
+      sendSmtpEmail
+    );
 
 
     res.json({
@@ -342,13 +362,29 @@ export const forgotPasswordSendOtp = async (
       verified: false
     }
 
-    await resend.emails.send({
-      from: "HostelLog <onboarding@resend.dev>",
-      to: [email],
-      replyTo: "hostellog.india@gmail.com",
-      subject: "hostelLog Password Reset OTP",
-      text: `Your OTP is ${otp}. It will expire in 5 minutes`
-    });
+    const sendSmtpEmail = new Brevo.SendSmtpEmail();
+
+    sendSmtpEmail.subject =
+      "hostelLog Password Reset OTP";
+
+    sendSmtpEmail.htmlContent =
+      `<p>Your OTP is <b>${otp}</b></p>
+       <p>Valid for 5 minutes.</p>`;
+
+    sendSmtpEmail.sender = {
+      name: "hostelLog",
+      email: "hostellog.india@gmail.com"
+    };
+
+    sendSmtpEmail.to = [
+      {
+        email: email
+      }
+    ];
+
+    await apiInstance.sendTransacEmail(
+      sendSmtpEmail
+    );
 
     res.json({
       message:
