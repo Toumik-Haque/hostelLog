@@ -1,14 +1,14 @@
 import express from "express"
 const router = express.Router()
 
-import adminAuth from "../middleware/adminAuth"
+import adminAuth from "../middleware/adminAuth.js"
 
 import {
   getAllStudentsView,
   getStudentDetails,
   deleteStudent,
   updateStudent
-} from "../controllers/adminController"
+} from "../controllers/adminController.js"
 
 router.use(adminAuth)
 router.get('/students-view', getAllStudentsView)

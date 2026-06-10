@@ -1,5 +1,5 @@
-import User from "../models/User"
-import ApprovedStudent from "../models/ApprovedStudent"
+import User from "../models/User.js"
+import ApprovedStudent from "../models/ApprovedStudent.js"
 
 // Toggle IN / OUT
 const toggleHostelStatus = async (req, res) => {

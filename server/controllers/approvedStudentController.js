@@ -1,4 +1,4 @@
-import ApprovedStudent from "../models/ApprovedStudent"
+import ApprovedStudent from "../models/ApprovedStudent.js"
 
 const addApprovedStudent = async (
   req,

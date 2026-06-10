@@ -1,12 +1,12 @@
 import express from "express"
 const router = express.Router()
 
-import protect from "../middleware/authMiddleware"
+import protect from "../middleware/authMiddleware.js"
 
 import {
   toggleHostelStatus,
   getHostelStats
-} from "../controllers/hostelController"
+} from "../controllers/hostelController.js"
 
 // Toggle IN/OUT
 router.put(

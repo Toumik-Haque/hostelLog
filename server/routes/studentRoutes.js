@@ -1,11 +1,11 @@
 import express from "express"
 const router = express.Router()
 
-import protect from "../middleware/authMiddleware"
+import protect from "../middleware/authMiddleware.js"
 
 import {
   getAllStudentsView
-} from "../controllers/adminController"
+} from "../controllers/adminController.js"
 
 router.get(
   '/students-view',

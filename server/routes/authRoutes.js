@@ -1,6 +1,6 @@
 import express from "express"
 const router = express.Router()
-import protect from "../middleware/authMiddleware"
+import protect from "../middleware/authMiddleware.js"
 
 import {
   sendOtp,
@@ -11,7 +11,7 @@ import {
   forgotPasswordSendOtp,
   verifyForgotPasswordOtp,
   resetPassword
-} from "../controllers/authController"
+} from "../controllers/authController.js"
 
 router.post('/send-otp', sendOtp)
 router.post('/verify-otp', verifyOtp)

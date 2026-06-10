@@ -1,7 +1,7 @@
 import express from "express"
 const router = express.Router()
 
-import { loginAdmin } from "../controllers/adminAuthController"
+import { loginAdmin } from "../controllers/adminAuthController.js"
 
 router.post('/login', loginAdmin)
 

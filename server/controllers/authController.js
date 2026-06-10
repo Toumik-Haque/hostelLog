@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
-import User from "../models/User"
-import ApprovedStudent from "../models/ApprovedStudent"
+import User from "../models/User.js"
+import ApprovedStudent from "../models/ApprovedStudent.js"
 import nodemailer from "nodemailer"
 
 // Temporary OTP store (for now)

@@ -3,7 +3,7 @@ const router = express.Router()
 
 import {
   addApprovedStudent
-} from "../controllers/approvedStudentController"
+} from "../controllers/approvedStudentController.js"
 
 router.post(
   '/',
