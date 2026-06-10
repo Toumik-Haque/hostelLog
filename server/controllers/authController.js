@@ -5,9 +5,9 @@ import ApprovedStudent from "../models/ApprovedStudent.js"
 import nodemailer from "nodemailer"
 
 // Temporary OTP store (for now)
-const otpStore = {}
+export const otpStore = {}
 
-const sendOtp = async (req, res) => {
+export const sendOtp = async (req, res) => {
   try {
     const { rollNo, email } = req.body
 
@@ -73,7 +73,7 @@ const sendOtp = async (req, res) => {
   }
 }
 
-const verifyOtp = async (req, res) => {
+export const verifyOtp = async (req, res) => {
   try {
 
     const { email, otp } = req.body
@@ -117,7 +117,7 @@ const verifyOtp = async (req, res) => {
   }
 }
 
-const completeRegistration = async (req, res) => {
+export const completeRegistration = async (req, res) => {
   try {
 
     const {
@@ -190,7 +190,7 @@ const completeRegistration = async (req, res) => {
   }
 }
 
-const loginUser = async (req, res) => {
+export const loginUser = async (req, res) => {
   try {
 
     const { rollNo, password } = req.body
@@ -247,7 +247,7 @@ const loginUser = async (req, res) => {
   }
 }
 
-const changePassword = async (
+export const changePassword = async (
   req,
   res
 ) => {
@@ -259,9 +259,7 @@ const changePassword = async (
       confirmPassword
     } = req.body
 
-    if (
-      newPassword === oldPassword
-    ) {
+    if (await bcrypt.compare(newPassword, user.password)) {
       return res.status(400).json({
         message:
           'New password must be different from the current password'
@@ -321,7 +319,7 @@ const changePassword = async (
   }
 }
 
-const forgotPasswordSendOtp = async (
+export const forgotPasswordSendOtp = async (
   req,
   res
 ) => {
@@ -357,6 +355,10 @@ const forgotPasswordSendOtp = async (
         auth: {
           user: process.env.EMAIL_USER,
           pass: process.env.EMAIL_PASS
+        },
+        secure: true,
+        tls: {
+          rejectUnauthorized: false
         }
       })
 
@@ -384,7 +386,7 @@ const forgotPasswordSendOtp = async (
 
 }
 
-const verifyForgotPasswordOtp = async (
+export const verifyForgotPasswordOtp = async (
   req,
   res
 ) => {
@@ -437,7 +439,7 @@ const verifyForgotPasswordOtp = async (
 
 }
 
-const resetPassword = async (
+export const resetPassword = async (
   req,
   res
 ) => {
@@ -503,14 +505,3 @@ const resetPassword = async (
 
 }
 
-export default {
-  sendOtp,
-  verifyOtp,
-  completeRegistration,
-  loginUser,
-  changePassword,
-  forgotPasswordSendOtp,
-  verifyForgotPasswordOtp,
-  resetPassword,
-  otpStore
-}

@@ -1,7 +1,7 @@
 import User from "../models/User.js"
 import ApprovedStudent from "../models/ApprovedStudent.js"
 
-const getStudentDetails = async (req, res) => {
+export const getStudentDetails = async (req, res) => {
 
   try {
 
@@ -61,7 +61,7 @@ const getStudentDetails = async (req, res) => {
 
 }
 
-const getAllStudentsView = async (req, res) => {
+export const getAllStudentsView = async (req, res) => {
   try {
 
     const users = await User.find()
@@ -152,7 +152,7 @@ const getAllStudentsView = async (req, res) => {
   }
 }
 
-const deleteStudent = async (req, res) => {
+export const deleteStudent = async (req, res) => {
 
   try {
 
@@ -206,7 +206,7 @@ const deleteStudent = async (req, res) => {
 
 }
 
-const updateStudent = async (req, res) => {
+export const updateStudent = async (req, res) => {
 
   try {
 
@@ -290,10 +290,5 @@ const updateStudent = async (req, res) => {
 
 }
 
-export default {
-  getAllStudentsView,
-  getStudentDetails,
-  deleteStudent,
-  updateStudent
-}
+
 

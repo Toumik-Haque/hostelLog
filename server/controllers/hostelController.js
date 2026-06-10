@@ -2,7 +2,7 @@ import User from "../models/User.js"
 import ApprovedStudent from "../models/ApprovedStudent.js"
 
 // Toggle IN / OUT
-const toggleHostelStatus = async (req, res) => {
+export const toggleHostelStatus = async (req, res) => {
     try {
 
         const userId = req.user.id
@@ -38,7 +38,7 @@ const toggleHostelStatus = async (req, res) => {
     }
 }
 
-const getHostelStats = async (req, res) => {
+export const getHostelStats = async (req, res) => {
   try {
 
     const users = await User.find()
@@ -111,9 +111,4 @@ const getHostelStats = async (req, res) => {
       message: error.message
     })
   }
-}
-
-export default {
-    toggleHostelStatus,
-    getHostelStats
 }
