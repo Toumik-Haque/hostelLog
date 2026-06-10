@@ -1,11 +1,10 @@
-import * as Brevo from '@getbrevo/brevo';
+import * as Brevo from "@getbrevo/brevo";
 
-console.log(Brevo);
-
-const apiInstance = new Brevo.TransactionalEmailsApi();
-
+const apiInstance =
+  new Brevo.transactionalEmails.TransactionalEmailsApi();
+  
 apiInstance.setApiKey(
-  Brevo.TransactionalEmailsApiApiKeys.apiKey,
+  Brevo.transactionalEmails.TransactionalEmailsApiApiKeys.apiKey,
   process.env.BREVO_API_KEY
 );
 
