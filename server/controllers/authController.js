@@ -1,13 +1,3 @@
-import * as Brevo from "@getbrevo/brevo";
-
-const apiInstance =
-  new Brevo.transactionalEmails.TransactionalEmailsApi();
-  
-apiInstance.setApiKey(
-  Brevo.transactionalEmails.TransactionalEmailsApiApiKeys.apiKey,
-  process.env.BREVO_API_KEY
-);
-
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
 import User from "../models/User.js"
@@ -48,29 +38,38 @@ export const sendOtp = async (req, res) => {
     }
 
     // 4. Create email transporter
-    const sendSmtpEmail = new Brevo.SendSmtpEmail();
-
-    sendSmtpEmail.subject =
-      "hostelLog OTP Verification";
-
-    sendSmtpEmail.htmlContent =
-      `<p>Your OTP is <b>${otp}</b></p>
-       <p>Valid for 5 minutes.</p>`;
-
-    sendSmtpEmail.sender = {
-      name: "hostelLog",
-      email: "hostellog.india@gmail.com"
-    };
-
-    sendSmtpEmail.to = [
+    const response = await fetch(
+      "https://api.brevo.com/v3/smtp/email",
       {
-        email: email
+        method: "POST",
+        headers: {
+          "accept": "application/json",
+          "api-key": process.env.BREVO_API_KEY,
+          "content-type": "application/json"
+        },
+        body: JSON.stringify({
+          sender: {
+            name: "hostelLog",
+            email: "hostellog.india@gmail.com"
+          },
+          to: [
+            {
+              email: email
+            }
+          ],
+          subject: "hostelLog OTP Verification",
+          htmlContent: `
+        <h2>hostelLog OTP</h2>
+        <p>Your OTP is <b>${otp}</b></p>
+        <p>Valid for 5 minutes.</p>
+      `
+        })
       }
-    ];
-
-    await apiInstance.sendTransacEmail(
-      sendSmtpEmail
     );
+
+    const data = await response.json();
+
+    console.log(data);
 
 
     res.json({
@@ -363,29 +362,38 @@ export const forgotPasswordSendOtp = async (
       verified: false
     }
 
-    const sendSmtpEmail = new Brevo.SendSmtpEmail();
-
-    sendSmtpEmail.subject =
-      "hostelLog Password Reset OTP";
-
-    sendSmtpEmail.htmlContent =
-      `<p>Your OTP is <b>${otp}</b></p>
-       <p>Valid for 5 minutes.</p>`;
-
-    sendSmtpEmail.sender = {
-      name: "hostelLog",
-      email: "hostellog.india@gmail.com"
-    };
-
-    sendSmtpEmail.to = [
+    const response = await fetch(
+      "https://api.brevo.com/v3/smtp/email",
       {
-        email: email
+        method: "POST",
+        headers: {
+          "accept": "application/json",
+          "api-key": process.env.BREVO_API_KEY,
+          "content-type": "application/json"
+        },
+        body: JSON.stringify({
+          sender: {
+            name: "hostelLog",
+            email: "hostellog.india@gmail.com"
+          },
+          to: [
+            {
+              email: email
+            }
+          ],
+          subject: "hostelLog Password Reset OTP",
+          htmlContent: `
+        <h2>hostelLog OTP</h2>
+        <p>Your OTP is <b>${otp}</b></p>
+        <p>Valid for 5 minutes.</p>
+      `
+        })
       }
-    ];
-
-    await apiInstance.sendTransacEmail(
-      sendSmtpEmail
     );
+
+    const data = await response.json();
+
+    console.log(data);
 
     res.json({
       message:
