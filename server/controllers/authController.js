@@ -1,4 +1,6 @@
-import * as Brevo from "@getbrevo/brevo";
+import * as Brevo from '@getbrevo/brevo';
+
+console.log(Brevo);
 
 const apiInstance = new Brevo.TransactionalEmailsApi();
 
