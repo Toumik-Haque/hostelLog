@@ -40,12 +40,13 @@ export const sendOtp = async (req, res) => {
 
     // 4. Create email transporter
     const transporter = nodemailer.createTransport({
-      service: 'gmail',
+      host: "smtp.gmail.com",
+      port: 587,
+      secure: false,
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS
       },
-      secure: true,
       tls: {
         rejectUnauthorized: false
       }
@@ -259,12 +260,7 @@ export const changePassword = async (
       confirmPassword
     } = req.body
 
-    if (await bcrypt.compare(newPassword, user.password)) {
-      return res.status(400).json({
-        message:
-          'New password must be different from the current password'
-      })
-    }
+
 
     const user =
       await User.findById(req.user.id)
@@ -285,6 +281,14 @@ export const changePassword = async (
       return res.status(400).json({
         message:
           'Current password is incorrect'
+      })
+    }
+
+    const isSame = await bcrypt.compare(newPassword, user.password)
+
+    if (isSame) {
+      return res.status(400).json({
+        message: "New password must be different from current password"
       })
     }
 
@@ -351,12 +355,13 @@ export const forgotPasswordSendOtp = async (
 
     const transporter =
       nodemailer.createTransport({
-        service: 'gmail',
+        host: "smtp.gmail.com",
+        port: 587,
+        secure: false,
         auth: {
           user: process.env.EMAIL_USER,
           pass: process.env.EMAIL_PASS
         },
-        secure: true,
         tls: {
           rejectUnauthorized: false
         }
