@@ -1,3 +1,7 @@
+import { Resend } from "resend";
+
+const resend = new Resend(process.env.RESEND_API_KEY);
+
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
 import User from "../models/User.js"
@@ -39,29 +43,13 @@ export const sendOtp = async (req, res) => {
     }
 
     // 4. Create email transporter
-    const transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
-      port: 587,
-      secure: false,
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
-      },
-      tls: {
-        rejectUnauthorized: false
-      }
-    })
-
-    // 5. Email content
-    const mailOptions = {
-      from: process.env.EMAIL_USER,
+    await resend.emails.send({
+      from: process.env.FROM_EMAIL,
       to: email,
-      subject: 'hostelLog OTP Verification',
+      subject: "hostelLog OTP Verification",
       text: `Your OTP is ${otp}. It will expire in 5 minutes.`
-    }
+    });
 
-    // 6. Send email
-    await transporter.sendMail(mailOptions)
 
     res.json({
       message: 'OTP sent successfully'
@@ -353,28 +341,12 @@ export const forgotPasswordSendOtp = async (
       verified: false
     }
 
-    const transporter =
-      nodemailer.createTransport({
-        host: "smtp.gmail.com",
-        port: 587,
-        secure: false,
-        auth: {
-          user: process.env.EMAIL_USER,
-          pass: process.env.EMAIL_PASS
-        },
-        tls: {
-          rejectUnauthorized: false
-        }
-      })
-
-    await transporter.sendMail({
-      from: process.env.EMAIL_USER,
+    await resend.emails.send({
+      from: process.env.FROM_EMAIL,
       to: email,
-      subject:
-        'hostelLog Password Reset OTP',
-      text:
-        `Your OTP is ${otp}`
-    })
+      subject: "hostelLog Password Reset OTP",
+      text: `Your OTP is ${otp}. It will expire in 5 minutes`
+    });
 
     res.json({
       message:
