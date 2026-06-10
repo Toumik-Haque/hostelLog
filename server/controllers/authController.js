@@ -57,12 +57,42 @@ export const sendOtp = async (req, res) => {
               email: email
             }
           ],
-          subject: "hostelLog OTP Verification",
+          subject: "OTP for hostelLog Account Verification",
           htmlContent: `
-        <h2>hostelLog OTP</h2>
-        <p>Your OTP is <b>${otp}</b></p>
-        <p>Valid for 5 minutes.</p>
-      `
+           <div style="font-family: Arial, sans-serif; color: #333;">
+           <h2>hostelLog Account Verification</h2>
+
+           <p>Hello,</p>
+
+           <p>
+             Thank you for registering with <b>hostelLog</b>.
+             Please use the following OTP to verify your account:
+           </p>
+
+           <div style="text-align:center; margin:20px 0;">
+             <h1 style="letter-spacing:5px;">${otp}</h1>
+           </div>
+
+           <p>
+             This OTP is valid for <b>5 minutes</b>.
+           </p>
+
+           <p>
+             For security reasons, please do not share this OTP with anyone.
+           </p>
+
+           <p>
+             If you did not request this OTP, you can safely ignore this email.
+           </p>
+
+           <br>
+
+           <p>
+             Regards,<br>
+             <b>hostelLog Team</b>
+           </p>
+         </div>
+         `
         })
       }
     );
@@ -383,10 +413,40 @@ export const forgotPasswordSendOtp = async (
           ],
           subject: "hostelLog Password Reset OTP",
           htmlContent: `
-        <h2>hostelLog OTP</h2>
-        <p>Your OTP is <b>${otp}</b></p>
-        <p>Valid for 5 minutes.</p>
-      `
+            <div style="font-family: Arial, sans-serif; color: #333;">
+              <h2>hostelLog Password Reset</h2>
+
+              <p>Hello,</p>
+
+              <p>
+                We received a request to reset the password for your <b>hostelLog</b> account.
+                Please use the following OTP to verify your identity and continue with the password reset process:
+              </p>
+
+              <div style="text-align:center; margin:20px 0;">
+                <h1 style="letter-spacing:5px;">${otp}</h1>
+              </div>
+
+              <p>
+                This OTP is valid for <b>5 minutes</b>.
+              </p>
+
+              <p>
+                For security reasons, please do not share this OTP with anyone.
+              </p>
+
+              <p>
+                If you did not request a password reset, please ignore this email. Your account will remain secure.
+              </p>
+
+              <br>
+
+              <p>
+                Regards,<br>
+                <b>hostelLog Team</b>
+              </p>
+            </div>
+          `
         })
       }
     );
