@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken"
 import bcrypt from "bcryptjs"
 import Admin from "../models/Admin.js"
 
-const loginAdmin = async (req, res) => {
+export const loginAdmin = async (req, res) => {
 
   const { username, password } = req.body
 
@@ -38,4 +38,3 @@ const loginAdmin = async (req, res) => {
 
 }
 
-export default { loginAdmin }

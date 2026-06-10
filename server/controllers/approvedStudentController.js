@@ -1,6 +1,6 @@
 import ApprovedStudent from "../models/ApprovedStudent.js"
 
-const addApprovedStudent = async (
+export const addApprovedStudent = async (
   req,
   res
 ) => {
@@ -43,8 +43,4 @@ const addApprovedStudent = async (
     })
 
   }
-}
-
-export default {
-  addApprovedStudent
 }
