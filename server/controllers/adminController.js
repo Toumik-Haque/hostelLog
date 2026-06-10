@@ -1,4 +1,4 @@
-import User from "../models/User"
+import User from "../models/User.js"
 import ApprovedStudent from "../models/ApprovedStudent.js"
 
 const getStudentDetails = async (req, res) => {
