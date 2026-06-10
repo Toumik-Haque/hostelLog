@@ -44,8 +44,9 @@ export const sendOtp = async (req, res) => {
 
     // 4. Create email transporter
     await resend.emails.send({
-      from: process.env.FROM_EMAIL,
-      to: email,
+      from: "hostelLog <onboarding@resend.dev>",
+      to: [email],
+      replyTo: "hostellog.india@gmail.com",
       subject: "hostelLog OTP Verification",
       text: `Your OTP is ${otp}. It will expire in 5 minutes.`
     });
@@ -342,8 +343,9 @@ export const forgotPasswordSendOtp = async (
     }
 
     await resend.emails.send({
-      from: process.env.FROM_EMAIL,
-      to: email,
+      from: "HostelLog <onboarding@resend.dev>",
+      to: [email],
+      replyTo: "hostellog.india@gmail.com",
       subject: "hostelLog Password Reset OTP",
       text: `Your OTP is ${otp}. It will expire in 5 minutes`
     });
