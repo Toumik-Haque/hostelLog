@@ -364,7 +364,7 @@ function CompleteProfile() {
 
                                     <div className="border rounded-3 p-3 mb-3">
 
-                                        <small className="text-muted">
+                                        <small className="">
                                             But, I Don't Eat
                                         </small>
 
@@ -465,7 +465,7 @@ function CompleteProfile() {
                                 </div>
 
                                 {/* Password */}
-                                <div className="input-group mb-3">
+                                <div className="input-group">
 
                                     <div className="form-floating">
 
@@ -504,6 +504,9 @@ function CompleteProfile() {
                                     </button>
 
                                 </div>
+                                <p className="mb-3 color-official">
+                                    <small>Minimum length should be 8</small>
+                                </p>
 
                                 {/* Confirm Password */}
                                 <div className="input-group mb-4">
