@@ -365,7 +365,7 @@ function CompleteProfile() {
                                     <div className="border rounded-3 p-3 mb-3">
 
                                         <small className="text-muted">
-                                            I Don't Eat
+                                            But, I Don't Eat
                                         </small>
 
                                         <div className="form-check mt-2">

@@ -256,7 +256,7 @@ export default function StudentProfile() {
                     }
                   />
                   <label htmlFor="confirmPassword">
-                    Confirm Password
+                    Confirm New Password
                   </label>
                 </div>
 

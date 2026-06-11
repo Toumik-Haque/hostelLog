@@ -232,7 +232,7 @@ export default function StudentList() {
 
                                                     {s.dontEat?.length > 0 && (
                                                         <p className='mb-1'>
-                                                            Don't Eat: {s.dontEat.join(', ')}
+                                                            Doesn't Eat: {s.dontEat.join(', ')}
                                                         </p>
                                                     )}
 
