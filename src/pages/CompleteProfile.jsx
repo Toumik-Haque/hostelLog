@@ -364,7 +364,7 @@ function CompleteProfile() {
 
                                     <div className="border rounded-3 p-3 mb-3">
 
-                                        <small className="">
+                                        <small className="fw-semibold">
                                             But, I Don't Eat
                                         </small>
 
