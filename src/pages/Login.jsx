@@ -385,7 +385,7 @@ function Login() {
                 <div className="modal-header">
 
                   <h5 className="modal-title color-official">
-                    Forgot Password
+                    Reset Password
                   </h5>
 
                   <button
@@ -414,7 +414,7 @@ function Login() {
                       />
 
                       <label>
-                        Registered Email
+                        Enter Registered Email
                       </label>
 
                     </div>
@@ -489,7 +489,7 @@ function Login() {
                         />
 
                         <label>
-                          Confirm Password
+                          Confirm New Password
                         </label>
 
                       </div>
