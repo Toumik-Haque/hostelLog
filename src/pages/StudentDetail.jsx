@@ -427,7 +427,7 @@ export default function StudentDetail() {
                           className="form-check-input"
                           type="radio"
                           name="foodPreference"
-                          value="Non Veg"
+                          value="Non-Veg"
                           checked={userForm.foodPreference === 'Non-Veg'}
                           onChange={handleUserChange}
                           disabled={!isEditing}
@@ -441,7 +441,7 @@ export default function StudentDetail() {
                     {/* Don't Eat */}
                     <div className="col-12">
                       <label className="fw-bold">
-                        Don't Eat
+                        Doesn't Eat
                       </label>
 
                       <div className="form-check">
