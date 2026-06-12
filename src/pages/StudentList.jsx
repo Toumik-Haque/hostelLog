@@ -187,7 +187,7 @@ export default function StudentList() {
                                                         </span>
                                                     </div>
 
-                                                    <p className="m-0 d-flex gap-1 border-bottom pb- border-dark">
+                                                    <p className="m-0 d-flex gap-1 border-bottom border-dark">
 
                                                         {s.lastStatusChange
                                                             ? <span className='m-0 text-muted'>from</span>

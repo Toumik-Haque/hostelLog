@@ -115,8 +115,11 @@ export default function StudentHostelStatus() {
 
           <div>
 
-            <small className="text-muted block">
-              From {' '}
+            <small className="text-muted block d-flex gap-1">
+              {user.lastStatusChange
+                ? <span className='m-0 text-muted'>From</span>
+                : null}
+
               {user.lastStatusChange
                 ? new Date(
                   user.lastStatusChange
