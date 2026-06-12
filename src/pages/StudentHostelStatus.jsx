@@ -94,11 +94,11 @@ export default function StudentHostelStatus() {
   if (!stats || !user) {
     return <div className='container px-4'>
       <p className='text-center'>
-            <span
-              className="spinner-border"
-              role="status"
-            ></span>
-          </p>
+        <span
+          className="spinner-border"
+          role="status"
+        ></span>
+      </p>
     </div>
   }
 
@@ -120,8 +120,14 @@ export default function StudentHostelStatus() {
               {user.lastStatusChange
                 ? new Date(
                   user.lastStatusChange
-                ).toLocaleString()
-                : 'N/A'}
+                ).toLocaleString('en-IN', {
+                  hour: '2-digit',
+                  minute: '2-digit',
+                  day: '2-digit',
+                  month: '2-digit',
+                  year: '2-digit'
+                })
+                : 'Mark PRESENT, if needed 👉'}
             </small>
 
             <div className=' outline-2  d-flex justify-content-cente gap-2 align-items-center'>

@@ -1,9 +1,11 @@
 import mongoose from "mongoose"
 import Admin from "../models/Admin.js"
 import bcrypt from "bcryptjs"
+import dotenv from 'dotenv'
 
-const MONGO_URI =
-  'mongodb+srv://hosteladmin:%40786Toumik@hostel-connect.c5f3u9r.mongodb.net/hostelconnect?retryWrites=true&w=majority&appName=hostel-connect'
+dotenv.config()
+
+const MONGO_URI = process.env.MONGO_URI
 
 const createAdmin = async () => {
   try {
