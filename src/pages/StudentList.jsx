@@ -76,6 +76,14 @@ export default function StudentList() {
                     />
 
 
+                    
+
+                </div>
+
+                {/* Scrollable Student List */}
+                <div
+                    className="flex-grow-1 overflow-auto px-4 pb-3 hide-scrollbar"
+                >
                     <div className="d-flex gap-2 mb-3 overflow-auto flex-nowrap hide-scrollbar">
 
                         <button
@@ -135,13 +143,6 @@ export default function StudentList() {
                         </button>
 
                     </div>
-
-                </div>
-
-                {/* Scrollable Student List */}
-                <div
-                    className="flex-grow-1 overflow-auto px-4 py-3 hide-scrollbar"
-                >
 
                     <div className="row g-3">
 

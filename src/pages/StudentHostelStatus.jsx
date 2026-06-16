@@ -301,8 +301,8 @@ export default function StudentHostelStatus() {
               <div className='d-flex justify-content-between'>
 
                 <div className='d-flex flex-column'>
-                  <h5 className='mb-1'>Still UNREGISTERED</h5>
-                  <small >Who have no data here</small>
+                  <h5 className='mb-1'>UNREGISTERED</h5>
+                  <small className='text-danger'>Have no <b>hostelLog</b> account</small>
                 </div>
 
                 <div>

@@ -121,7 +121,7 @@ export default function StudentProfile() {
 
       <div className="card-body p-0">
 
-        <p className="badge bg-official mb-2 text-center">
+        <p className={`badge mb-2 text-center ${user.hostelStatus === 'IN' ? 'bg-official' : 'bg-danger'} `}>
           {user.hostelStatus === 'IN' ?
             'PRESENT NOW' : 'ABSENT NOW'}
         </p>
