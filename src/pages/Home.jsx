@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import publicApi from '../api/publicApi'
 import logo from '../assets/textlogo.png'
@@ -8,6 +8,14 @@ function Home() {
   const [loading, setLoading] = useState(false)
 
   const navigate = useNavigate()
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      navigate("/student", { replace: true });
+    }
+  }, [navigate]);
 
   return (
     <div className="container-fluid vh-100 d-flex align-items-center justify-content-center">
