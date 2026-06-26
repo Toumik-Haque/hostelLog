@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import StudentProfile from './StudentProfile'
@@ -11,13 +11,21 @@ export default function StudentDashboard() {
 
   const navigate = useNavigate()
 
-  const [activeTab, setActiveTab] =
-    useState('status')
+  const [activeTab, setActiveTab] = useState('status')
+
+  useEffect(() => {
+
+    const token = localStorage.getItem('token');
+    if (!token) {
+      navigate('/login', { replace: true });
+    }
+
+  }, [navigate]);
 
   const handleLogout = () => {
 
     localStorage.removeItem('token')
-    navigate('/')
+    navigate('/', { replace: true })
   }
 
   return (

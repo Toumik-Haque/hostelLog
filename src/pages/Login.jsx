@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import publicApi from '../api/publicApi'
 import logo from '../assets/textlogo.png'
@@ -12,6 +12,14 @@ function Login() {
 
   const navigate = useNavigate()
 
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      navigate("/student", { replace: true });
+    }
+  }, [navigate]);
+
   const [showResetPassword, setShowResetPassword] = useState(false)
 
   const [showForgotModal, setShowForgotModal] = useState(false)
@@ -23,10 +31,8 @@ function Login() {
 
   const [step, setStep] = useState(1)
   const [otp, setOtp] = useState('')
-  const [newPassword, setNewPassword] =
-    useState('')
-  const [confirmPassword, setConfirmPassword] =
-    useState('')
+  const [newPassword, setNewPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
 
   const login = async (e) => {
 

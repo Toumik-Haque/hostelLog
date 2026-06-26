@@ -1,24 +1,27 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import adminApi from '../api/adminApi'
 import logo from '../assets/textlogo.png'
 
 export default function AdminLogin() {
 
-  const [username, setUsername] =
-    useState('')
+  const [username, setUsername] = useState('')
 
-  const [password, setPassword] =
-    useState('')
+  const [password, setPassword] = useState('')
 
-  const [loading, setLoading] =
-    useState(false)
+  const [loading, setLoading] = useState(false)
 
-  const [showPassword,
-    setShowPassword] =
-    useState(false)
+  const [showPassword, setShowPassword] = useState(false)
 
   const navigate = useNavigate()
+
+  useEffect(() => {
+    const token = localStorage.getItem("adminToken");
+
+    if (token) {
+      navigate("/admin", { replace: true });
+    }
+  }, [navigate]);
 
   const login = async (e) => {
 
