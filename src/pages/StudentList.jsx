@@ -56,222 +56,214 @@ export default function StudentList() {
 
     return (
 
-        <div>
+        <div
+            className="d-flex flex-column h-100 pt-3"
+        >
 
-            {/* Main Page */}
+            {/* Search */}
+            <div className="sticky-top mx-4 mb-3 rounded-5">
+
+                <input
+                    type="text"
+                    className="bg-search form-control px-3 py-2 rounded-5"
+                    placeholder="Search by room number or name..."
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                />
+
+            </div>
+
+            {/* Scrollable Student List */}
             <div
-                className="d-flex bg-warnin flex-column pt-3"
+                className="flex-grow-1 overflow-auto px-4 pb-3 hide-scrollbar"
             >
+                {/* Filter Buttons */}
+                <div className="d-flex gap-2 mb-3 overflow-auto flex-nowrap hide-scrollbar">
 
-                {/* Search */}
-                <div className="position-sticky mx-4">
+                    <button
+                        className={`btn btn-sm flex-shrink-0 ${filter === 'ALL' ? 'btn rounded-5 px-3 btn-official' : 'btn-outline-secondary rounded-5 px-3'}`}
+                        onClick={() => setFilter('ALL')}
+                    >
+                        All
+                    </button>
 
-                    <input
-                        type="text"
-                        className="bg-search form-control mb-3 px-3 py-2 rounded-5"
-                        placeholder="Search by room number or name..."
-                        value={search}
-                        onChange={(e) => setSearch(e.target.value)}
-                    />
+                    <button
+                        className={`btn btn-sm flex-shrink-0 ${filter === 'VEG' ? 'btn rounded-5 btn-official' : 'btn-outline-secondary rounded-5'}`}
+                        onClick={() => setFilter('VEG')}
+                    >
+                        Pure Veg
+                    </button>
 
+                    <button
+                        className={`btn btn-sm flex-shrink-0 ${filter === 'CHICKEN' ? 'btn rounded-5 btn-official' : 'btn-outline-secondary rounded-5'}`}
+                        onClick={() => setFilter('CHICKEN')}
+                    >
+                        No Chicken
+                    </button>
 
-                    
+                    <button
+                        className={`btn btn-sm flex-shrink-0 ${filter === 'FISH' ? 'btn rounded-5 btn-official' : 'btn-outline-secondary rounded-5'}`}
+                        onClick={() => setFilter('FISH')}
+                    >
+                        No Fish
+                    </button>
+
+                    <button
+                        className={`btn btn-sm flex-shrink-0 flex-shrink-0 ${filter === 'EGG' ? 'btn rounded-5 btn-official' : 'btn-outline-secondary rounded-5'}`}
+                        onClick={() => setFilter('EGG')}
+                    >
+                        No Egg
+                    </button>
+
+                    <button
+                        className={`btn btn-sm flex-shrink-0 ${filter === 'PRESENT' ? 'btn rounded-5 btn-official' : 'btn-outline-secondary rounded-5'}`}
+                        onClick={() => setFilter('PRESENT')}
+                    >
+                        Present
+                    </button>
+
+                    <button
+                        className={`btn btn-sm flex-shrink-0 ${filter === 'ABSENT' ? 'btn rounded-5 btn-official' : 'btn-outline-secondary rounded-5'}`}
+                        onClick={() => setFilter('ABSENT')}
+                    >
+                        Absent
+                    </button>
+
+                    <button
+                        className={`btn btn-sm flex-shrink-0 ${filter === 'UNREGISTERED' ? 'btn rounded-5 btn-official' : 'btn-outline-secondary rounded-5'}`}
+                        onClick={() => setFilter('UNREGISTERED')}
+                    >
+                        Unregistered
+                    </button>
 
                 </div>
 
-                {/* Scrollable Student List */}
-                <div
-                    className="flex-grow-1 overflow-auto px-4 pb-3 hide-scrollbar"
-                >
-                    {/* Filter Buttons */}
-                    <div className="d-flex gap-2 mb-3 overflow-auto flex-nowrap hide-scrollbar">
+                {/* Students List */}
+                <div className="row g-3">
 
-                        <button
-                            className={`btn btn-sm flex-shrink-0 ${filter === 'ALL' ? 'btn rounded-5 px-3 btn-official' : 'btn-outline-secondary rounded-5 px-3'}`}
-                            onClick={() => setFilter('ALL')}
-                        >
-                            All
-                        </button>
+                    {students
+                        .filter(s => {
 
-                        <button
-                            className={`btn btn-sm flex-shrink-0 ${filter === 'VEG' ? 'btn rounded-5 btn-official' : 'btn-outline-secondary rounded-5'}`}
-                            onClick={() => setFilter('VEG')}
-                        >
-                            Pure Veg
-                        </button>
+                            const matchesSearch =
+                                s.name?.toLowerCase().includes(search.toLowerCase()) ||
+                                String(s.roomNo || '')
+                                    .toLowerCase()
+                                    .includes(search.toLowerCase())
 
-                        <button
-                            className={`btn btn-sm flex-shrink-0 ${filter === 'CHICKEN' ? 'btn rounded-5 btn-official' : 'btn-outline-secondary rounded-5'}`}
-                            onClick={() => setFilter('CHICKEN')}
-                        >
-                            No Chicken
-                        </button>
+                            let matchesFilter = true
 
-                        <button
-                            className={`btn btn-sm flex-shrink-0 ${filter === 'FISH' ? 'btn rounded-5 btn-official' : 'btn-outline-secondary rounded-5'}`}
-                            onClick={() => setFilter('FISH')}
-                        >
-                            No Fish
-                        </button>
+                            if (filter === 'VEG') {
+                                matchesFilter =
+                                    s.foodPreference === 'Veg'
+                            }
 
-                        <button
-                            className={`btn btn-sm flex-shrink-0 flex-shrink-0 ${filter === 'EGG' ? 'btn rounded-5 btn-official' : 'btn-outline-secondary rounded-5'}`}
-                            onClick={() => setFilter('EGG')}
-                        >
-                            No Egg
-                        </button>
+                            if (filter === 'CHICKEN') {
+                                matchesFilter =
+                                    s.dontEat?.includes('Chicken')
+                            }
 
-                        <button
-                            className={`btn btn-sm flex-shrink-0 ${filter === 'PRESENT' ? 'btn rounded-5 btn-official' : 'btn-outline-secondary rounded-5'}`}
-                            onClick={() => setFilter('PRESENT')}
-                        >
-                            Present
-                        </button>
- 
-                        <button
-                            className={`btn btn-sm flex-shrink-0 ${filter === 'ABSENT' ? 'btn rounded-5 btn-official' : 'btn-outline-secondary rounded-5'}`}
-                            onClick={() => setFilter('ABSENT')}
-                        >
-                            Absent
-                        </button>
+                            if (filter === 'FISH') {
+                                matchesFilter =
+                                    s.dontEat?.includes('Fish')
+                            }
 
-                        <button
-                            className={`btn btn-sm flex-shrink-0 ${filter === 'UNREGISTERED' ? 'btn rounded-5 btn-official' : 'btn-outline-secondary rounded-5'}`}
-                            onClick={() => setFilter('UNREGISTERED')}
-                        >
-                            Unregistered
-                        </button>
+                            if (filter === 'EGG') {
+                                matchesFilter =
+                                    s.dontEat?.includes('Egg')
+                            }
 
-                    </div>
+                            if (filter === 'PRESENT') {
+                                matchesFilter = s.status === 'PRESENT'
+                            }
 
-                    {/* Students List */}
-                    <div className="row g-3">
+                            if (filter === 'ABSENT') {
+                                matchesFilter = s.status === 'ABSENT'
+                            }
 
-                        {students
-                            .filter(s => {
+                            if (filter === 'UNREGISTERED') {
+                                matchesFilter = s.status === 'UNREGISTERED'
+                            }
 
-                                const matchesSearch =
-                                    s.name?.toLowerCase().includes(search.toLowerCase()) ||
-                                    String(s.roomNo || '')
-                                        .toLowerCase()
-                                        .includes(search.toLowerCase())
+                            return matchesSearch && matchesFilter
 
-                                let matchesFilter = true
+                        })
+                        .map(s => (
 
-                                if (filter === 'VEG') {
-                                    matchesFilter =
-                                        s.foodPreference === 'Veg'
-                                }
-
-                                if (filter === 'CHICKEN') {
-                                    matchesFilter =
-                                        s.dontEat?.includes('Chicken')
-                                }
-
-                                if (filter === 'FISH') {
-                                    matchesFilter =
-                                        s.dontEat?.includes('Fish')
-                                }
-
-                                if (filter === 'EGG') {
-                                    matchesFilter =
-                                        s.dontEat?.includes('Egg')
-                                }
-
-                                if (filter === 'PRESENT') {
-                                    matchesFilter = s.status === 'PRESENT'
-                                }
-
-                                if (filter === 'ABSENT') {
-                                    matchesFilter = s.status === 'ABSENT'
-                                }
-
-                                if (filter === 'UNREGISTERED') {
-                                    matchesFilter = s.status === 'UNREGISTERED'
-                                }
-
-                                return matchesSearch && matchesFilter
-
-                            })
-                            .map(s => (
+                            <div
+                                key={s.id}
+                                className="col-12"
+                            >
 
                                 <div
-                                    key={s.id}
-                                    className="col-12"
+                                    className={`card shadow-sm ${getCardClass(s.status)}`}
                                 >
 
-                                    <div
-                                        className={`card shadow-sm ${getCardClass(s.status)}`}
-                                    >
+                                    <div className="card-body">
 
-                                        <div className="card-body">
-
-                                            <div className="d-fle justify-content-between">
+                                        <div className="d-fle justify-content-between">
 
 
 
-                                                <div className='d-flex w-100 gap-2 mb-2'>
+                                            <div className='d-flex w-100 gap-2 mb-2'>
 
 
-
-                                                    <div>
-                                                        <span
-                                                            className={`badge ${getBadge(s.status)}`}
-                                                        >
-                                                            {s.status}
-                                                        </span>
-                                                    </div>
-
-                                                    <p className="m-0 d-flex gap-1 text-muted border-bottom border-secondary">
-
-                                                        {s.lastStatusChange
-                                                            ? <span >from</span>
-                                                            : null}
-
-                                                        {s.lastStatusChange
-                                                            ? new Date(
-                                                                s.lastStatusChange
-                                                            ).toLocaleString('en-IN', {
-                                                                hour: '2-digit',
-                                                                minute: '2-digit',
-                                                                day: '2-digit',
-                                                                month: '2-digit',
-                                                                year: '2-digit'
-                                                            })
-                                                            : null}
-                                                    </p>
-
-                                                </div>
 
                                                 <div>
-
-                                                    <h5>{s.name}</h5>
-
-                                                    {s.status === 'UNREGISTERED'
-                                                        ? null
-                                                        : <div>
-                                                            <p className="mb-1">
-                                                                Room: {s.roomNo}
-                                                            </p>
-
-                                                            <p className='mb-1'>
-                                                                Mobile: {s.mobile}
-                                                            </p>
-                                                        </div>}
-
-                                                    {s.foodPreference === 'Veg' && (
-                                                        <p className='mb-1'>
-                                                            Food Preference: Pure Veg
-                                                        </p>
-                                                    )}
-
-                                                    {s.dontEat?.length > 0 && (
-                                                        <p className='mb-1'>
-                                                            Doesn't Eat: {s.dontEat.join(', ')}
-                                                        </p>
-                                                    )}
-
+                                                    <span
+                                                        className={`badge ${getBadge(s.status)}`}
+                                                    >
+                                                        {s.status}
+                                                    </span>
                                                 </div>
+
+                                                <p className="m-0 d-flex gap-1 text-muted border-bottom border-secondary">
+
+                                                    {s.lastStatusChange
+                                                        ? <span >from</span>
+                                                        : null}
+
+                                                    {s.lastStatusChange
+                                                        ? new Date(
+                                                            s.lastStatusChange
+                                                        ).toLocaleString('en-IN', {
+                                                            hour: '2-digit',
+                                                            minute: '2-digit',
+                                                            day: '2-digit',
+                                                            month: '2-digit',
+                                                            year: '2-digit'
+                                                        })
+                                                        : null}
+                                                </p>
+
+                                            </div>
+
+                                            <div>
+
+                                                <h5>{s.name}</h5>
+
+                                                {s.status === 'UNREGISTERED'
+                                                    ? null
+                                                    : <div>
+                                                        <p className="mb-1">
+                                                            Room: {s.roomNo}
+                                                        </p>
+
+                                                        <p className='mb-1'>
+                                                            Mobile: {s.mobile}
+                                                        </p>
+                                                    </div>}
+
+                                                {s.foodPreference === 'Veg' && (
+                                                    <p className='mb-1'>
+                                                        Food Preference: Pure Veg
+                                                    </p>
+                                                )}
+
+                                                {s.dontEat?.length > 0 && (
+                                                    <p className='mb-1'>
+                                                        Doesn't Eat: {s.dontEat.join(', ')}
+                                                    </p>
+                                                )}
 
                                             </div>
 
@@ -281,11 +273,9 @@ export default function StudentList() {
 
                                 </div>
 
-                            ))}
+                            </div>
 
-                    </div>
-
-
+                        ))}
 
                 </div>
 

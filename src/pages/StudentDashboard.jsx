@@ -31,16 +31,15 @@ export default function StudentDashboard() {
   return (
 
     <div
-      className="d-flex flex-column"
-      style={{ height: '100vh' }}
+      className="d-flex flex-column vh-100"
     >
 
       {/* Header */}
-      <div className='p-4 pb-3  mb- bg-white border-bottom border-opacity-25 border-secondary'>
+      <div className='p-4 pb-3 bg-white border-bottom border-opacity-25 border-secondary'>
 
         <div className='d-flex justify-content-between'>
           <div>
-            <img src={logo} alt="" srcset="" style={{ height: '33px' }} />
+            <img src={logo} alt="hostelLog text logo" srcset="" style={{ height: '33px' }} />
             {/* <h className='m-0 '>Welcome</h> */}
           </div>
 
@@ -58,31 +57,22 @@ export default function StudentDashboard() {
 
       </div>
 
-      {/* MAIN CONTENT */}
-      {/* Scrollable View */}
+      {/* Scrollable Main Content View */}
+      <div className="flex-grow-1 overflow-hidden">
 
+        {activeTab === 'status' && (
+          <StudentHostelStatus />
+        )}
 
-      {activeTab === 'students' ?
-
-        <div className='flex-grow-1 overflow-auto hide-scrollbar'>
+        {activeTab === 'students' && (
           <StudentList />
-        </div>
+        )}
 
-        : <div
-          className="flex-grow-1 overflow-auto py-3 hide-scrollbar"
-        >
+        {activeTab === 'profile' && (
+          <StudentProfile />
+        )}
 
-          {activeTab === 'status' && (
-            <StudentHostelStatus />
-          )}
-
-
-          {activeTab === 'profile' && (
-            <StudentProfile />
-          )}
-
-        </div>
-      }
+      </div>
 
       {/* Footer */}
       <div className='bg-white border-top border-opacity-25 border-secondary px-4 py-2 w-100 d-flex flex-column gap-3'>

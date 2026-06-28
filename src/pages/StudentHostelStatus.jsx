@@ -92,7 +92,7 @@ export default function StudentHostelStatus() {
   }
 
   if (!stats || !user) {
-    return <div className='container px-4'>
+    return <div className='container px-4 py-3'>
       <p className='text-center'>
         <span
           className="spinner-border"
@@ -106,7 +106,7 @@ export default function StudentHostelStatus() {
 
   return (
 
-    <div>
+    <div className='h-100 overflow-auto py-3 hide-scrollbar '>
 
       {/* STUDENT STATUS MANAGE */}
       <div className="mb-4 mx-4">
@@ -253,8 +253,8 @@ export default function StudentHostelStatus() {
 
           </div>
 
-          {/* TOTAL STUDENTS */}
-          <div className="card border-0 card2 rounded-4">
+          {/* TOTAL STUDENTS CARD*/}
+          <div className="card mb-3 border-0 card2 rounded-4">
 
             <div className="card-body">
 
@@ -294,9 +294,9 @@ export default function StudentHostelStatus() {
           </div>
 
           {/* TOTAL UNREGISTERED */}
-          <div className="card border-0 card-3">
+          <div className="card border-0">
 
-            <div className="card-body">
+            <div className="card-body py-0">
 
               <div className='d-flex justify-content-between'>
 
@@ -306,14 +306,12 @@ export default function StudentHostelStatus() {
                 </div>
 
                 <div>
-                  <span className='bg-white text-dark border border-dark rounded-4 px-3 badge '>
+                  <span className='bg-white text-dark border border-dark rounded-4 px-3 badge'>
                     {stats.unregisteredNow.unregisteredStudents}
                   </span>
                 </div>
 
               </div>
-
-
 
             </div>
 
