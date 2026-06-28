@@ -36,7 +36,7 @@ export default function StudentDashboard() {
     >
 
       {/* Header */}
-      <div className='p-4 pb-3  mb-1 bg-white border-bottom border-opacity-25 border-secondary'>
+      <div className='p-4 pb-3  mb- bg-white border-bottom border-opacity-25 border-secondary'>
 
         <div className='d-flex justify-content-between'>
           <div>
@@ -64,7 +64,7 @@ export default function StudentDashboard() {
 
       {activeTab === 'students' ?
 
-        <div className='overflow-auto hide-scrollbar'>
+        <div className='flex-grow-1 overflow-auto hide-scrollbar'>
           <StudentList />
         </div>
 

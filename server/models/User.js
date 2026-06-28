@@ -38,6 +38,11 @@ const userSchema = new mongoose.Schema(
         lastStatusChange: {
             type: Date,
             default: null
+        },
+
+        prevLastStatusChange: {
+            type: Date,
+            default: null
         }
 
     },

@@ -3,39 +3,69 @@ import ApprovedStudent from "../models/ApprovedStudent.js"
 
 // Toggle IN / OUT
 export const toggleHostelStatus = async (req, res) => {
-    try {
+  console.log("toggleHostelStatus called");
+  try {
 
-        const userId = req.user.id
+    const userId = req.user.id
 
-        const user = await User.findById(userId)
+    const user = await User.findById(userId)
 
-        if (!user) {
-            return res.status(404).json({
-                message: 'User not found'
-            })
-        }
-
-        // Toggle status
-        user.hostelStatus =
-            user.hostelStatus === 'IN'
-                ? 'OUT'
-                : 'IN'
-
-        user.lastStatusChange = new Date()
-
-        await user.save()
-
-        return res.json({
-            message: 'Status updated successfully',
-            hostelStatus: user.hostelStatus,
-            lastStatusChange: user.lastStatusChange
-        })
-
-    } catch (error) {
-        res.status(500).json({
-            message: error.message
-        })
+    if (!user) {
+      return res.status(404).json({
+        message: 'User not found'
+      })
     }
+
+    const now = new Date()
+
+    const TWENTY_FOUR_HOURS = 24 * 60 * 60 * 1000
+
+    const within24Hours =
+      (now - user.lastStatusChange) <= TWENTY_FOUR_HOURS
+
+    user.hostelStatus =
+      user.hostelStatus === 'IN'
+        ? 'OUT'
+        : 'IN'
+
+    if (user.lastStatusChange == null) {
+
+      user.lastStatusChange = now
+
+    } else if (
+      user.prevLastStatusChange == null ||
+      !within24Hours
+    ) {
+
+      user.prevLastStatusChange = user.lastStatusChange
+      user.lastStatusChange = now
+
+    } else {
+
+      user.lastStatusChange = user.prevLastStatusChange
+
+    }
+
+    console.log({
+      hostelStatus: user.hostelStatus,
+      lastStatusChange: user.lastStatusChange,
+      prevLastStatusChange: user.prevLastStatusChange
+    })
+
+    await user.save()
+
+    return res.json({
+      message: 'Status updated successfully',
+      hostelStatus: user.hostelStatus,
+      lastStatusChange: user.lastStatusChange,
+      prevLastStatusChange: user.prevLastStatusChange
+    })
+
+  } catch (error) {
+    res.status(500).json({
+      message: error.message
+    })
+  }
 }
 
 export const getHostelStats = async (req, res) => {
@@ -50,7 +80,7 @@ export const getHostelStats = async (req, res) => {
     const unregistered = approved.filter(
       u => u.registered === false
     )
-    
+
     const presentUsers = users.filter(
       u => u.hostelStatus === 'IN'
     )

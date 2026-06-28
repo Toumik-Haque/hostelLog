@@ -60,8 +60,7 @@ export default function StudentList() {
 
             {/* Main Page */}
             <div
-                className="d-flex flex-column pt-4"
-                style={{ height: '73.5vh' }}
+                className="d-flex bg-warnin flex-column pt-3"
             >
 
                 {/* Search */}
@@ -70,7 +69,7 @@ export default function StudentList() {
                     <input
                         type="text"
                         className="bg-search form-control mb-3 px-3 py-2 rounded-5"
-                        placeholder="Search by name or room number..."
+                        placeholder="Search by room number or name..."
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                     />
@@ -84,6 +83,7 @@ export default function StudentList() {
                 <div
                     className="flex-grow-1 overflow-auto px-4 pb-3 hide-scrollbar"
                 >
+                    {/* Filter Buttons */}
                     <div className="d-flex gap-2 mb-3 overflow-auto flex-nowrap hide-scrollbar">
 
                         <button
@@ -144,6 +144,7 @@ export default function StudentList() {
 
                     </div>
 
+                    {/* Students List */}
                     <div className="row g-3">
 
                         {students
@@ -221,10 +222,10 @@ export default function StudentList() {
                                                         </span>
                                                     </div>
 
-                                                    <p className="m-0 d-flex gap-1 border-bottom border-dark">
+                                                    <p className="m-0 d-flex gap-1 text-muted border-bottom border-secondary">
 
                                                         {s.lastStatusChange
-                                                            ? <span className='m-0 text-muted'>from</span>
+                                                            ? <span >from</span>
                                                             : null}
 
                                                         {s.lastStatusChange
