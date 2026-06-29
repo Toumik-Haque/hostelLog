@@ -39,7 +39,7 @@ export default function StudentDashboard() {
 
         <div className='d-flex justify-content-between'>
           <div>
-            <img src={logo} alt="hostelLog text logo" srcset="" style={{ height: '33px' }} />
+            <img src={logo} alt="hostelLog text logo" srcset="" style={{ height: '30px' }} />
             {/* <h className='m-0 '>Welcome</h> */}
           </div>
 

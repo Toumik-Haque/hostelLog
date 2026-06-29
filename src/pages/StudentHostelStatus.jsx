@@ -111,6 +111,22 @@ export default function StudentHostelStatus() {
       {/* STUDENT STATUS MANAGE */}
       <div className="mb-4 mx-4">
 
+        <p className={`d-flex align-items-center justify-content-center gap-2
+            ${user.hostelStatus === 'IN'
+            ? 'green-info rounded p-2'
+            : 'red-info rounded-5 p-2'}
+          `}>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-info-circle" viewBox="0 0 16 16">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+            <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
+          </svg>
+
+          {user.hostelStatus === 'IN'
+            ? 'Allowed to take next meals'
+            : 'Not allowed to take next meals'
+          }
+        </p>
+
         <div className="d-flex justify-content-between mb-3">
 
           <div>
@@ -178,22 +194,6 @@ export default function StudentHostelStatus() {
 
         </div>
 
-        <p className={`d-flex align-items-center justify-content-center gap-2
-            ${user.hostelStatus === 'IN'
-            ? 'green-info rounded p-2'
-            : 'red-info rounded-5 p-2'}
-          `}>
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-info-circle" viewBox="0 0 16 16">
-            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
-            <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
-          </svg>
-
-          {user.hostelStatus === 'IN'
-            ? 'Allowed to take next meals'
-            : 'Not allowed to take next meals'
-          }
-        </p>
-
       </div>
 
       {/* HOSTEL STATUS CARDS */}
@@ -232,19 +232,19 @@ export default function StudentHostelStatus() {
               </p>
 
               <p className="mb-1">
-                Don't Eat Chicken:
+                Doesn't Eat Chicken:
                 {' '}
                 {stats.presentNow.totalDontEatChickenPresentNow}
               </p>
 
               <p className="mb-1">
-                Don't Eat Fish:
+                Doesn't Eat Fish:
                 {' '}
                 {stats.presentNow.totalDontEatFishPresentNow}
               </p>
 
               <p className="mb-1">
-                Don't Eat Egg:
+                Doesn't Eat Egg:
                 {' '}
                 {stats.presentNow.totalDontEatEggPresentNow}
               </p>
@@ -259,7 +259,7 @@ export default function StudentHostelStatus() {
             <div className="card-body">
 
               <h5 className='d-flex justify-content-between'>
-                <span className=''>Hostel Students</span>
+                <span className=''>Total Hostellers</span>
                 <span className='bg-white text-dark border border-dark rounded-4 px-3 badge'>
                   {stats.total.totalStudents}
                 </span>
@@ -272,19 +272,19 @@ export default function StudentHostelStatus() {
               </p>
 
               <p className="mb-0">
-                Don't Eat Chicken:
+                Doesn't Eat Chicken:
                 {' '}
                 {stats.total.totalDontEatChickenStudents}
               </p>
 
               <p className="mb-1">
-                Don't Eat Fish:
+                Doesn't Eat Fish:
                 {' '}
                 {stats.total.totalDontEatFishStudents}
               </p>
 
               <p className="mb-1">
-                Don't Eat Egg:
+                Doesn't Eat Egg:
                 {' '}
                 {stats.total.totalDontEatEggStudents}
               </p>

@@ -18,10 +18,10 @@ export const toggleHostelStatus = async (req, res) => {
 
     const now = new Date()
 
-    const TWENTY_FOUR_HOURS = 24 * 60 * 60 * 1000
+    const FIVE_HOURS = 5 * 60 * 60 * 1000
 
-    const within24Hours =
-      (now - user.lastStatusChange) <= TWENTY_FOUR_HOURS
+    const within5Hours =
+      (now - user.lastStatusChange) <= FIVE_HOURS
 
     user.hostelStatus =
       user.hostelStatus === 'IN'
@@ -34,7 +34,7 @@ export const toggleHostelStatus = async (req, res) => {
 
     } else if (
       user.prevLastStatusChange == null ||
-      !within24Hours
+      !within5Hours
     ) {
 
       user.prevLastStatusChange = user.lastStatusChange
