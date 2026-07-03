@@ -75,12 +75,14 @@ function BankAccount() {
                             <p className='m-0 text-secondary'>UPI ID</p>
                             <p className='m-0 fw-medium'>agecboyshosii@sbi</p>
                         </div>
-                        <button onClick={copyUPI} className='btn p-0 color-official d-flex gap-1 align-items-end'>
-                            <p className='m-0'>Copy</p>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" className="bi bi-copy" viewBox="0 0 16 16">
-                                <path fillRule="evenodd" d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1z" />
-                            </svg>
-                        </button>
+                        <div className='d-flex align-items-end'>
+                            <button onClick={copyUPI} className='btn p-0 color-official d-flex gap-1 align-items-end'>
+                                <p className='m-0'>Copy</p>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" className="bi bi-copy" viewBox="0 0 16 16">
+                                    <path fillRule="evenodd" d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1z" />
+                                </svg>
+                            </button>
+                        </div>
                     </div>
 
                     <div className='d-flex justify-content-between'>
@@ -88,12 +90,14 @@ function BankAccount() {
                             <p className='m-0 text-secondary'>Account No</p>
                             <p className='m-0 fw-medium'>44665967145</p>
                         </div>
-                        <button onClick={copyACNo} className='btn p-0 color-official d-flex gap-1 align-items-end'>
-                            <p className='m-0'>Copy</p>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" className="bi bi-copy" viewBox="0 0 16 16">
-                                <path fillRule="evenodd" d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1z" />
-                            </svg>
-                        </button>
+                        <div className='d-flex align-items-end'>
+                            <button onClick={copyACNo} className='btn p-0 color-official d-flex gap-1 align-items-end'>
+                                <p className='m-0'>Copy</p>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" className="bi bi-copy" viewBox="0 0 16 16">
+                                    <path fillRule="evenodd" d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1z" />
+                                </svg>
+                            </button>
+                        </div>
                     </div>
 
                     <div className='d-flex justify-content-between'>
@@ -101,12 +105,14 @@ function BankAccount() {
                             <p className='m-0 text-secondary'>IFSC</p>
                             <p className='m-0 fw-medium'>SBIN0012409</p>
                         </div>
-                        <button onClick={copyIFSC} className='btn p-0 color-official d-flex gap-1 align-items-end'>
-                            <p className='m-0'>Copy</p>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" className="bi bi-copy" viewBox="0 0 16 16">
-                                <path fillRule="evenodd" d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1z" />
-                            </svg>
-                        </button>
+                        <div className='d-flex align-items-end'>
+                            <button onClick={copyIFSC} className='btn p-0 color-official d-flex gap-1 align-items-end'>
+                                <p className='m-0'>Copy</p>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" className="bi bi-copy" viewBox="0 0 16 16">
+                                    <path fillRule="evenodd" d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1z" />
+                                </svg>
+                            </button>
+                        </div>
                     </div>
 
                 </div>
