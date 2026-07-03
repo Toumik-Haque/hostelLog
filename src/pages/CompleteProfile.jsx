@@ -171,7 +171,7 @@ function CompleteProfile() {
     }
 
     return (
-        <div className="container-fluid vh-100 overflow-auto py-4">
+        <div className="container-fluid vh-100 overflow-auto py-4 hide-scrollbar">
 
             {/* BACK */}
             <div className="m-2">
@@ -365,7 +365,7 @@ function CompleteProfile() {
                                     <div className="border rounded-3 p-3 mb-3">
 
                                         <small className="fw-semibold">
-                                            But, I Don't Eat
+                                            But, not like (Optional)
                                         </small>
 
                                         <div className="form-check mt-2">

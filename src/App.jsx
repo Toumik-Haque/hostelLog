@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { Toaster } from 'react-hot-toast'
 
 /* =======================
    HOME PAGES
@@ -32,7 +33,12 @@ import ProtectedAdmin from './components/ProtectedAdmin'
 
 function App() {
   return (
+    
     <BrowserRouter>
+
+      <>
+        <Toaster position="top-center" />
+      </>
       <Routes>
 
         {/* =======================
