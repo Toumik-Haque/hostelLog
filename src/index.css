@@ -47,8 +47,8 @@ body{
 }
 
 .activeTab{
-  color: #8c52ff;
-  background-color: rgb(239, 222, 255);
+  color: #8c52ff !important;
+  background-color: rgb(239, 222, 255) !important;
 }
 
 /* .activeTabText{

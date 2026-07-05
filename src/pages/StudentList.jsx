@@ -81,56 +81,56 @@ export default function StudentList() {
                 <div className="d-flex gap-2 mb-3 overflow-auto flex-nowrap hide-scrollbar">
 
                     <button
-                        className={`btn btn-sm flex-shrink-0 ${filter === 'ALL' ? 'btn rounded-5 px-3 btn-official' : 'btn-outline-secondary rounded-5 px-3'}`}
+                        className={`btn btn-sm flex-shrink-0 ${filter === 'ALL' ? 'btn rounded-5 px-3 activeTab' : 'btn-outline-secondary rounded-5 px-3'}`}
                         onClick={() => setFilter('ALL')}
                     >
                         All
                     </button>
 
                     <button
-                        className={`btn btn-sm flex-shrink-0 ${filter === 'VEG' ? 'btn rounded-5 btn-official' : 'btn-outline-secondary rounded-5'}`}
+                        className={`btn btn-sm flex-shrink-0 ${filter === 'VEG' ? 'btn rounded-5 activeTab' : 'btn-outline-secondary rounded-5'}`}
                         onClick={() => setFilter('VEG')}
                     >
                         Pure Veg
                     </button>
 
                     <button
-                        className={`btn btn-sm flex-shrink-0 ${filter === 'CHICKEN' ? 'btn rounded-5 btn-official' : 'btn-outline-secondary rounded-5'}`}
+                        className={`btn btn-sm flex-shrink-0 ${filter === 'CHICKEN' ? 'btn rounded-5 activeTab' : 'btn-outline-secondary rounded-5'}`}
                         onClick={() => setFilter('CHICKEN')}
                     >
                         No Chicken
                     </button>
 
                     <button
-                        className={`btn btn-sm flex-shrink-0 ${filter === 'FISH' ? 'btn rounded-5 btn-official' : 'btn-outline-secondary rounded-5'}`}
+                        className={`btn btn-sm flex-shrink-0 ${filter === 'FISH' ? 'btn rounded-5 activeTab' : 'btn-outline-secondary rounded-5'}`}
                         onClick={() => setFilter('FISH')}
                     >
                         No Fish
                     </button>
 
                     <button
-                        className={`btn btn-sm flex-shrink-0 flex-shrink-0 ${filter === 'EGG' ? 'btn rounded-5 btn-official' : 'btn-outline-secondary rounded-5'}`}
+                        className={`btn btn-sm flex-shrink-0 flex-shrink-0 ${filter === 'EGG' ? 'btn rounded-5 activeTab' : 'btn-outline-secondary rounded-5'}`}
                         onClick={() => setFilter('EGG')}
                     >
                         No Egg
                     </button>
 
                     <button
-                        className={`btn btn-sm flex-shrink-0 ${filter === 'PRESENT' ? 'btn rounded-5 btn-official' : 'btn-outline-secondary rounded-5'}`}
+                        className={`btn btn-sm flex-shrink-0 ${filter === 'PRESENT' ? 'btn rounded-5 activeTab' : 'btn-outline-secondary rounded-5'}`}
                         onClick={() => setFilter('PRESENT')}
                     >
                         Present
                     </button>
 
                     <button
-                        className={`btn btn-sm flex-shrink-0 ${filter === 'ABSENT' ? 'btn rounded-5 btn-official' : 'btn-outline-secondary rounded-5'}`}
+                        className={`btn btn-sm flex-shrink-0 ${filter === 'ABSENT' ? 'btn rounded-5 activeTab' : 'btn-outline-secondary rounded-5'}`}
                         onClick={() => setFilter('ABSENT')}
                     >
                         Absent
                     </button>
 
                     <button
-                        className={`btn btn-sm flex-shrink-0 ${filter === 'UNREGISTERED' ? 'btn rounded-5 btn-official' : 'btn-outline-secondary rounded-5'}`}
+                        className={`btn btn-sm flex-shrink-0 ${filter === 'UNREGISTERED' ? 'btn rounded-5 activeTab' : 'btn-outline-secondary rounded-5'}`}
                         onClick={() => setFilter('UNREGISTERED')}
                     >
                         Unregistered
