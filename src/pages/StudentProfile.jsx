@@ -119,47 +119,82 @@ export default function StudentProfile() {
 
     <div className='h-100 overflow-auto py-3 hide-scrollbar'>
 
-      <div className="card mx-4 border-0">
+      <div className="mx-4 border-0">
 
-        <div className="card-body p-0">
+        <p className={`badge mb-2 text-center ${user.hostelStatus === 'IN' ? 'bg-official' : 'bg-danger'} `}>
+          {user.hostelStatus === 'IN' ?
+            'PRESENT NOW' : 'ABSENT NOW'}
+        </p>
 
-          <p className={`badge mb-2 text-center ${user.hostelStatus === 'IN' ? 'bg-official' : 'bg-danger'} `}>
-            {user.hostelStatus === 'IN' ?
-              'PRESENT NOW' : 'ABSENT NOW'}
-          </p>
-          <h4>{user.name}</h4>
+        <h4>{user.name}</h4>
 
-          <p className='m-0'>Roll: {user.rollNo}</p>
-          <p className='m-0'>Email: {user.email}</p>
-          <p className='m-0'>Mobile: {user.mobile}</p>
-          <p className='m-0'>Department: {user.department}</p>
-          <p className='m'>Blood Group: {user.bloodGroup}</p>
+        <div className='d-flex flex-column gap-3 mt-3'>
 
-          <p className='m-0'>Room: {user.roomNo}</p>
-          <p className='m-0'>Food Preference: {user.foodPreference}</p>
-          {user.dontEat?.length > 0 && (
-            <p className='mb-1'>
-              But, Don't Eat: {user.dontEat.join(', ')}
-            </p>
-          )}
+          <div className='card border-0 p-3'>
+            <p className='m-0 small text-secondary'>Room Number</p>
+            <p className='m-0'>{user.roomNo}</p>
+          </div>
 
-          <p className='activeTab rounded-3 mt-4 text-center p-2'>Note: Contact your Hostel Authority to update any of your details.</p>
+          <div className='card border-0'>
 
-          <div className='d-flex mt-4 justify-content-center'>
+            <div className='p-3'>
+              <p className='m-0 small text-secondary'>Email Id</p>
+              <p className='m-0'>{user.email}</p>
+            </div>
+            <div className='p-3 border-top'>
+              <p className='m-0 small text-secondary'>Mobile Number</p>
+              <p className='m-0'>{user.mobile}</p>
+            </div>
 
-            <button
-              className="bg-transparent p-0 border-0 fw-bold color-official d-flex gap-1 align-items-center"
-              onClick={() => setShowModal(true)}
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pencil-fill" viewBox="0 0 16 16">
-                <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.5.5 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11z" />
-              </svg>
-              Change Password
-            </button>
+          </div>
+
+          <div className='card border-0'>
+
+            <div className='p-3'>
+              <p className='m-0 small text-secondary'>Roll Number</p>
+              <p className='m-0'>{user.rollNo}</p>
+            </div>
+            <div className='p-3 border-top'>
+              <p className='m-0 small text-secondary'>Department</p>
+              <p className='m-0'>{user.department}</p>
+            </div>
+
+          </div>
+
+          <div className='card border-0 p-3'>
+            <p className='m-0 small text-secondary'>Blood Group</p>
+            <p className='m-0'>{user.bloodGroup}</p>
+          </div>
+
+          <div className='card border-0'>
+
+            <div className='p-3'>
+              <p className='m-0 small text-secondary'>Food Preference</p>
+              <p className='m-0'>{user.foodPreference}</p>
+            </div>
+            {user.dontEat?.length > 0 && (
+              <div className='p-3 border-top'>
+                <p className='m-0 small text-secondary'>But, Don't Eat</p>
+                <p className='m-0'>{user.dontEat.join(', ')}</p>
+              </div>
+            )}
+
 
           </div>
 
         </div>
+
+        <button
+          className="mt-4 w-100 btn p-2 text-white border-0 bg-official d-flex gap-2 align-items-center justify-content-center"
+          onClick={() => setShowModal(true)}
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pencil-fill" viewBox="0 0 16 16">
+            <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.5.5 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11z" />
+          </svg>
+          Change Password
+        </button>
+
+        <p className='color-official mt-4'>Contact Hostel Authority to update any of your other details.</p>
 
         {showModal && (
           <div className="modal d-block bg-dark bg-opacity-75" onClick={() => {

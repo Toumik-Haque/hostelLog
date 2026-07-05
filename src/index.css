@@ -1,3 +1,7 @@
+body{
+  background-color: #f9f6ff;
+}
+
 .admin-footer{
     background-color: azure;
 }
@@ -57,12 +61,10 @@
 
 .red-info{
   color: red;
-  background-color: rgb(251, 227, 227);
 }
 
 .green-info{
-  color: rgb(0, 121, 30);
-  background-color: rgb(219, 250, 225);
+  color: rgb(0, 204, 51);
 }
 
 .card1{
@@ -70,7 +72,8 @@
 }
 
 .card2{
-  background-color: rgb(237, 249, 255);
+  background-color: #210064;
+  color: white;
 }
 
 .green-card{
