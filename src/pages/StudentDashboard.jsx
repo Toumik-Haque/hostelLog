@@ -32,7 +32,7 @@ export default function StudentDashboard() {
   return (
 
     <div
-      className="d-flex flex-column vh-100"
+      className="d-flex flex-column vh-100 bgColor"
     >
 
       {/* Header */}

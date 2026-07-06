@@ -109,7 +109,7 @@ export default function StudentHostelStatus() {
     <div className='h-100 overflow-auto py-3 hide-scrollbar '>
 
       {/* STUDENT STATUS MANAGE */}
-      <div className="card border-0 shadow-s mb-3 mx-4 rounded-4">
+      <div className="card border-0 shadow-sm mb-3 mx-4 rounded-4">
 
         <div className='card-body'>
 
@@ -222,7 +222,7 @@ export default function StudentHostelStatus() {
         <div className='px-4 d-flex flex-column gap-3'>
 
           {/* PRESENT CARD */}
-          <div className="card border-0 shadow-s rounded-4">
+          <div className="card border-0 shadow-sm rounded-4">
 
             <div className="card-body d-flex">
               <div className='w-50 d-flex flex-column align-items-center justify-content-center'>
@@ -265,7 +265,7 @@ export default function StudentHostelStatus() {
           </div>
 
           {/* TOTAL STUDENTS CARD*/}
-          <div className="card card2 border-0 shadow-s rounded-4">
+          <div className="card card2 border-0 shadow-sm rounded-4">
 
             <div className="card-body d-flex">
 

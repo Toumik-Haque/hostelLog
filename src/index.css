@@ -1,5 +1,5 @@
-body{
-  background-color: #f1ebff;
+.bgColor{
+  background-color: #f6f3fe;
 }
 
 .admin-footer{
@@ -32,6 +32,7 @@ body{
 .btn-outline-official,
 .border-official{
   border-color: #8c52ff !important;
+  
 }
 
 .bg-official{
