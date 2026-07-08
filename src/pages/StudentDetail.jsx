@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import adminApi from '../api/adminApi'
+import toast from "react-hot-toast"
 
-export default function StudentDetail() {
+import logo from '../assets/textlogo.png'
 
-  const { id } = useParams()
+export default function StudentDetail({ id }) {
+
+  // const { id } = useParams()
   const navigate = useNavigate()
 
   const [approved, setApproved] = useState(null)
@@ -15,6 +18,8 @@ export default function StudentDetail() {
 
   const [approvedForm, setApprovedForm] = useState({})
   const [userForm, setUserForm] = useState({})
+
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     fetchData()
@@ -43,17 +48,6 @@ export default function StudentDetail() {
     } catch (err) {
       console.log(err)
     }
-  }
-
-  if (!approved) {
-    return <p className='text-center mt-3'>Loading...</p>
-  }
-
-  const handleLogout = () => {
-
-    localStorage.removeItem('adminToken')
-
-    navigate('/admin-login')
   }
 
   const handleApprovedChange = (e) => {
@@ -86,6 +80,8 @@ export default function StudentDetail() {
 
     try {
 
+      setLoading(true)
+
       await adminApi.put(
         `/admin/student/${id}`,
         {
@@ -94,9 +90,7 @@ export default function StudentDetail() {
         }
       )
 
-      alert(
-        'Updated Successfully'
-      )
+      toast.success('Updated Successfully')
 
       setIsEditing(false)
 
@@ -108,16 +102,16 @@ export default function StudentDetail() {
 
       console.log(err)
 
-      alert(
+      toast.error(
         err.response?.data?.message ||
         'Update Failed'
       )
 
+    } finally {
+      setLoading(false)
     }
 
   }
-
-
 
   const handleDelete = async () => {
 
@@ -174,445 +168,426 @@ export default function StudentDetail() {
 
   }
 
+  if (!approved) {
+    return <div className='container px-4 py-3'>
+      <p className='text-center'>
+        <span
+          className="spinner-border spinner-border-sm"
+          role="status"
+        ></span>
+      </p>
+    </div>
+  }
+
   return (
 
-    <div>
+    <div className="position-relative d-flex flex-column h-100 pt-">
 
-      <div
-        className="d-flex flex-column admin-bg"
-        style={{ height: '100vh' }}
-      >
+      {/* Edit Actions */}
+      <div className='position-absolute mx-4 end-0 mt-2' style={{ zIndex: 10 }}>
 
-        {/* Header */}
-        <div className='d-flex border-bottom border-5 p-4 pb-3 justify-content-between mb-1 bg-white'>
-          <div>
-            <h3 className='mb-0'>Admin Panel</h3>
-            <p className='m-0 '>Hostel Connect</p>
-          </div>
+        {/* Edit & Save Buttons */}
+        {!isEditing ? (
 
-          <div>
-            <button className="btn btn-danger" onClick={handleLogout}>
-              Logout
+          <div className='shadow-sm rounded-circle'>
+            <button className="btn bg-official rounded-circle d-flex p-2" onClick={() => setIsEditing(true)}>
+
+              <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" className="text-white bi bi-pencil-square" viewBox="0 0 16 16">
+                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                <path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
+              </svg>
+
             </button>
+
+            {/* <button
+              className="btn px-0 py-1"
+              onClick={handleDelete}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-person-x-fill text-danger" viewBox="0 0 16 16">
+                <path fillRule="evenodd" d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6m6.146-2.854a.5.5 0 0 1 .708 0L14 6.293l1.146-1.147a.5.5 0 0 1 .708.708L14.707 7l1.147 1.146a.5.5 0 0 1-.708.708L14 7.707l-1.146 1.147a.5.5 0 0 1-.708-.708L13.293 7l-1.147-1.146a.5.5 0 0 1 0-.708" />
+              </svg>
+            </button> */}
+
           </div>
-        </div>
 
-        {/* After Header Actions */}
-        <div className='mx-4 mb-3 d-flex justify-content-between'>
+        ) : (
 
-          {/* Back Button */}
-          <button className='btn p-0' onClick={() => navigate('/admin/students')}>
-
-            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" className="bi bi-arrow-left" viewBox="0 0 16 16">
-              <path fillRule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
-            </svg>
-
-          </button>
-
-          {/* Edit & Save Buttons */}
-          {!isEditing ? (
-
-            <div className='d-flex gap-3'>
-              <button
-                className="btn px-0 py-1"
-                onClick={() =>
-                  setIsEditing(true)
-                }
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-pencil-square text-primary" viewBox="0 0 16 16">
-                  <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                  <path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
-                </svg>
-              </button>
-
-              <button
-                className="btn px-0 py-1"
-                onClick={handleDelete}
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-person-x-fill text-danger" viewBox="0 0 16 16">
-                  <path fillRule="evenodd" d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6m6.146-2.854a.5.5 0 0 1 .708 0L14 6.293l1.146-1.147a.5.5 0 0 1 .708.708L14.707 7l1.147 1.146a.5.5 0 0 1-.708.708L14 7.707l-1.146 1.147a.5.5 0 0 1-.708-.708L13.293 7l-1.147-1.146a.5.5 0 0 1 0-.708" />
-                </svg>
-              </button>
-            </div>
-
-          ) : (
-
-            <div className='d-flex gap-2'>
-              <button
-                className="btn btn-secondary"
-                onClick={() =>
-                  setIsEditing(false)
-                }
-              >
-                Cancel
-              </button>
-              <button
-                className="btn btn-success"
-                onClick={handleSave}
-              >
-                Save
-              </button>
-            </div>
-
-          )}
-
-          {!isEditing ? (
-            <></>
-          ) : (
-            <div></div>
-          )}
-
-        </div>
-
-
-
-        {/* Scrollable Student Card */}
-        <div
-          className="flex-grow-1 overflow-auto px-4 py-3 admin-bg"
-        >
-
-          {/* CARD */}
-          <div className="card shadow-sm mx-4">
-
-            <div className="card-body">
-
-              {/* STATUS BADGE */}
-              <div className="mb-2">
-
-                <div className='d-flex justify-content-center'>
+          <div className='shadow-sm rounded-circle'>
+            {/* SAVE */}
+            <button className="btn shadow-sm btn-official rounded-circle d-flex p-2"
+              onClick={handleSave}
+              disabled={loading}
+            >
+              {loading ?
+                <p className='m-0 px-1'>
                   <span
-                    className={`badge ${type === 'REGISTERED'
-                      ? 'bg-success'
-                      : 'bg-danger'
-                      }`}
-                  >
-                    {type}
-                  </span>
-                </div>
+                    className="spinner-border spinner-border-sm"
+                    role="status"
+                  ></span>
+                </p>
+                : <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" className="bi bi-check2" viewBox="0 0 16 16">
+                  <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0" />
+                </svg>}
+            </button>
 
+          </div>
+
+        )}
+
+      </div>
+
+      {/* Scrollable Student Card */}
+      <div className="flex-grow-1 overflow-auto py-3 hide-scrollbar">
+
+        {/* STATUS BADGE */}
+        <div className="mb-2">
+
+          <div className='mx-4 d-flex'>
+            <span
+              className={`badge ${type === 'REGISTERED'
+                ? 'bg-official'
+                : 'bg-danger'
+                }`}
+            >
+              {type}
+            </span>
+          </div>
+
+        </div>
+
+        {/* CARD */}
+        <div className="card shadow-sm mx-4">
+
+          <div className="card-body">
+
+
+
+            {/* Student Details */}
+            <div className="row g-3">
+
+              {/* Name */}
+              <div className="col-md-6">
+                <label>Name</label>
+                <input
+                  className="form-control"
+                  name="name"
+                  value={
+                    type === "UNREGISTERED"
+                      ? (approvedForm.name || "")
+                      : (userForm.name || "")
+                  }
+                  disabled={!isEditing}
+                  onChange={
+                    type === "UNREGISTERED"
+                      ? (handleApprovedChange)
+                      : (handleUserChange)
+                  }
+                />
               </div>
 
-              {/* Student Details */}
-              <div className="row g-3">
+              {/* Roll Number */}
+              <div className="col-md-6">
+                <label>Roll Number</label>
+                <input
+                  className="form-control"
+                  name="rollNo"
+                  value={
+                    type === "UNREGISTERED"
+                      ? (approvedForm.rollNo || "")
+                      : (userForm.rollNo || "")
+                  }
+                  disabled={!isEditing}
+                  onChange={
+                    type === "UNREGISTERED"
+                      ? (handleApprovedChange)
+                      : (handleUserChange)
+                  }
+                />
+              </div>
 
-                {/* Name */}
-                <div className="col-md-6">
-                  <label>Name</label>
-                  <input
-                    className="form-control"
-                    name="name"
-                    value={approvedForm.name || ''}
-                    disabled={!isEditing}
-                    onChange={handleApprovedChange}
-                  />
-                </div>
+              {/* Email */}
+              <div className="col-md-6">
+                <label>Email</label>
+                <input
+                  className="form-control"
+                  name="email"
+                  value={
+                    type === "UNREGISTERED"
+                      ? (approvedForm.email || "")
+                      : (userForm.email || "")
+                  }
+                  disabled={!isEditing}
+                  onChange={
+                    type === "UNREGISTERED"
+                      ? (handleApprovedChange)
+                      : (handleUserChange)
+                  }
+                />
+              </div>
 
-                {/* Roll Number */}
-                <div className="col-md-6">
-                  <label>Roll Number</label>
-                  <input
-                    className="form-control"
-                    name="rollNo"
-                    value={approvedForm.rollNo || ''}
-                    disabled={!isEditing}
-                    onChange={handleApprovedChange}
-                  />
-                </div>
-
-                {/* Email */}
-                <div className="col-md-6">
-                  <label>Email</label>
-                  <input
-                    className="form-control"
-                    name="email"
-                    value={approvedForm.email || ''}
-                    disabled={!isEditing}
-                    onChange={handleApprovedChange}
-                  />
-                </div>
-
-                {/* Registered Deteails */}
-                {type === 'REGISTERED' && (
-                  <>
-                    {/* Mobile */}
-                    <div className="col-md-6">
-                      <label>Mobile</label>
-                      <input
-                        className="form-control"
-                        name="mobile"
-                        value={userForm.mobile || ''}
-                        disabled={!isEditing}
-                        onChange={handleUserChange}
-                      />
-                    </div>
-
-                    {/* Department */}
-                    <div className="col-md-6">
-                      <label>Department</label>
-                      <select
-                        className="form-select"
-                        name="department"
-                        value={userForm.department || ''}
-                        disabled={!isEditing}
-                        onChange={handleUserChange}
-                      >
-
-                        <option value="">
-                          Select Department
-                        </option>
-
-                        <option>CSE</option>
-                        <option>ECE</option>
-                        <option>EE</option>
-                        <option>AI</option>
-
-                      </select>
-                    </div>
-
-                    {/* Room Number  */}
-                    <div className="col-md-6">
-                      <label>Room Number</label>
-                      <select
-                        className="form-select"
-                        name="roomNo"
-                        value={userForm.roomNo || ''}
-                        disabled={!isEditing}
-                        onChange={handleUserChange}
-                      >
-
-                        <option value="">
-                          Select Room
-                        </option>
-
-                        {
-                          Array.from(
-                            { length: 75 },
-                            (_, i) => 101 + i
-                          ).map(room => (
-
-                            <option
-                              key={room}
-                              value={room}
-                            >
-                              {room}
-                            </option>
-
-                          ))
-                        }
-
-                      </select>
-                    </div>
-
-                    {/* Food Preference */}
-                    <div className="col-md-6">
-                      <label className="fw-bold">Food Preference</label>
-
-                      <div className="form-check">
-                        <input
-                          className="form-check-input"
-                          type="radio"
-                          name="foodPreference"
-                          value="Veg"
-                          checked={userForm.foodPreference === 'Veg'}
-                          onChange={handleUserChange}
-                          disabled={!isEditing}
-                        />
-                        <label className="form-check-label">
-                          Veg
-                        </label>
-                      </div>
-
-                      <div className="form-check">
-                        <input
-                          className="form-check-input"
-                          type="radio"
-                          name="foodPreference"
-                          value="Non-Veg"
-                          checked={userForm.foodPreference === 'Non-Veg'}
-                          onChange={handleUserChange}
-                          disabled={!isEditing}
-                        />
-                        <label className="form-check-label">
-                          Non-Veg
-                        </label>
-                      </div>
-                    </div>
-
-                    {/* Don't Eat */}
-                    <div className="col-12">
-                      <label className="fw-bold">
-                        Doesn't Eat
-                      </label>
-
-                      <div className="form-check">
-
-                        <input
-                          type="checkbox"
-                          className="form-check-input"
-                          checked={
-                            userForm.dontEat?.includes(
-                              'Chicken'
-                            )
-                          }
-                          disabled={!isEditing}
-                          onChange={() =>
-                            handleDontEatChange(
-                              'Chicken'
-                            )
-                          }
-                        />
-
-                        <label className="form-check-label">
-                          Chicken
-                        </label>
-
-                      </div>
-
-                      <div className="form-check">
-
-                        <input
-                          type="checkbox"
-                          className="form-check-input"
-                          checked={
-                            userForm.dontEat?.includes(
-                              'Fish'
-                            )
-                          }
-                          disabled={!isEditing}
-                          onChange={() =>
-                            handleDontEatChange(
-                              'Fish'
-                            )
-                          }
-                        />
-
-                        <label className="form-check-label">
-                          Fish
-                        </label>
-
-                      </div>
-
-                      <div className="form-check">
-
-                        <input
-                          type="checkbox"
-                          className="form-check-input"
-                          checked={
-                            userForm.dontEat?.includes(
-                              'Egg'
-                            )
-                          }
-                          disabled={!isEditing}
-                          onChange={() =>
-                            handleDontEatChange(
-                              'Egg'
-                            )
-                          }
-                        />
-
-                        <label className="form-check-label">
-                          Egg
-                        </label>
-
-                      </div>
-                    </div>
-
-                    {/* Blood Group */}
-                    <div className="col-md-6">
-                      <label>Blood Group</label>
-                      <select
-                        className="form-select"
-                        name="bloodGroup"
-                        value={userForm.bloodGroup || ''}
-                        disabled={!isEditing}
-                        onChange={handleUserChange}
-                      >
-
-                        <option value="">
-                          Select Blood Group
-                        </option>
-
-                        <option>A+</option>
-                        <option>A-</option>
-                        <option>B+</option>
-                        <option>B-</option>
-                        <option>AB+</option>
-                        <option>AB-</option>
-                        <option>O+</option>
-                        <option>O-</option>
-
-                      </select>
-                    </div>
-                  </>
-                )}
-
-                {/* Status show */}
-                {type === 'REGISTERED' && (
-
+              {/* Registered Deteails */}
+              {type === 'REGISTERED' && (
+                <>
+                  {/* Mobile */}
                   <div className="col-md-6">
+                    <label>Mobile</label>
+                    <input
+                      className="form-control"
+                      name="mobile"
+                      value={userForm.mobile || ''}
+                      disabled={!isEditing}
+                      onChange={handleUserChange}
+                    />
+                  </div>
 
-                    <label>Hostel Status</label>
-
+                  {/* Department */}
+                  <div className="col-md-6">
+                    <label>Department</label>
                     <select
                       className="form-select"
-                      name="hostelStatus"
-                      value={userForm.hostelStatus || ''}
+                      name="department"
+                      value={userForm.department || ''}
                       disabled={!isEditing}
                       onChange={handleUserChange}
                     >
 
-                      <option value="IN">IN</option>
-                      <option value="OUT">OUT</option>
+                      <option value="">
+                        Select Department
+                      </option>
+
+                      <option>CSE</option>
+                      <option>ECE</option>
+                      <option>EE</option>
+                      <option>AI</option>
 
                     </select>
-
                   </div>
 
-                )}
+                  {/* Room Number  */}
+                  <div className="col-md-6">
+                    <label>Room Number</label>
+                    <select
+                      className="form-select"
+                      name="roomNo"
+                      value={userForm.roomNo || ''}
+                      disabled={!isEditing}
+                      onChange={handleUserChange}
+                    >
 
-                {/* Last Status Update (Read Only) */}
-                {type === 'REGISTERED' && userForm.lastStatusChange && (
+                      <option value="">
+                        Select Room
+                      </option>
 
+                      {
+                        Array.from(
+                          { length: 75 },
+                          (_, i) => 101 + i
+                        ).map(room => (
+
+                          <option
+                            key={room}
+                            value={room}
+                          >
+                            {room}
+                          </option>
+
+                        ))
+                      }
+
+                    </select>
+                  </div>
+
+                  {/* Food Preference */}
+                  <div className="col-md-6">
+                    <label className="fw-bold">Food Preference</label>
+
+                    <div className="form-check">
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        name="foodPreference"
+                        value="Veg"
+                        checked={userForm.foodPreference === 'Veg'}
+                        onChange={handleUserChange}
+                        disabled={!isEditing}
+                      />
+                      <label className="form-check-label">
+                        Veg
+                      </label>
+                    </div>
+
+                    <div className="form-check">
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        name="foodPreference"
+                        value="Non-Veg"
+                        checked={userForm.foodPreference === 'Non-Veg'}
+                        onChange={handleUserChange}
+                        disabled={!isEditing}
+                      />
+                      <label className="form-check-label">
+                        Non-Veg
+                      </label>
+                    </div>
+                  </div>
+
+                  {/* Don't Eat */}
                   <div className="col-12">
+                    <label className="fw-bold">
+                      Doesn't Eat
+                    </label>
 
-                    <label>Last Status Update</label>
+                    <div className="form-check">
 
-                    <input
-                      className="form-control"
-                      value={new Date(
-                        userForm.lastStatusChange
-                      ).toLocaleString()}
-                      disabled
-                    />
+                      <input
+                        type="checkbox"
+                        className="form-check-input"
+                        checked={
+                          userForm.dontEat?.includes(
+                            'Chicken'
+                          )
+                        }
+                        disabled={!isEditing}
+                        onChange={() =>
+                          handleDontEatChange(
+                            'Chicken'
+                          )
+                        }
+                      />
 
+                      <label className="form-check-label">
+                        Chicken
+                      </label>
+
+                    </div>
+
+                    <div className="form-check">
+
+                      <input
+                        type="checkbox"
+                        className="form-check-input"
+                        checked={
+                          userForm.dontEat?.includes(
+                            'Fish'
+                          )
+                        }
+                        disabled={!isEditing}
+                        onChange={() =>
+                          handleDontEatChange(
+                            'Fish'
+                          )
+                        }
+                      />
+
+                      <label className="form-check-label">
+                        Fish
+                      </label>
+
+                    </div>
+
+                    <div className="form-check">
+
+                      <input
+                        type="checkbox"
+                        className="form-check-input"
+                        checked={
+                          userForm.dontEat?.includes(
+                            'Egg'
+                          )
+                        }
+                        disabled={!isEditing}
+                        onChange={() =>
+                          handleDontEatChange(
+                            'Egg'
+                          )
+                        }
+                      />
+
+                      <label className="form-check-label">
+                        Egg
+                      </label>
+
+                    </div>
                   </div>
 
-                )}
+                  {/* Blood Group */}
+                  <div className="col-md-6">
+                    <label>Blood Group</label>
+                    <select
+                      className="form-select"
+                      name="bloodGroup"
+                      value={userForm.bloodGroup || ''}
+                      disabled={!isEditing}
+                      onChange={handleUserChange}
+                    >
 
-              </div>
+                      <option value="">
+                        Select Blood Group
+                      </option>
+
+                      <option>A+</option>
+                      <option>A-</option>
+                      <option>B+</option>
+                      <option>B-</option>
+                      <option>AB+</option>
+                      <option>AB-</option>
+                      <option>O+</option>
+                      <option>O-</option>
+
+                    </select>
+                  </div>
+                </>
+              )}
+
+              {/* Status show */}
+              {type === 'REGISTERED' && (
+
+                <div className="col-md-6">
+
+                  <label>Hostel Status</label>
+
+                  <select
+                    className="form-select"
+                    name="hostelStatus"
+                    value={userForm.hostelStatus || ''}
+                    disabled={!isEditing}
+                    onChange={handleUserChange}
+                  >
+
+                    <option value="IN">IN</option>
+                    <option value="OUT">OUT</option>
+
+                  </select>
+
+                </div>
+
+              )}
+
+              {/* Last Status Update (Read Only) */}
+              {type === 'REGISTERED' && userForm.lastStatusChange && (
+
+                <div className="col-12">
+
+                  <label>Last Status Update</label>
+
+                  <input
+                    className="form-control"
+                    value={new Date(
+                      userForm.lastStatusChange
+                    ).toLocaleString()}
+                    disabled
+                  />
+
+                </div>
+
+              )}
 
             </div>
 
           </div>
-        </div>
-
-        {/* Footer */}
-        <div className='admin-footer px-4 py-2 w-100 d-flex justify-content-center'>
-
-          <small className='text-center my-1 py-0'>
-            Developed by{' '}
-            <a
-              href="https://www.linkedin.com/in/toumik"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="color-official fw-bold text-decoration-none"
-            >
-              Toumik Haque
-            </a>
-          </small>
 
         </div>
-
       </div>
 
     </div>

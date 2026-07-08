@@ -95,14 +95,12 @@ export default function StudentHostelStatus() {
     return <div className='container px-4 py-3'>
       <p className='text-center'>
         <span
-          className="spinner-border"
+          className="spinner-border spinner-border-sm"
           role="status"
         ></span>
       </p>
     </div>
   }
-
-
 
   return (
 
@@ -205,87 +203,71 @@ export default function StudentHostelStatus() {
       </div>
 
       {/* HOSTEL STATUS CARDS */}
-      {!stats ? (
+      <div className='px-4 d-flex flex-column gap-3'>
 
-        <div className='container px-4'>
-          <p className='text-center'>
-            <i>Loading...</i>
-            <span
-              className="spinner-border spinner-border-sm ms-2"
-              role="status"
-            ></span>
-          </p>
+        {/* PRESENT CARD */}
+        <div className="card border-0 shadow-sm rounded-4">
+
+          <div className="card-body d-flex">
+            <div className='w-50 d-flex flex-column align-items-center justify-content-center'>
+
+              <p className='color-official fs-1 fw-bold m-0'>
+                {stats.presentNow.totalPresentNow}
+              </p>
+              <p className='fw-medium m-0'>Present Now</p>
+
+            </div>
+
+            <div className='w-50 d-flex flex-column gap-1'>
+
+              <p className="m-0 badge p-2 bg-official">Pure Veg: {stats.presentNow.totalVegPresentNow}</p>
+              <p className="m-0 badge p-2 bg-official">No Chicken: {stats.presentNow.totalDontEatChickenPresentNow}</p>
+              <p className="m-0 badge p-2 bg-official">No Fish: {stats.presentNow.totalDontEatFishPresentNow}</p>
+              <p className="m-0 badge p-2 bg-official">No Egg: {stats.presentNow.totalDontEatEggPresentNow}</p>
+
+            </div>
+          </div>
+
         </div>
 
-      ) : (
+        {/* TOTAL UNREGISTERED */}
+        <div className='d-flex justify-content-between'>
 
-        <div className='px-4 d-flex flex-column gap-3'>
-
-          {/* PRESENT CARD */}
-          <div className="card border-0 shadow-sm rounded-4">
-
-            <div className="card-body d-flex">
-              <div className='w-50 d-flex flex-column align-items-center justify-content-center'>
-
-                <p className='color-official fs-1 fw-bold m-0'>
-                  {stats.presentNow.totalPresentNow}
-                </p>
-                <p className='fw-medium m-0'>Present Now</p>
-
-              </div>
-
-              <div className='w-50 d-flex flex-column gap-1'>
-
-                <p className="m-0 badge p-2 bg-official">Pure Veg: {stats.presentNow.totalVegPresentNow}</p>
-                <p className="m-0 badge p-2 bg-official">No Chicken: {stats.presentNow.totalDontEatChickenPresentNow}</p>
-                <p className="m-0 badge p-2 bg-official">No Fish: {stats.presentNow.totalDontEatFishPresentNow}</p>
-                <p className="m-0 badge p-2 bg-official">No Egg: {stats.presentNow.totalDontEatEggPresentNow}</p>
-
-              </div>
+          <div className='d-flex flex-column'>
+            <div className='d-flex gap-2 align-items-center'>
+              <p className='m-0 fs-5 fw-medium'>UNREGISTERED</p>
             </div>
-
+            <small className='text-muted'>Have no <small>hostelLog</small> account</small>
           </div>
 
-          {/* TOTAL UNREGISTERED */}
-          <div className='d-flex justify-content-between'>
-
-            <div className='d-flex flex-column'>
-              <div className='d-flex gap-2 align-items-center'>
-                <p className='m-0 fs-5 fw-medium'>UNREGISTERED</p>
-              </div>
-              <small className='text-muted'>Have no <small>hostelLog</small> account</small>
-            </div>
-
-            <div className=''>
-              <span className=' border border-secondary bg-white px-4 p-2 text-danger rounded-3 badge '>
-                {stats.unregisteredNow.unregisteredStudents}
-              </span>
-            </div>
-
+          <div className=''>
+            <span className=' border border-secondary bg-white px-4 p-2 text-danger rounded-3 badge '>
+              {stats.unregisteredNow.unregisteredStudents}
+            </span>
           </div>
 
-          {/* TOTAL STUDENTS CARD*/}
-          <div className="card card2 border-0 shadow-sm rounded-4">
+        </div>
 
-            <div className="card-body d-flex">
+        {/* TOTAL STUDENTS CARD*/}
+        <div className="card card2 border-0 shadow-sm rounded-4">
 
-              <div className='w-50 d-flex flex-column gap-1'>
+          <div className="card-body d-flex">
 
-                <p className="m-0 badge p-2 border border-white">Pure Veg: {stats.total.totalVegStudents}</p>
-                <p className="m-0 badge p-2 border border-white">No Chicken: {stats.total.totalDontEatChickenStudents}</p>
-                <p className="m-0 badge p-2 border border-white">No Fish: {stats.total.totalDontEatFishStudents}</p>
-                <p className="m-0 badge p-2 border border-white">No Egg: {stats.total.totalDontEatEggStudents}</p>
+            <div className='w-50 d-flex flex-column gap-1'>
 
-              </div>
+              <p className="m-0 badge p-2 border border-white">Pure Veg: {stats.total.totalVegStudents}</p>
+              <p className="m-0 badge p-2 border border-white">No Chicken: {stats.total.totalDontEatChickenStudents}</p>
+              <p className="m-0 badge p-2 border border-white">No Fish: {stats.total.totalDontEatFishStudents}</p>
+              <p className="m-0 badge p-2 border border-white">No Egg: {stats.total.totalDontEatEggStudents}</p>
 
-              <div className='w-50 d-flex flex-column align-items-center justify-content-center'>
+            </div>
 
-                <p className='fw-medium m-0'>Total Hostellers</p>
-                <p className='color-official fs-1 fw-bold m-0'>
-                  {stats.total.totalStudents}
-                </p>
+            <div className='w-50 d-flex flex-column align-items-center justify-content-center'>
 
-              </div>
+              <p className='fw-medium m-0'>Total Hostellers</p>
+              <p className='color-official fs-1 fw-bold m-0'>
+                {stats.total.totalStudents}
+              </p>
 
             </div>
 
@@ -293,7 +275,7 @@ export default function StudentHostelStatus() {
 
         </div>
 
-      )}
+      </div>
 
     </div>
 

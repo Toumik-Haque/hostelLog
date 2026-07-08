@@ -23,7 +23,6 @@ import StudentHostelStatus from './pages/StudentHostelStatus'
 ======================= */
 import AdminLogin from './pages/AdminLogin'
 import AdminDashboard from './pages/AdminDashboard'
-import AdminAllStudents from './pages/AdminAllStudents'
 import StudentDetail from './pages/StudentDetail'
 
 /* =======================
@@ -70,12 +69,12 @@ function App() {
           }
         />
 
-        <Route path="/admin/students" element={
+        {/* <Route path="/admin/students" element={
             <ProtectedAdmin>
               <AdminAllStudents />
             </ProtectedAdmin>
           }
-        />
+        /> */}
 
         <Route path="/admin/student/:id" element={
             <ProtectedAdmin>

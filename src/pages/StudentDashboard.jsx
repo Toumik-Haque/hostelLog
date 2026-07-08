@@ -21,19 +21,23 @@ export default function StudentDashboard() {
       navigate('/login', { replace: true });
     }
 
+    const savedTab = localStorage.getItem("saveTab") || "status"
+    setActiveTab(savedTab)
+
   }, [navigate]);
 
   const handleLogout = () => {
 
     localStorage.removeItem('token')
     navigate('/', { replace: true })
+    localStorage.removeItem('saveTab')
+    localStorage.removeItem('markActive')
+    localStorage.removeItem('markedStudents')
   }
 
   return (
 
-    <div
-      className="d-flex flex-column vh-100 bgColor"
-    >
+    <div className="d-flex flex-column vh-100 bgColor">
 
       {/* Header */}
       <div className='p-4 pb-3 bg-white border-bottom border-opacity-25 border-secondary'>
@@ -86,7 +90,8 @@ export default function StudentDashboard() {
         <div className=' mt-1 d-flex justify-content-between'>
 
           <button className='btn border-0 p-0 d-flex flex-column align-items-center' onClick={() =>
-            setActiveTab('status')
+            {setActiveTab('status')
+            localStorage.removeItem("saveTab")}
           }>
             <div className={` px-4 p-1 rounded-5 transition-colors ${activeTab === 'status'
               ? 'activeTab'
@@ -110,7 +115,8 @@ export default function StudentDashboard() {
           </button>
 
           <button className='btn border-0 p-0 d-flex flex-column align-items-center' onClick={() =>
-            setActiveTab('students')
+            {setActiveTab('students')
+            localStorage.setItem("saveTab", "students")}
           }>
             <div className={` px-4 p-1 rounded-5 transition-colors ${activeTab === 'students'
               ? 'activeTab'
@@ -134,7 +140,8 @@ export default function StudentDashboard() {
           </button>
 
           <button className='btn border-0 p-0 d-flex flex-column align-items-center' onClick={() =>
-            setActiveTab('bank')
+            {setActiveTab('bank')
+            localStorage.setItem("saveTab", "bank")}
           }>
             <div className={` px-4 p-1 rounded-5 transition-colors ${activeTab === 'bank'
               ? 'activeTab'
@@ -156,7 +163,8 @@ export default function StudentDashboard() {
           </button>
 
           <button className='btn border-0 p-0 d-flex flex-column align-items-center' onClick={() =>
-            setActiveTab('profile')
+            {setActiveTab('profile')
+            localStorage.setItem("saveTab", "profile")}
           }>
             <div className={` px-4 p-1 rounded-5 transition-colors ${activeTab === 'profile'
               ? 'activeTab'
@@ -192,7 +200,6 @@ export default function StudentDashboard() {
         </small>
 
       </div>
-
 
     </div>
   )

@@ -108,7 +108,7 @@ export default function StudentProfile() {
     return <div className='container px-4 py-3'>
       <p className='text-center'>
         <span
-          className="spinner-border"
+          className="spinner-border spinner-border-sm"
           role="status"
         ></span>
       </p>
