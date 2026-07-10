@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import toast from "react-hot-toast"
 
+import adminApi from '../api/adminApi'
 import AdminHostelStatus from './AdminHostelStatus'
 import AdminAllStudents from './AdminAllStudents'
 import StudentDetail from './StudentDetail'
