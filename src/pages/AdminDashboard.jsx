@@ -24,6 +24,22 @@ export default function AdminDashboard() {
     email: ''
   })
 
+  const [stats, setStats] = useState(null)
+
+  const fetchStats = async () => {
+    try {
+
+      const res = await adminApi.get(
+        '/hostel/stats'
+      )
+
+      setStats(res.data)
+
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   const handleLogout = () => {
 
     localStorage.removeItem('adminToken')
@@ -43,8 +59,6 @@ export default function AdminDashboard() {
       )
 
       await fetchStats()
-
-
 
       setShowModal(false)
 
@@ -68,6 +82,7 @@ export default function AdminDashboard() {
   }
 
   useEffect(() => {
+
     const savedTab = localStorage.getItem("saveAdminTab") || "status"
     setActiveTab(savedTab)
 
