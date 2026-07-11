@@ -5,26 +5,26 @@ import axios from 'axios'
 import QRCode from '../assets/agecboyshosii@sbi.png'
 import toast from "react-hot-toast"
 
-export default function AdminHostelStatus() {
+export default function AdminHostelStatus({ stats, fetchStats, }) {
 
-    const [stats, setStats] = useState(null)
+    // const [stats, setStats] = useState(null)
 
-    const fetchStats = async () => {
-        try {
+    // const fetchStats = async () => {
+    //     try {
 
-            const res = await adminApi.get(
-                '/hostel/stats'
-            )
+    //         const res = await adminApi.get(
+    //             '/hostel/stats'
+    //         )
 
-            setStats(res.data)
+    //         setStats(res.data)
 
-        } catch (err) {
-            console.log(err)
-        }
-    }
+    //     } catch (err) {
+    //         console.log(err)
+    //     }
+    // }
 
     useEffect(() => {
-        fetchStats()
+        // fetchStats()
     }, [])
 
     const copyUPI = async () => {

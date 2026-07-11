@@ -25,6 +25,8 @@ export default function AdminDashboard() {
   })
 
   const [stats, setStats] = useState(null)
+  const [students, setStudents] = useState([])
+  const [loading, setLoading] = useState(false)
 
   const fetchStats = async () => {
     try {
@@ -34,6 +36,20 @@ export default function AdminDashboard() {
       )
 
       setStats(res.data)
+
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const fetchData = async () => {
+    try {
+
+      const res = await adminApi.get(
+        '/admin/students-view'
+      )
+
+      setStudents(res.data)
 
     } catch (err) {
       console.log(err)
@@ -53,12 +69,17 @@ export default function AdminDashboard() {
   const addStudent = async () => {
     try {
 
+      setLoading(true)
+
       await adminApi.post(
         '/approved-students',
         form
       )
 
-      await fetchStats()
+      await Promise.all([
+        fetchStats(),
+        fetchData()
+      ])
 
       setShowModal(false)
 
@@ -78,17 +99,22 @@ export default function AdminDashboard() {
         err.response?.data?.message ||
         'Failed to add student'
       );
+    } finally {
+      setLoading(false)
     }
   }
 
   useEffect(() => {
+
+    fetchStats()
+    fetchData()
 
     const savedTab = localStorage.getItem("saveAdminTab") || "status"
     setActiveTab(savedTab)
 
     const savedId = localStorage.getItem("studentId") || null
     setSelectedStudentId(savedId)
-  })
+  }, [])
 
   return (
 
@@ -121,11 +147,18 @@ export default function AdminDashboard() {
       <div className="flex-grow-1 overflow-hidden">
 
         {activeTab === 'status' && (
-          <AdminHostelStatus />
+          <AdminHostelStatus
+            stats={stats}
+            fetchStats={fetchStats}
+          />
         )}
 
         {activeTab === 'students' && (
           <AdminAllStudents
+            stats={stats}
+            fetchStats={fetchStats}
+            students={students}
+            fetchData={fetchData}
             setActiveTab={setActiveTab}
             setSelectedStudentId={setSelectedStudentId}
           />
@@ -308,8 +341,19 @@ export default function AdminDashboard() {
                 <button
                   className="btn bg-official text-white rounded-3 "
                   onClick={addStudent}
+                  disabled={loading}
                 >
-                  Add
+                  {loading ?
+                    <p className='m-0'>
+                      Adding...
+                      <span
+                        className="spinner-border spinner-border-sm ms-2"
+                        role="status"
+                      ></span>
+                    </p>
+                    : "Add"
+                  }
+
                 </button>
 
               </div>

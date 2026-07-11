@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import adminApi from '../api/adminApi'
 import toast from "react-hot-toast"
 
-export default function AdminAllStudents({ setActiveTab, setSelectedStudentId, }) {
+export default function AdminAllStudents({ stats, fetchStats, students, fetchData, setActiveTab, setSelectedStudentId, }) {
 
     const [search, setSearch] = useState('')
     const [filter, setFilter] = useState('ALL')
@@ -13,7 +13,9 @@ export default function AdminAllStudents({ setActiveTab, setSelectedStudentId, }
     const [markAll, setMarkAll] = useState(false)
 
     const navigate = useNavigate()
-    const [students, setStudents] = useState([])
+    // const [students, setStudents] = useState([])
+
+    const [loading, setLoading] = useState(false)
 
     const [deleteModal, setDeleteModal] = useState(false)
 
@@ -32,22 +34,22 @@ export default function AdminAllStudents({ setActiveTab, setSelectedStudentId, }
         localStorage.removeItem("markAll")
     }
 
-    const fetchData = async () => {
-        try {
+    // const fetchData = async () => {
+    //     try {
 
-            const res = await adminApi.get(
-                '/admin/students-view'
-            )
+    //         const res = await adminApi.get(
+    //             '/admin/students-view'
+    //         )
 
-            setStudents(res.data)
+    //         setStudents(res.data)
 
-        } catch (err) {
-            console.log(err)
-        }
-    }
+    //     } catch (err) {
+    //         console.log(err)
+    //     }
+    // }
 
     useEffect(() => {
-        fetchData()
+        // fetchData()
 
         const savedMarkAll = JSON.parse(
             localStorage.getItem("markAll") || 'false'
@@ -136,10 +138,37 @@ export default function AdminAllStudents({ setActiveTab, setSelectedStudentId, }
         }
     }
 
-    const deleteSelected = () => {
-        hideMark()
-        setDeleteModal(false)
-        toast.success("Deteted Permanently")
+    const deleteSelected = async () => {
+        try {
+
+            setLoading(true)
+
+            const selected = Object.keys(selectedStudents);
+
+            await Promise.all(
+                selected.map((studentId) =>
+                    adminApi.delete(`/admin/student/${studentId}`)
+                )
+            );
+
+            await Promise.all([
+                fetchStats(),
+                fetchData()
+            ]);
+
+            hideMark();
+            setDeleteModal(false);
+            toast.success("Deteted Permanently");
+
+        } catch (err) {
+
+            console.log(err);
+
+            toast.err(err.response?.data?.message || "Delete Failed");
+
+        } finally {
+            setLoading(false)
+        }
     }
 
     const getCardClass = (status) => {
@@ -193,14 +222,28 @@ export default function AdminAllStudents({ setActiveTab, setSelectedStudentId, }
             <div className="sticky-top mx-4 mb-3 d-flex gap-2">
 
                 {/* Search */}
+                {/* {markActiveAdmin === true ?
+                    <button className='btn bg-dark rounded-1 text-white shadow-sm px- py-1' onClick={hideMark}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" className="bi bi-x-lg" viewBox="0 0 16 16">
+                            <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z" />
+                        </svg>
+                    </button>
+                    : <button className='btn bg-official rounded-1 text-white shadow-sm px- py-1' onClick={showMark}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" className="bi bi-check2-square" viewBox="0 0 16 16">
+                            <path d="M3 14.5A1.5 1.5 0 0 1 1.5 13V3A1.5 1.5 0 0 1 3 1.5h8a.5.5 0 0 1 0 1H3a.5.5 0 0 0-.5.5v10a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V8a.5.5 0 0 1 1 0v5a1.5 1.5 0 0 1-1.5 1.5z" />
+                            <path d="m8.354 10.354 7-7a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0" />
+                        </svg>
+                    </button>
+                } */}
+
                 <div className="position-relative flex-grow-1">
 
                     <input
                         type="text"
-                        className={`form-control shadow-sm px-3 py-2 rounded-0
-                            ${search && ('ps-5')}
+                        className={`form-control shadow-sm py-2 rounded-0
+                            ${search && ('pe-5')}
                         `}
-                        placeholder="Search by room no. or name..."
+                        placeholder="Search by room number or name..."
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                     />
@@ -208,7 +251,7 @@ export default function AdminAllStudents({ setActiveTab, setSelectedStudentId, }
                     {search && (
                         <button
                             type="button"
-                            className="btn border-0 position-absolute top-50  translate-middle-y ms-3 p-0"
+                            className="btn border-0 position-absolute top-50 end-0 translate-middle-y me-3 p-0"
                             onClick={() => setSearch("")}
                         >
                             <svg
@@ -219,20 +262,6 @@ export default function AdminAllStudents({ setActiveTab, setSelectedStudentId, }
                     )}
 
                 </div>
-
-                {markActiveAdmin === true ?
-                    <button className='btn bg-dark rounded text-white shadow-sm' onClick={hideMark}>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-x-lg" viewBox="0 0 16 16">
-                            <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z" />
-                        </svg>
-                    </button>
-                    : <button className='btn bg-official rounded text-white shadow-sm' onClick={showMark}>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-check2-square" viewBox="0 0 16 16">
-                            <path d="M3 14.5A1.5 1.5 0 0 1 1.5 13V3A1.5 1.5 0 0 1 3 1.5h8a.5.5 0 0 1 0 1H3a.5.5 0 0 0-.5.5v10a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V8a.5.5 0 0 1 1 0v5a1.5 1.5 0 0 1-1.5 1.5z" />
-                            <path d="m8.354 10.354 7-7a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0" />
-                        </svg>
-                    </button>
-                }
 
             </div>
 
@@ -311,7 +340,11 @@ export default function AdminAllStudents({ setActiveTab, setSelectedStudentId, }
                             ></span>
                         </p>
                     </div>
-                    : <div className="row g-3 mb-5">
+                    : <div className={`row g-3 mb-5
+                        ${(Object.keys(selectedStudents).length !== 0) && (
+                                'pb-5'
+                            )}
+                    `}>
 
                         {students
                             .filter(s => {
@@ -494,20 +527,43 @@ export default function AdminAllStudents({ setActiveTab, setSelectedStudentId, }
                             ))
                         }
 
-                        {/* Button - Delete Selected */}
-                        {(Object.keys(selectedStudents).length !== 0) && (
-                            <div className='position-absolute bottom-0 mb-1 py-0 d-flex align-items-center justify-content-between'
-                                style={{ width: "min-content" }}
-                            >
-                                <div className='card bg-white shadow-sm p-2 rounded-circle'>
+                        <div className='position-absolute bottom-0 mb-2 py-0 d-flex flex-column gap-1 align-items-center justify-content-between'
+                            style={{ width: "min-content" }}
+                        >
+
+                            {/* Button - Delete Selected */}
+                            {(Object.keys(selectedStudents).length !== 0) && (
+                                <div className='card bg-white shadow-sm p-1 rounded-circle'>
                                     <button className='btn btn-danger rounded-circle d-flex p-2' onClick={() => setDeleteModal(true)}>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-trash-fill" viewBox="0 0 16 16">
                                             <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0" />
                                         </svg>
                                     </button>
                                 </div>
+                            )}
+
+                            <div className='card bg-white shadow-sm p-1 rounded-circle'>
+                                {markActiveAdmin === true ?
+
+                                    <button className='btn bg-dark rounded-circle text-white shadow-sm d-flex p-2' onClick={hideMark}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-x-lg" viewBox="0 0 16 16">
+                                            <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z" />
+                                        </svg>
+                                    </button>
+                                    : <button className='btn bg-dark rounded-circle text-white shadow-sm d-flex p-2' onClick={showMark}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-check2-square" viewBox="0 0 16 16">
+                                            <path d="M3 14.5A1.5 1.5 0 0 1 1.5 13V3A1.5 1.5 0 0 1 3 1.5h8a.5.5 0 0 1 0 1H3a.5.5 0 0 0-.5.5v10a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V8a.5.5 0 0 1 1 0v5a1.5 1.5 0 0 1-1.5 1.5z" />
+                                            <path d="m8.354 10.354 7-7a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0" />
+                                        </svg>
+                                    </button>
+                                }
                             </div>
-                        )}
+
+                        </div>
+
+
+
+
 
                     </div>
                 }
@@ -548,8 +604,19 @@ export default function AdminAllStudents({ setActiveTab, setSelectedStudentId, }
                                 <button
                                     className="btn btn-danger text-white rounded-3 "
                                     onClick={deleteSelected}
+                                    disabled={loading}
                                 >
-                                    Permanent Delete
+                                    {loading ?
+                                        <p className='m-0'>
+                                            Deleting...
+                                            <span
+                                                className="spinner-border spinner-border-sm ms-2"
+                                                role="status"
+                                            ></span>
+                                        </p>
+                                        : "Permanent Delete"
+                                    }
+
                                 </button>
 
                             </div>

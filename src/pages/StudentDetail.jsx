@@ -115,12 +115,12 @@ export default function StudentDetail({ id }) {
 
   const handleDelete = async () => {
 
-    const confirmDelete =
-      window.confirm(
-        'Delete this student permanently?'
-      )
+    // const confirmDelete =
+    //   window.confirm(
+    //     'Delete this student permanently?'
+    //   )
 
-    if (!confirmDelete) return
+    // if (!confirmDelete) return
 
     try {
 
@@ -128,9 +128,9 @@ export default function StudentDetail({ id }) {
         `/admin/student/${id}`
       )
 
-      alert('Student Deleted')
+      // alert('Student Deleted')
 
-      navigate('/admin/students')
+      // navigate('/admin/students')
 
     }
 
