@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import studentApi from '../api/studentApi'
 
-export default function StudentList() {
+export default function StudentList({students,}) {
 
     const [search, setSearch] = useState('')
     const [filter, setFilter] = useState('ALL')
@@ -11,7 +11,6 @@ export default function StudentList() {
     const [markedStudents, setMarkedStudents] = useState({})
 
     const navigate = useNavigate()
-    const [students, setStudents] = useState([])
 
     const showMark = () => {
         setMarkActive(true)
@@ -28,22 +27,7 @@ export default function StudentList() {
         localStorage.removeItem("markedStudents")
     }
 
-    const fetchData = async () => {
-        try {
-
-            const res = await studentApi.get(
-                '/student/students-view'
-            )
-
-            setStudents(res.data)
-
-        } catch (err) {
-            console.log(err)
-        }
-    }
-
     useEffect(() => {
-        fetchData()
 
         const savedMarkActive = JSON.parse(
             localStorage.getItem("markActive") || 'false'
@@ -92,15 +76,15 @@ export default function StudentList() {
 
     const getCardClass = (status) => {
 
-        if (status === 'PRESENT') {
-            return ''
-        }
+        // if (status === 'PRESENT') {
+        //     return ''
+        // }
 
-        if (status === 'ABSENT') {
-            return ''
-        }
+        // if (status === 'ABSENT') {
+        //     return ''
+        // }
 
-        return ''
+        // return ''
     }
 
     const getBadge = (status) => {
@@ -125,13 +109,27 @@ export default function StudentList() {
             {/* Search + markActive btn */}
             <div className="sticky-top mx-4 mb-3 d-flex gap-2">
 
+                {markActive === true ?
+                    <button className='btn bg-dark rounded-1 text-white shadow-sm' onClick={hideMark}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-x-lg" viewBox="0 0 16 16">
+                            <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z" />
+                        </svg>
+                    </button>
+                    : <button className='btn bg-official rounded-1 text-white shadow-sm' onClick={showMark}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-check2-square" viewBox="0 0 16 16">
+                            <path d="M3 14.5A1.5 1.5 0 0 1 1.5 13V3A1.5 1.5 0 0 1 3 1.5h8a.5.5 0 0 1 0 1H3a.5.5 0 0 0-.5.5v10a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V8a.5.5 0 0 1 1 0v5a1.5 1.5 0 0 1-1.5 1.5z" />
+                            <path d="m8.354 10.354 7-7a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0" />
+                        </svg>
+                    </button>
+                }
+
                 {/* Search */}
                 <div className="position-relative flex-grow-1">
 
                     <input
                         type="text"
                         className={`form-control shadow-sm px-3 py-2 rounded-0
-                            ${search && ('ps-5')}
+                            ${search && ('pe-5')}
                         `}
                         placeholder="Search by room no. or name..."
                         value={search}
@@ -141,7 +139,7 @@ export default function StudentList() {
                     {search && (
                         <button
                             type="button"
-                            className="btn border-0 position-absolute top-50  translate-middle-y ms-3 p-0"
+                            className="btn border-0 position-absolute top-50 end-0 translate-middle-y me-3 p-0"
                             onClick={() => setSearch("")}
                         >
                             <svg
@@ -152,20 +150,6 @@ export default function StudentList() {
                     )}
 
                 </div>
-
-                {markActive === true ?
-                    <button className='btn bg-dark rounded text-white shadow-sm' onClick={hideMark}>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-x-lg" viewBox="0 0 16 16">
-                            <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z" />
-                        </svg>
-                    </button>
-                    : <button className='btn bg-official rounded text-white shadow-sm' onClick={showMark}>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-check2-square" viewBox="0 0 16 16">
-                            <path d="M3 14.5A1.5 1.5 0 0 1 1.5 13V3A1.5 1.5 0 0 1 3 1.5h8a.5.5 0 0 1 0 1H3a.5.5 0 0 0-.5.5v10a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V8a.5.5 0 0 1 1 0v5a1.5 1.5 0 0 1-1.5 1.5z" />
-                            <path d="m8.354 10.354 7-7a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0" />
-                        </svg>
-                    </button>
-                }
 
             </div>
 

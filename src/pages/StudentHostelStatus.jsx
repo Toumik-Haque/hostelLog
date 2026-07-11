@@ -2,57 +2,16 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import studentApi from '../api/studentApi'
 
-export default function StudentHostelStatus() {
+export default function StudentHostelStatus({
+  stats,
+  fetchStats,
+  user,
+  fetchUser,
+  fetchData,
+}) {
 
-  const [stats, setStats] = useState(null)
-  const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(false)
 
-  // ------------------------
-  // FETCH STATS
-  // ------------------------
-  const fetchStats = async () => {
-    try {
-
-      const res = await studentApi.get(
-        '/hostel/stats'
-      )
-
-      setStats(res.data)
-
-    } catch (err) {
-      console.log(err)
-    }
-  }
-
-  // ------------------------
-  // FETCH USER
-  // ------------------------
-  const fetchUser = async () => {
-    try {
-
-      const token =
-        localStorage.getItem('token')
-
-      const res = await studentApi.get('/auth/me')
-
-      setUser(res.data.user)
-
-      console.log(res.data)
-
-    } catch (err) {
-      console.log(err)
-    }
-  }
-
-  useEffect(() => {
-    fetchStats()
-    fetchUser()
-  }, [])
-
-  // ------------------------
-  // TOGGLE STATUS
-  // ------------------------
   const toggleStatus = async () => {
 
     try {
@@ -72,16 +31,18 @@ export default function StudentHostelStatus() {
         }
       )
 
-      console.log(res.data)
+      // console.log(res.data)
 
       // update UI instantly
-      setUser({
-        ...user,
-        hostelStatus: res.data.hostelStatus,
-        lastStatusChange: res.data.lastStatusChange
-      })
+      // setUser({
+      //   ...user,
+      //   hostelStatus: res.data.hostelStatus,
+      //   lastStatusChange: res.data.lastStatusChange
+      // })
 
-      fetchStats()
+      await fetchData()
+      await fetchStats()
+      await fetchUser()
 
     } catch (err) {
       console.log(err)

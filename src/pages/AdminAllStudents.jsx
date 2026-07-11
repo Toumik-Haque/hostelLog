@@ -222,19 +222,19 @@ export default function AdminAllStudents({ stats, fetchStats, students, fetchDat
             <div className="sticky-top mx-4 mb-3 d-flex gap-2">
 
                 {/* Search */}
-                {/* {markActiveAdmin === true ?
-                    <button className='btn bg-dark rounded-1 text-white shadow-sm px- py-1' onClick={hideMark}>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" className="bi bi-x-lg" viewBox="0 0 16 16">
+                {markActiveAdmin === true ?
+                    <button className='btn bg-dark rounded-1 text-white shadow-sm' onClick={hideMark}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-x-lg" viewBox="0 0 16 16">
                             <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z" />
                         </svg>
                     </button>
-                    : <button className='btn bg-official rounded-1 text-white shadow-sm px- py-1' onClick={showMark}>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" className="bi bi-check2-square" viewBox="0 0 16 16">
+                    : <button className='btn bg-official rounded-1 text-white shadow-sm' onClick={showMark}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-check2-square" viewBox="0 0 16 16">
                             <path d="M3 14.5A1.5 1.5 0 0 1 1.5 13V3A1.5 1.5 0 0 1 3 1.5h8a.5.5 0 0 1 0 1H3a.5.5 0 0 0-.5.5v10a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V8a.5.5 0 0 1 1 0v5a1.5 1.5 0 0 1-1.5 1.5z" />
                             <path d="m8.354 10.354 7-7a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0" />
                         </svg>
                     </button>
-                } */}
+                }
 
                 <div className="position-relative flex-grow-1">
 
@@ -243,7 +243,7 @@ export default function AdminAllStudents({ stats, fetchStats, students, fetchDat
                         className={`form-control shadow-sm py-2 rounded-0
                             ${search && ('pe-5')}
                         `}
-                        placeholder="Search by room number or name..."
+                        placeholder="Search by room no. or name..."
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                     />
@@ -340,9 +340,9 @@ export default function AdminAllStudents({ stats, fetchStats, students, fetchDat
                             ></span>
                         </p>
                     </div>
-                    : <div className={`row g-3 mb-5
+                    : <div className={`row g-3
                         ${(Object.keys(selectedStudents).length !== 0) && (
-                                'pb-5'
+                                'mb-5'
                             )}
                     `}>
 
@@ -527,7 +527,7 @@ export default function AdminAllStudents({ stats, fetchStats, students, fetchDat
                             ))
                         }
 
-                        <div className='position-absolute bottom-0 mb-2 py-0 d-flex flex-column gap-1 align-items-center justify-content-between'
+                        <div className='position-absolute bottom-0 mb-2 py-0 d-flex align-items-center justify-content-between'
                             style={{ width: "min-content" }}
                         >
 
@@ -541,23 +541,6 @@ export default function AdminAllStudents({ stats, fetchStats, students, fetchDat
                                     </button>
                                 </div>
                             )}
-
-                            <div className='card bg-white shadow-sm p-1 rounded-circle'>
-                                {markActiveAdmin === true ?
-
-                                    <button className='btn bg-dark rounded-circle text-white shadow-sm d-flex p-2' onClick={hideMark}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-x-lg" viewBox="0 0 16 16">
-                                            <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z" />
-                                        </svg>
-                                    </button>
-                                    : <button className='btn bg-dark rounded-circle text-white shadow-sm d-flex p-2' onClick={showMark}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-check2-square" viewBox="0 0 16 16">
-                                            <path d="M3 14.5A1.5 1.5 0 0 1 1.5 13V3A1.5 1.5 0 0 1 3 1.5h8a.5.5 0 0 1 0 1H3a.5.5 0 0 0-.5.5v10a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V8a.5.5 0 0 1 1 0v5a1.5 1.5 0 0 1-1.5 1.5z" />
-                                            <path d="m8.354 10.354 7-7a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0" />
-                                        </svg>
-                                    </button>
-                                }
-                            </div>
 
                         </div>
 

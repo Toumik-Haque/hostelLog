@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react'
 import studentApi from '../api/studentApi'
+import toast from 'react-hot-toast'
 
-export default function StudentProfile() {
-
-  const [user, setUser] = useState(null)
+export default function StudentProfile({user,}) {
 
   const [showModal, setShowModal] = useState(false)
 
@@ -22,16 +21,16 @@ export default function StudentProfile() {
       !passwordData.newPassword ||
       !passwordData.confirmPassword
     ) {
-      return alert('All fields are required')
+      toast.error('All fields are required')
+      return
     }
 
-    if (
+    else if (
       passwordData.newPassword !==
       passwordData.confirmPassword
     ) {
-      return alert(
-        'Passwords do not match'
-      )
+      toast.error('Passwords do not match')
+      return
     }
 
     try {
@@ -42,7 +41,7 @@ export default function StudentProfile() {
           passwordData
         )
 
-      alert(res.data.message)
+      toast.success(res.data.message)
 
       setShowModal(false)
 
@@ -54,7 +53,7 @@ export default function StudentProfile() {
 
     } catch (err) {
 
-      alert(
+      toast.error(
         err.response?.data?.message ||
         'Something went wrong'
       )
@@ -73,36 +72,6 @@ export default function StudentProfile() {
     setShowPasswords(false)
 
   }
-
-  useEffect(() => {
-    const fetchUser = async () => {
-
-      try {
-
-        const token =
-          localStorage.getItem('token')
-
-        const res = await studentApi.get(
-          '/auth/me',
-          {
-            headers: {
-              Authorization:
-                `Bearer ${token}`
-            }
-          }
-        )
-
-        setUser(res.data.user)
-
-      } catch (err) {
-        console.log(err)
-      }
-
-    }
-
-    fetchUser()
-  }, [])
-
 
   if (!user) {
     return <div className='container px-4 py-3'>

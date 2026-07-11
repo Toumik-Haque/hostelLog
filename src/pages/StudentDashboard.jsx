@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import studentApi from '../api/studentApi'
 
 import StudentProfile from './StudentProfile'
 import StudentList from './StudentList'
@@ -13,8 +14,66 @@ export default function StudentDashboard() {
   const navigate = useNavigate()
 
   const [activeTab, setActiveTab] = useState('status')
+  const [stats, setStats] = useState(null)
+  const [user, setUser] = useState(null)
+  const [students, setStudents] = useState([])
+
+  const fetchStats = async () => {
+    try {
+
+      const res = await studentApi.get(
+        '/hostel/stats'
+      )
+
+      setStats(res.data)
+
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const fetchUser = async () => {
+    try {
+
+      const token =
+        localStorage.getItem('token')
+
+      const res = await studentApi.get(
+        '/auth/me',
+        {
+          headers: {
+            Authorization:
+              `Bearer ${token}`
+          }
+        }
+      )
+
+      setUser(res.data.user)
+
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const fetchData = async () => {
+    try {
+
+      const res = await studentApi.get(
+        '/student/students-view'
+      )
+
+      setStudents(res.data)
+
+    } catch (err) {
+      console.log(err)
+    }
+  }
 
   useEffect(() => {
+
+    fetchStats()
+    fetchUser()
+    fetchData()
 
     const token = localStorage.getItem('token');
     if (!token) {
@@ -44,7 +103,7 @@ export default function StudentDashboard() {
 
         <div className='d-flex justify-content-between'>
           <div>
-            <img src={logo} alt="hostelLog text logo" srcset="" style={{ height: '30px' }} />
+            <img src={logo} alt="hostelLog text logo" srcSet="" style={{ height: '30px' }} />
             {/* <h className='m-0 '>Welcome</h> */}
           </div>
 
@@ -66,11 +125,19 @@ export default function StudentDashboard() {
       <div className="flex-grow-1 overflow-hidden">
 
         {activeTab === 'status' && (
-          <StudentHostelStatus />
+          <StudentHostelStatus
+            stats={stats}
+            user={user}
+            fetchStats={fetchStats}
+            fetchUser={fetchUser}
+            fetchData={fetchData}
+          />
         )}
 
         {activeTab === 'students' && (
-          <StudentList />
+          <StudentList
+            students={students}
+          />
         )}
 
         {activeTab === 'bank' && (
@@ -78,7 +145,9 @@ export default function StudentDashboard() {
         )}
 
         {activeTab === 'profile' && (
-          <StudentProfile />
+          <StudentProfile
+            user={user}
+          />
         )}
 
       </div>
@@ -89,9 +158,10 @@ export default function StudentDashboard() {
         {/* NAV BUTTONS */}
         <div className=' mt-1 d-flex justify-content-between'>
 
-          <button className='btn border-0 p-0 d-flex flex-column align-items-center' onClick={() =>
-            {setActiveTab('status')
-            localStorage.removeItem("saveTab")}
+          <button className='btn border-0 p-0 d-flex flex-column align-items-center' onClick={() => {
+            setActiveTab('status')
+            localStorage.removeItem("saveTab")
+          }
           }>
             <div className={` px-4 p-1 rounded-5 transition-colors ${activeTab === 'status'
               ? 'activeTab'
@@ -114,9 +184,10 @@ export default function StudentDashboard() {
               }`}>Home</small>
           </button>
 
-          <button className='btn border-0 p-0 d-flex flex-column align-items-center' onClick={() =>
-            {setActiveTab('students')
-            localStorage.setItem("saveTab", "students")}
+          <button className='btn border-0 p-0 d-flex flex-column align-items-center' onClick={() => {
+            setActiveTab('students')
+            localStorage.setItem("saveTab", "students")
+          }
           }>
             <div className={` px-4 p-1 rounded-5 transition-colors ${activeTab === 'students'
               ? 'activeTab'
@@ -139,9 +210,10 @@ export default function StudentDashboard() {
               }`}>Students</small>
           </button>
 
-          <button className='btn border-0 p-0 d-flex flex-column align-items-center' onClick={() =>
-            {setActiveTab('bank')
-            localStorage.setItem("saveTab", "bank")}
+          <button className='btn border-0 p-0 d-flex flex-column align-items-center' onClick={() => {
+            setActiveTab('bank')
+            localStorage.setItem("saveTab", "bank")
+          }
           }>
             <div className={` px-4 p-1 rounded-5 transition-colors ${activeTab === 'bank'
               ? 'activeTab'
@@ -162,9 +234,10 @@ export default function StudentDashboard() {
               }`}>Banking</small>
           </button>
 
-          <button className='btn border-0 p-0 d-flex flex-column align-items-center' onClick={() =>
-            {setActiveTab('profile')
-            localStorage.setItem("saveTab", "profile")}
+          <button className='btn border-0 p-0 d-flex flex-column align-items-center' onClick={() => {
+            setActiveTab('profile')
+            localStorage.setItem("saveTab", "profile")
+          }
           }>
             <div className={` px-4 p-1 rounded-5 transition-colors ${activeTab === 'profile'
               ? 'activeTab'
