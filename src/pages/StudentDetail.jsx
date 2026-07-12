@@ -5,7 +5,7 @@ import toast from "react-hot-toast"
 
 import logo from '../assets/textlogo.png'
 
-export default function StudentDetail({ id }) {
+export default function StudentDetail({ id, fetchingData, }) {
 
   // const { id } = useParams()
   const navigate = useNavigate()
@@ -95,6 +95,7 @@ export default function StudentDetail({ id }) {
       setIsEditing(false)
 
       fetchData()
+      fetchingData()
 
     }
 
@@ -109,37 +110,6 @@ export default function StudentDetail({ id }) {
 
     } finally {
       setLoading(false)
-    }
-
-  }
-
-  const handleDelete = async () => {
-
-    // const confirmDelete =
-    //   window.confirm(
-    //     'Delete this student permanently?'
-    //   )
-
-    // if (!confirmDelete) return
-
-    try {
-
-      await adminApi.delete(
-        `/admin/student/${id}`
-      )
-
-      // alert('Student Deleted')
-
-      // navigate('/admin/students')
-
-    }
-
-    catch (err) {
-
-      console.log(err)
-
-      alert('Delete Failed')
-
     }
 
   }

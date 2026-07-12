@@ -176,6 +176,7 @@ export default function AdminDashboard() {
         {activeTab === "single" && (
           <StudentDetail
             id={selectedStudentId}
+            fetchingData={fetchingData}
           />
         )}
 
