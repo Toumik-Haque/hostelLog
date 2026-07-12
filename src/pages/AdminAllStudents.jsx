@@ -186,13 +186,13 @@ export default function AdminAllStudents({
 
     return (
 
-        <div className="d-flex flex-column h-100 pt-3 position-relative">
+        <div className="containerActive d-flex flex-column h-100 pt-3 position-relative">
 
             {/* Select All */}
             {markActiveAdmin && (
                 <div className='position-fixed top-0 end-0 me-4 pt-3 mt-5 d-flex align-items-center gap-2 color-official'>
                     <span>Select All</span>
-                    <div className='d-flex' onClick={toggleAllMark}>
+                    <div className='d-flex' style={{ cursor: 'pointer'}} onClick={toggleAllMark}>
                         {markAll ?
                             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" className="bi bi-check-square-fill" viewBox="0 0 16 16">
                                 <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm10.03 4.97a.75.75 0 0 1 .011 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.75.75 0 0 1 1.08-.022z" />
@@ -206,7 +206,7 @@ export default function AdminAllStudents({
             )}
 
             {/* Search + markActiveAdmin btn */}
-            <div className="sticky-top mx-4 mb-3 d-flex gap-2">
+            <div className="search-box sticky-top mx-4 mb-3 d-flex gap-2">
 
                 {/* Search */}
                 {markActiveAdmin === true ?
@@ -327,7 +327,7 @@ export default function AdminAllStudents({
                             ></span>
                         </p>
                     </div>
-                    : <div className={`row g-3
+                    : <div className={`row g-3 containerList
                         ${(Object.keys(selectedStudents).length !== 0) && (
                                 'mb-5'
                             )}
@@ -453,11 +453,11 @@ export default function AdminAllStudents({
                                                         }
 
 
-                                                        <div className={`d-flex justify-content-end align-items-cente gap-2
+                                                        <div className={`d-flex justify-content-end align-items-center gap-2
                                                         ${s.status === 'UNREGISTERED' && ('w-100')}
                                                         `}>
                                                             {/* Go to Stident Detail Page */}
-                                                            <div style={{ cursor: "pointer" }} onClick={() => {
+                                                            <div className='d-flex' style={{ cursor: "pointer" }} onClick={() => {
                                                                 setSelectedStudentId(s.id);
                                                                 localStorage.setItem("studentId", (s.id))
                                                                 setActiveTab("single");
@@ -473,7 +473,7 @@ export default function AdminAllStudents({
                                                             {/* Select box */}
                                                             {markActiveAdmin ?
 
-                                                                <div style={{ cursor: "pointer" }} onClick={() => toggleMark(s.id)}>
+                                                                <div className='d-flex shadow-sm' style={{ cursor: "pointer" }} onClick={() => toggleMark(s.id)}>
                                                                     {selectedStudents[s.id] ?
                                                                         <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" className="color-official bi bi-check-square-fill" viewBox="0 0 16 16">
                                                                             <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm10.03 4.97a.75.75 0 0 1 .011 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.75.75 0 0 1 1.08-.022z" />
@@ -514,7 +514,7 @@ export default function AdminAllStudents({
                             ))
                         }
 
-                        <div className='position-absolute bottom-0 mb-2 py-0 d-flex align-items-center justify-content-between'
+                        <div className='position-absolute start-0 bottom-0 mb-2 py-0'
                             style={{ width: "min-content" }}
                         >
 

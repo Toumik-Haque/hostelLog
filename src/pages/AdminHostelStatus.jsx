@@ -5,7 +5,7 @@ import axios from 'axios'
 import QRCode from '../assets/agecboyshosii@sbi.png'
 import toast from "react-hot-toast"
 
-export default function AdminHostelStatus({ stats,}) {
+export default function AdminHostelStatus({ stats, }) {
 
     const copyUPI = async () => {
         try {
@@ -49,18 +49,18 @@ export default function AdminHostelStatus({ stats,}) {
 
         <div className='h-100 overflow-auto py-3 hide-scrollbar'>
 
-            <div className='mx-4'>
+            <div className='heading mx-4'>
                 <div className='fw-bold text-center color-official mb-2'>AGEMC BOYS HOSTEL II</div>
             </div>
 
             {/* HOSTEL STATUS CARDS */}
-            <div className='px-4 d-flex flex-column gap-3'>
+            <div className='cardsContainer mx-4 d-flex flex-column gap-3'>
 
                 {/* PRESENT CARD */}
                 <div className="card border-0 shadow-sm rounded-4">
 
-                    <div className="card-body d-flex">
-                        <div className='w-50 d-flex flex-column align-items-center justify-content-center'>
+                    <div className="card-body d-flex gap-3">
+                        <div className='bigNum w-50 d-flex flex-column align-items-center justify-content-center'>
 
                             <p className='color-official fs-1 fw-bold m-0'>
                                 {stats.presentNow.totalPresentNow}
@@ -71,10 +71,10 @@ export default function AdminHostelStatus({ stats,}) {
 
                         <div className='w-50 d-flex flex-column gap-1'>
 
-                            <p className="m-0 badge p-2 bg-official">Pure Veg: {stats.presentNow.totalVegPresentNow}</p>
-                            <p className="m-0 badge p-2 bg-official">No Chicken: {stats.presentNow.totalDontEatChickenPresentNow}</p>
-                            <p className="m-0 badge p-2 bg-official">No Fish: {stats.presentNow.totalDontEatFishPresentNow}</p>
-                            <p className="m-0 badge p-2 bg-official">No Egg: {stats.presentNow.totalDontEatEggPresentNow}</p>
+                            <p className="m-0 badge p-2 bg-official border">Pure Veg: {stats.presentNow.totalVegPresentNow}</p>
+                            <p className="m-0 badge p-2 bg-official border">No Chicken: {stats.presentNow.totalDontEatChickenPresentNow}</p>
+                            <p className="m-0 badge p-2 bg-official border">No Fish: {stats.presentNow.totalDontEatFishPresentNow}</p>
+                            <p className="m-0 badge p-2 bg-official border">No Egg: {stats.presentNow.totalDontEatEggPresentNow}</p>
 
                         </div>
                     </div>
@@ -82,7 +82,7 @@ export default function AdminHostelStatus({ stats,}) {
                 </div>
 
                 {/* TOTAL UNREGISTERED */}
-                <div className='d-flex justify-content-between'>
+                <div className='d-flex box-3 justify-content-between unReg gap-5'>
 
                     <div className='d-flex flex-column'>
                         <div className='d-flex gap-2 align-items-center'>
@@ -102,7 +102,7 @@ export default function AdminHostelStatus({ stats,}) {
                 {/* TOTAL STUDENTS CARD*/}
                 <div className="card card2 border-0 shadow-sm rounded-4">
 
-                    <div className="card-body d-flex">
+                    <div className="card-body d-flex gap-3">
 
                         <div className='w-50 d-flex flex-column gap-1'>
 
@@ -113,7 +113,7 @@ export default function AdminHostelStatus({ stats,}) {
 
                         </div>
 
-                        <div className='w-50 d-flex flex-column align-items-center justify-content-center'>
+                        <div className='bigNum w-50 d-flex flex-column align-items-center justify-content-center'>
 
                             <p className='fw-medium m-0'>Total Hostellers</p>
                             <p className='color-official fs-1 fw-bold m-0'>
@@ -129,7 +129,7 @@ export default function AdminHostelStatus({ stats,}) {
             </div>
 
             {/* BANK DETAILS */}
-            <div className='mx-4 mt-4'>
+            <div className='cardsContainer bankBox d-flex flex-column mx-4 mt-4'>
 
                 <div className='card border-0 rounded-4 shadow-sm'>
 

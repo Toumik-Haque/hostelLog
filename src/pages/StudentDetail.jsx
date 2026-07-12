@@ -181,10 +181,10 @@ export default function StudentDetail({ id }) {
 
   return (
 
-    <div className="position-relative d-flex flex-column h-100 pt-">
+    <div className="position-relative d-flex flex-column h-100 containerActive">
 
       {/* Edit Actions */}
-      <div className='position-absolute mx-4 end-0 mt-2' style={{ zIndex: 10 }}>
+      <div className='mt-3 position-absolute mx-4 end-0 mt-2' style={{ zIndex: 10 }}>
 
         {/* Edit & Save Buttons */}
         {!isEditing ? (
@@ -237,7 +237,7 @@ export default function StudentDetail({ id }) {
       </div>
 
       {/* Scrollable Student Card */}
-      <div className="flex-grow-1 overflow-auto py-3 hide-scrollbar">
+      <div className="containerDiv flex-grow-1 overflow-auto py-3 hide-scrollbar">
 
         {/* STATUS BADGE */}
         <div className="mb-2">
@@ -256,7 +256,7 @@ export default function StudentDetail({ id }) {
         </div>
 
         {/* CARD */}
-        <div className="card shadow-sm mx-4">
+        <div className="card shadow-sm mx-4 border-0">
 
           <div className="card-body">
 

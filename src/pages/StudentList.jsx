@@ -103,11 +103,11 @@ export default function StudentList({students,}) {
     return (
 
         <div
-            className="d-flex flex-column h-100 pt-3"
+            className="containerActive d-flex flex-column h-100 pt-3"
         >
 
             {/* Search + markActive btn */}
-            <div className="sticky-top mx-4 mb-3 d-flex gap-2">
+            <div className="search-box sticky-top mx-4 mb-3 d-flex gap-2">
 
                 {markActive === true ?
                     <button className='btn bg-dark rounded-1 text-white shadow-sm' onClick={hideMark}>
@@ -228,7 +228,7 @@ export default function StudentList({students,}) {
                             ></span>
                         </p>
                     </div>
-                    : <div className="row g-3">
+                    : <div className="row g-3 containerList">
 
                         {students
                             .filter(s => {

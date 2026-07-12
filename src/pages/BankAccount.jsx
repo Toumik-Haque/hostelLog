@@ -32,9 +32,10 @@ function BankAccount() {
 
     return (
         <div className='h-100 overflow-auto py-3 hide-scrollbar'>
-            <div className='mx-4'>
 
-                <div className='fw-bold text-center color-official mb-2'>AGEMC BOYS HOSTEL II</div>
+            <div className='fw-bold text-center color-official my-2'>AGEMC BOYS HOSTEL II</div>
+
+            <div className='cardsContainer bankBox border-0 d-flex flex-column mx-4'>
 
                 <div className='card border-0 rounded-3'>
 

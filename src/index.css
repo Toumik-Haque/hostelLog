@@ -1,13 +1,13 @@
-.bgColor{
+.bgColor {
   background-color: #f6f3fe;
 }
 
-.admin-footer{
-    background-color: azure;
+.admin-footer {
+  background-color: azure;
 }
 
-.admin-bg{
-    background-color: rgb(219, 226, 234);
+.admin-bg {
+  background-color: rgb(219, 226, 234);
 }
 
 .hide-scrollbar {
@@ -20,34 +20,34 @@
   width: 0;
 }
 
-.color-official{
+.color-official {
   color: #8c52ff !important;
 }
 
-.btn-official{
+.btn-official {
   background-color: #8c52ff !important;
   color: white !important;
 }
 
 .btn-outline-official,
-.border-official{
+.border-official {
   border-color: #8c52ff !important;
-  
+
 }
 
-.bg-official{
+.bg-official {
   background-color: #8c52ff !important;
 }
 
-.color-official2{
+.color-official2 {
   color: rgb(199, 161, 234);
 }
 
-.center-view{
-    max-width: 400 !important;
+.center-view {
+  max-width: 400 !important;
 }
 
-.activeTab{
+.activeTab {
   color: #8c52ff !important;
   background-color: rgb(239, 222, 255) !important;
 }
@@ -56,35 +56,143 @@
 
 } */
 
-.btn:active{
+.btn:active {
   border-color: transparent !important;
 }
 
-.red-info{
+.red-info {
   color: red;
 }
 
-.green-info{
+.green-info {
   color: rgb(0, 204, 51);
 }
 
-.card1{
+.card1 {
   background-color: rgb(246, 237, 255);
 }
 
-.card2{
+.card2 {
   background-color: #210064;
   color: white;
 }
 
-.green-card{
+.green-card {
   background-color: rgb(235, 255, 245);
 }
 
-.red-card{
+.red-card {
   background-color: rgb(255, 235, 235);
 }
 
-.bg-search{
+.bg-search {
   background-color: rgba(144, 139, 145, 0.048);
+}
+
+@media (min-width: 992px) {
+
+  /* .heading{
+    margin-bottom: 25px;
+    border-bottom: solid #8c52ff !important;
+  } */
+
+  .cardsContainer {
+    flex-direction: row !important;
+    justify-content: space-evenly;
+    border-top: 2px solid #8c52ff;
+    padding-top: 25px;
+  }
+
+  .cardsContainer2 {
+    margin-top: 25px;
+    flex-direction: column !important;
+    row-gap: 30px !important;
+    border: 0% !important;
+    padding: 0% !important;
+    width: fit-content;
+  }
+
+  .box-3 {
+    order: 3;
+  }
+
+  .unReg,
+  .cardsContainer .card,
+  .cardsContainer2 .card {
+    width: 25rem;
+    height: min-content;
+  }
+
+  .bankBox {
+    flex-direction: row-reverse !important;
+  }
+
+  .bankBox .card {
+    margin-top: 0% !important;
+  }
+
+  .containerActive {
+    display: flex !important;
+    align-items: center !important;
+  }
+
+  .containerActive2 {
+    display: flex;
+    flex-direction: row;
+    justify-content: center !important;
+  }
+
+  .containerDiv {
+    display: flex;
+    flex-direction: column;
+    max-width: 1200px;
+  }
+
+  .containerList {
+    max-width: 1200px !important;
+  }
+
+  .search-box {
+    max-width: 1200px;
+    width: calc(100% - 2rem);
+    padding: 0 7px;
+    margin-left: 1rem !important;
+    margin-right: 1rem !important;
+  }
+
+  .screen-hide {
+    display: none !important;
+  }
+
+  .screen-show {
+    display: block !important;
+    width: 40%;
+    position: sticky !important;
+  }
+
+  .disable-scroll {
+    height: auto !important;
+    overflow-y: hidden !important;
+  }
+
+  .screen-scroll {
+    width: 90%;
+    flex-grow: 1 !important;
+    overflow-y: hidden !important;
+  }
+
+  .screen-scroll > div {
+    height: 100vh !important;
+    overflow-y: auto !important;
+    overflow-y: scroll;
+    scrollbar-gutter: stable;
+    scrollbar-width: none;
+    padding-bottom: 30vh !important;
+  }
+
+  .profile-container{
+    max-width: 1200px;
+    width: calc(100% - 2rem);
+  }
+
 }
