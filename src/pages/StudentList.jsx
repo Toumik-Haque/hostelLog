@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import studentApi from '../api/studentApi'
+import toast from "react-hot-toast"
 
-export default function StudentList({students,}) {
+export default function StudentList({ students, fetchingData, }) {
 
     const [search, setSearch] = useState('')
     const [filter, setFilter] = useState('ALL')
@@ -28,6 +29,17 @@ export default function StudentList({students,}) {
     }
 
     useEffect(() => {
+
+        toast.promise(
+            fetchingData(),
+            {
+                loading: "Refreshing students data...",
+                success: "Students data updated!",
+                error: "Failed to refresh students data"
+            }
+        )
+
+        console.log('students fetched')
 
         const savedMarkActive = JSON.parse(
             localStorage.getItem("markActive") || 'false'

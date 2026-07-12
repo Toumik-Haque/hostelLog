@@ -5,7 +5,7 @@ import axios from 'axios'
 import QRCode from '../assets/agecboyshosii@sbi.png'
 import toast from "react-hot-toast"
 
-export default function AdminHostelStatus({ stats, }) {
+export default function AdminHostelStatus({ stats, fetchingData, }) {
 
     const copyUPI = async () => {
         try {
@@ -33,6 +33,21 @@ export default function AdminHostelStatus({ stats, }) {
             toast.error("Failed to copy.");
         }
     };
+
+    useEffect(() => {
+
+        toast.promise(
+            fetchingData(),
+            {
+                loading: "Refreshing hostel data...",
+                success: "Hostel data updated!",
+                error: "Failed to refresh hostel data"
+            }
+        )
+
+        console.log('Status fetched')
+
+    }, [])
 
     if (!stats) {
         return <div className='container px-4 py-3'>

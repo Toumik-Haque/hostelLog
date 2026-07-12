@@ -148,6 +148,7 @@ export default function StudentDashboard() {
         {activeTab === 'students' && (
           <StudentList
             students={students}
+            fetchingData={fetchingData}
           />
         )}
 
@@ -158,6 +159,7 @@ export default function StudentDashboard() {
         {activeTab === 'profile' && (
           <StudentProfile
             user={user}
+            fetchingData={fetchingData}
           />
         )}
 

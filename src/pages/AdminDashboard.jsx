@@ -126,7 +126,7 @@ export default function AdminDashboard() {
 
     const savedId = localStorage.getItem("studentId") || null
     setSelectedStudentId(savedId)
-  }, [])
+  }, []);
 
   return (
 
@@ -161,6 +161,7 @@ export default function AdminDashboard() {
         {activeTab === 'status' && (
           <AdminHostelStatus
             stats={stats}
+            fetchingData={fetchingData}
           />
         )}
 

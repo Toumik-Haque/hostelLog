@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import studentApi from '../api/studentApi'
+import toast from "react-hot-toast"
 
 export default function StudentHostelStatus({
   stats,
@@ -44,6 +45,21 @@ export default function StudentHostelStatus({
     }
 
   }
+
+  useEffect(() => {
+
+    toast.promise(
+      fetchingData(),
+      {
+        loading: "Refreshing status...",
+        success: "Status updated!",
+        error: "Failed to refresh status"
+      }
+    )
+
+    console.log('home fetched')
+
+  }, [])
 
   if (!stats || !user) {
     return <div className='container px-4 py-3'>

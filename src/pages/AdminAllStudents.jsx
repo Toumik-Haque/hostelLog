@@ -18,7 +18,6 @@ export default function AdminAllStudents({
     const [markAll, setMarkAll] = useState(false)
 
     const navigate = useNavigate()
-    // const [students, setStudents] = useState([])
 
     const [loading, setLoading] = useState(false)
 
@@ -40,6 +39,17 @@ export default function AdminAllStudents({
     }
 
     useEffect(() => {
+
+        toast.promise(
+            fetchingData(),
+            {
+                loading: "Refreshing students data...",
+                success: "Students data updated!",
+                error: "Failed to refresh students data"
+            }
+        )
+
+        console.log('Students data fetched')
 
         const savedMarkAll = JSON.parse(
             localStorage.getItem("markAll") || 'false'
@@ -318,7 +328,7 @@ export default function AdminAllStudents({
                 </div>
 
                 {/* Students List */}
-                {(students.length === 0)
+                {(students?.length === 0)
                     ? <div className='container px-4 py-3'>
                         <p className='text-center'>
                             <span

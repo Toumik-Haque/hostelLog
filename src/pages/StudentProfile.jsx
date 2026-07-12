@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import studentApi from '../api/studentApi'
 import toast from 'react-hot-toast'
 
-export default function StudentProfile({ user, }) {
+export default function StudentProfile({ user, fetchingData, }) {
 
   const [showModal, setShowModal] = useState(false)
 
@@ -72,6 +72,21 @@ export default function StudentProfile({ user, }) {
     setShowPasswords(false)
 
   }
+
+  useEffect(() => {
+
+    toast.promise(
+      fetchingData(),
+      {
+        loading: "Refreshing profile data...",
+        success: "Profile data updated!",
+        error: "Failed to refresh profile data"
+      }
+    )
+
+    console.log('profile fetched')
+
+  }, [])
 
   if (!user) {
     return <div className='container px-4 py-3'>
