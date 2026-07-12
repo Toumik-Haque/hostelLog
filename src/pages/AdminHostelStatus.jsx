@@ -5,27 +5,7 @@ import axios from 'axios'
 import QRCode from '../assets/agecboyshosii@sbi.png'
 import toast from "react-hot-toast"
 
-export default function AdminHostelStatus({ stats, fetchStats, }) {
-
-    // const [stats, setStats] = useState(null)
-
-    // const fetchStats = async () => {
-    //     try {
-
-    //         const res = await adminApi.get(
-    //             '/hostel/stats'
-    //         )
-
-    //         setStats(res.data)
-
-    //     } catch (err) {
-    //         console.log(err)
-    //     }
-    // }
-
-    useEffect(() => {
-        // fetchStats()
-    }, [])
+export default function AdminHostelStatus({ stats,}) {
 
     const copyUPI = async () => {
         try {
@@ -188,7 +168,7 @@ export default function AdminHostelStatus({ stats, fetchStats, }) {
                 <div className='my-4 card shadow-sm mx-4 border border-official text-center rounded p-2'>
                     <div className='fw-medium mb-2 fs-5'>SCAN & PAY</div>
                     <div>
-                        <img src={QRCode} alt="QR Code" srcset="" style={{ height: '175px' }} />
+                        <img src={QRCode} alt="QR Code" srcSet="" style={{ height: '175px' }} />
                     </div>
                     <div className='fs-small text-center text-secondary mt-2'>SBI - KAMKHYAGURI BRANCH</div>
                 </div>

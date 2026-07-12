@@ -35,7 +35,7 @@ export default function AdminDashboard() {
         '/hostel/stats'
       )
 
-      setStats(res.data)
+      return res.data
 
     } catch (err) {
       console.log(err)
@@ -49,7 +49,22 @@ export default function AdminDashboard() {
         '/admin/students-view'
       )
 
-      setStudents(res.data)
+      return res.data
+
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const fetchingData = async () => {
+    try {
+      const [statsData, studentsData] = await Promise.all([
+        fetchStats(),
+        fetchData(),
+      ])
+
+      setStats(statsData)
+      setStudents(studentsData)
 
     } catch (err) {
       console.log(err)
@@ -76,10 +91,7 @@ export default function AdminDashboard() {
         form
       )
 
-      await Promise.all([
-        fetchStats(),
-        fetchData()
-      ])
+      await fetchingData()
 
       setShowModal(false)
 
@@ -106,8 +118,8 @@ export default function AdminDashboard() {
 
   useEffect(() => {
 
-    fetchStats()
-    fetchData()
+    fetchingData()
+    console.log('calling...')
 
     const savedTab = localStorage.getItem("saveAdminTab") || "status"
     setActiveTab(savedTab)
@@ -125,7 +137,7 @@ export default function AdminDashboard() {
 
         <div className='d-flex justify-content-between'>
           <div>
-            <img src={logo} alt="hostelLog text logo" srcset="" style={{ height: '30px' }} />
+            <img src={logo} alt="hostelLog text logo" srcSet="" style={{ height: '30px' }} />
             < p className='m-0 ' > Admin Dashboard</p >
           </div >
 
@@ -149,16 +161,13 @@ export default function AdminDashboard() {
         {activeTab === 'status' && (
           <AdminHostelStatus
             stats={stats}
-            fetchStats={fetchStats}
           />
         )}
 
         {activeTab === 'students' && (
           <AdminAllStudents
-            stats={stats}
-            fetchStats={fetchStats}
             students={students}
-            fetchData={fetchData}
+            fetchingData={fetchingData}
             setActiveTab={setActiveTab}
             setSelectedStudentId={setSelectedStudentId}
           />

@@ -21,11 +21,10 @@ export default function StudentDashboard() {
   const fetchStats = async () => {
     try {
 
-      const res = await studentApi.get(
-        '/hostel/stats'
-      )
+      const res = await studentApi.get('/hostel/stats')
 
-      setStats(res.data)
+      // setStats(res.data) // set the state direct
+      return res.data       // return data instead of set the state
 
     } catch (err) {
       console.log(err)
@@ -35,20 +34,16 @@ export default function StudentDashboard() {
   const fetchUser = async () => {
     try {
 
-      const token =
-        localStorage.getItem('token')
+      const token = localStorage.getItem('token')
 
-      const res = await studentApi.get(
-        '/auth/me',
-        {
-          headers: {
-            Authorization:
-              `Bearer ${token}`
-          }
+      const res = await studentApi.get('/auth/me', {
+        headers: {
+          Authorization: `Bearer ${token}`
         }
-      )
+      })
 
-      setUser(res.data.user)
+      // setUser(res.data.user)  // set the state direct
+      return res.data.user       // return data instead of set the state
 
     } catch (err) {
       console.log(err)
@@ -62,7 +57,27 @@ export default function StudentDashboard() {
         '/student/students-view'
       )
 
-      setStudents(res.data)
+      // setStudents(res.data)  // set the state direct
+      return res.data           // return data instead of set the state
+
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const fetchingData = async () => {
+    try {
+      // Finish all fetches together
+      const [statsData, userData, studentsData] = await Promise.all([
+        fetchStats(),
+        fetchUser(),
+        fetchData(),
+      ])
+
+      // Update UI together
+      setStats(statsData)
+      setUser(userData)
+      setStudents(studentsData)
 
     } catch (err) {
       console.log(err)
@@ -71,9 +86,7 @@ export default function StudentDashboard() {
 
   useEffect(() => {
 
-    fetchStats()
-    fetchUser()
-    fetchData()
+    fetchingData()
 
     const token = localStorage.getItem('token');
     if (!token) {
@@ -128,9 +141,7 @@ export default function StudentDashboard() {
           <StudentHostelStatus
             stats={stats}
             user={user}
-            fetchStats={fetchStats}
-            fetchUser={fetchUser}
-            fetchData={fetchData}
+            fetchingData={fetchingData}
           />
         )}
 

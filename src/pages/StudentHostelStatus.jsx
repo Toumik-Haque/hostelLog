@@ -1,13 +1,10 @@
 import { useEffect, useState } from 'react'
-import axios from 'axios'
 import studentApi from '../api/studentApi'
 
 export default function StudentHostelStatus({
   stats,
-  fetchStats,
   user,
-  fetchUser,
-  fetchData,
+  fetchingData,
 }) {
 
   const [loading, setLoading] = useState(false)
@@ -17,12 +14,9 @@ export default function StudentHostelStatus({
     try {
 
       setLoading(true)
+      const token = localStorage.getItem('token')
 
-      const token =
-        localStorage.getItem('token')
-
-      const res = await studentApi.put(
-        '/hostel/toggle-status',
+      const res = await studentApi.put('/hostel/toggle-status',
         {},
         {
           headers: {
@@ -40,9 +34,8 @@ export default function StudentHostelStatus({
       //   lastStatusChange: res.data.lastStatusChange
       // })
 
-      await fetchData()
-      await fetchStats()
-      await fetchUser()
+      await fetchingData()
+
 
     } catch (err) {
       console.log(err)

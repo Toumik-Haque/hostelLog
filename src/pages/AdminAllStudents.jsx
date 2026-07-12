@@ -3,7 +3,12 @@ import { useNavigate } from 'react-router-dom'
 import adminApi from '../api/adminApi'
 import toast from "react-hot-toast"
 
-export default function AdminAllStudents({ stats, fetchStats, students, fetchData, setActiveTab, setSelectedStudentId, }) {
+export default function AdminAllStudents({
+     students,
+     fetchingData,
+     setActiveTab,
+     setSelectedStudentId, 
+}) {
 
     const [search, setSearch] = useState('')
     const [filter, setFilter] = useState('ALL')
@@ -34,22 +39,7 @@ export default function AdminAllStudents({ stats, fetchStats, students, fetchDat
         localStorage.removeItem("markAll")
     }
 
-    // const fetchData = async () => {
-    //     try {
-
-    //         const res = await adminApi.get(
-    //             '/admin/students-view'
-    //         )
-
-    //         setStudents(res.data)
-
-    //     } catch (err) {
-    //         console.log(err)
-    //     }
-    // }
-
     useEffect(() => {
-        // fetchData()
 
         const savedMarkAll = JSON.parse(
             localStorage.getItem("markAll") || 'false'
@@ -151,10 +141,7 @@ export default function AdminAllStudents({ stats, fetchStats, students, fetchDat
                 )
             );
 
-            await Promise.all([
-                fetchStats(),
-                fetchData()
-            ]);
+            await fetchingData()
 
             hideMark();
             setDeleteModal(false);
