@@ -1,17 +1,19 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import adminApi from '../api/adminApi'
 import toast from "react-hot-toast"
 
 export default function AdminAllStudents({
-     students,
-     fetchingData,
-     setActiveTab,
-     setSelectedStudentId, 
+    students,
+    fetchingData,
+    setActiveTab,
+    setSelectedStudentId,
 }) {
 
     const [search, setSearch] = useState('')
     const [filter, setFilter] = useState('ALL')
+
+    const isMounted = useRef(true)
 
     const [markActiveAdmin, setMarkActiveAdmin] = useState(false)
     const [selectedStudents, setSelectedStudents] = useState({})
@@ -40,14 +42,47 @@ export default function AdminAllStudents({
 
     useEffect(() => {
 
-        toast.promise(
-            fetchingData(),
-            {
-                loading: "Refreshing students data...",
-                success: "Students data updated!",
-                error: "Failed to refresh students data"
+        isMounted.current = true
+
+        const toastId = toast.loading("Loading...", { toasterId: 'center' })
+
+        const loadData = async () => {
+
+            try {
+                await fetchingData()
+
+                if (isMounted.current) {
+                    toast.success("Loaded!",
+                        {
+                            id: toastId,
+                            toasterId: 'center',
+                        }
+                    )
+                } else {
+                    toast.dismiss(toastId)
+                }
+            } catch (err) {
+
+                if (isMounted.current) {
+                    toast.error("Failed!",
+                        {
+                            id: toastId,
+                            toasterId: 'center',
+                        }
+                    )
+                } else {
+                    toast.dismiss(toastId)
+                }
             }
-        )
+        }
+
+        loadData()
+
+        return () => {
+            isMounted.current = false
+            // controller.abort(); // cancel fetch
+            toast.dismiss(toastId)    // remove toast
+        }
 
         console.log('Students data fetched')
 
@@ -202,7 +237,7 @@ export default function AdminAllStudents({
             {markActiveAdmin && (
                 <div className='position-fixed top-0 end-0 me-4 pt-3 mt-5 d-flex align-items-center gap-2 color-official'>
                     <span>Select All</span>
-                    <div className='d-flex' style={{ cursor: 'pointer'}} onClick={toggleAllMark}>
+                    <div className='d-flex' style={{ cursor: 'pointer' }} onClick={toggleAllMark}>
                         {markAll ?
                             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" className="bi bi-check-square-fill" viewBox="0 0 16 16">
                                 <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm10.03 4.97a.75.75 0 0 1 .011 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.75.75 0 0 1 1.08-.022z" />
@@ -339,8 +374,8 @@ export default function AdminAllStudents({
                     </div>
                     : <div className={`row g-3 containerList
                         ${(Object.keys(selectedStudents).length !== 0) && (
-                                'mb-5'
-                            )}
+                            'mb-5'
+                        )}
                     `}>
 
                         {students

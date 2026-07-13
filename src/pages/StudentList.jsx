@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import studentApi from '../api/studentApi'
 import toast from "react-hot-toast"
@@ -7,6 +7,7 @@ export default function StudentList({ students, fetchingData, }) {
 
     const [search, setSearch] = useState('')
     const [filter, setFilter] = useState('ALL')
+    const isMounted = useRef(true)
 
     const [markActive, setMarkActive] = useState(false)
     const [markedStudents, setMarkedStudents] = useState({})
@@ -30,14 +31,47 @@ export default function StudentList({ students, fetchingData, }) {
 
     useEffect(() => {
 
-        toast.promise(
-            fetchingData(),
-            {
-                loading: "Refreshing students data...",
-                success: "Students data updated!",
-                error: "Failed to refresh students data"
+        isMounted.current = true
+
+        const toastId = toast.loading("Loading...", { toasterId: 'center' })
+
+        const loadData = async () => {
+
+            try {
+                await fetchingData()
+
+                if (isMounted.current) {
+                    toast.success("Loaded!",
+                        {
+                            id: toastId,
+                            toasterId: 'center',
+                        }
+                    )
+                } else {
+                    toast.dismiss(toastId)
+                }
+            } catch (err) {
+
+                if (isMounted.current) {
+                    toast.error("Failed!",
+                        {
+                            id: toastId,
+                            toasterId: 'center',
+                        }
+                    )
+                } else {
+                    toast.dismiss(toastId)
+                }
             }
-        )
+        }
+
+        loadData()
+
+        return () => {
+            isMounted.current = false
+            // controller.abort(); // cancel fetch
+            toast.dismiss(toastId)    // remove toast
+        }
 
         console.log('students fetched')
 

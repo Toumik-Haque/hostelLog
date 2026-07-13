@@ -1,8 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import studentApi from '../api/studentApi'
 import toast from 'react-hot-toast'
 
 export default function StudentProfile({ user, fetchingData, }) {
+
+  const isMounted = useRef(true)
 
   const [showModal, setShowModal] = useState(false)
 
@@ -75,14 +77,47 @@ export default function StudentProfile({ user, fetchingData, }) {
 
   useEffect(() => {
 
-    toast.promise(
-      fetchingData(),
-      {
-        loading: "Refreshing profile data...",
-        success: "Profile data updated!",
-        error: "Failed to refresh profile data"
+    isMounted.current = true
+
+    const toastId = toast.loading("Loading...", { toasterId: 'center' })
+
+    const loadData = async () => {
+
+      try {
+        await fetchingData()
+
+        if (isMounted.current) {
+          toast.success("Loaded!",
+            {
+              id: toastId,
+              toasterId: 'center',
+            }
+          )
+        } else {
+          toast.dismiss(toastId)
+        }
+      } catch (err) {
+
+        if (isMounted.current) {
+          toast.error("Failed!",
+            {
+              id: toastId,
+              toasterId: 'center',
+            }
+          )
+        } else {
+          toast.dismiss(toastId)
+        }
       }
-    )
+    }
+
+    loadData()
+
+    return () => {
+      isMounted.current = false
+      // controller.abort(); // cancel fetch
+      toast.dismiss(toastId)    // remove toast
+    }
 
     console.log('profile fetched')
 

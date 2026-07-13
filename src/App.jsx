@@ -32,12 +32,27 @@ import ProtectedAdmin from './components/ProtectedAdmin'
 
 function App() {
   return (
-    
+
     <BrowserRouter>
 
       <>
-        <Toaster position="top-center" />
+
+        <Toaster
+          toasterId='default'
+          position="top-center"
+        />
+        <Toaster
+          toasterId='center'
+          containerStyle={{
+            top: "60%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+          }}
+        />
+        
       </>
+
+
       <Routes>
 
         {/* =======================
@@ -63,10 +78,10 @@ function App() {
             ADMIN PROTECTED ROUTES
         ======================= */}
         <Route path="/admin" element={
-            <ProtectedAdmin>
-              <AdminDashboard />
-            </ProtectedAdmin>
-          }
+          <ProtectedAdmin>
+            <AdminDashboard />
+          </ProtectedAdmin>
+        }
         />
 
         {/* <Route path="/admin/students" element={
@@ -77,10 +92,10 @@ function App() {
         /> */}
 
         <Route path="/admin/student/:id" element={
-            <ProtectedAdmin>
-              <StudentDetail />
-            </ProtectedAdmin>
-          }
+          <ProtectedAdmin>
+            <StudentDetail />
+          </ProtectedAdmin>
+        }
         />
 
       </Routes>
