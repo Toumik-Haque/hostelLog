@@ -50,17 +50,19 @@ export default function AdminAllStudents({
 
             try {
                 await fetchingData()
+                toast.dismiss(toastId)
 
-                if (isMounted.current) {
-                    toast.success("Loaded!",
-                        {
-                            id: toastId,
-                            toasterId: 'center',
-                        }
-                    )
-                } else {
-                    toast.dismiss(toastId)
-                }
+                // if (isMounted.current) {
+                //     toast.success("Loaded!",
+                //         {
+                //             id: toastId,
+                //             toasterId: 'center',
+                //         }
+                //     )
+                // } else {
+                //     toast.dismiss(toastId)
+                // }
+
             } catch (err) {
 
                 if (isMounted.current) {
@@ -363,190 +365,179 @@ export default function AdminAllStudents({
                 </div>
 
                 {/* Students List */}
-                {(students?.length === 0)
-                    ? <div className='container px-4 py-3'>
-                        <p className='text-center'>
-                            <span
-                                className="spinner-border spinner-border-sm"
-                                role="status"
-                            ></span>
-                        </p>
-                    </div>
-                    : <div className={`row g-3 containerList
+                <div className={`row g-3 containerList
                         ${(Object.keys(selectedStudents).length !== 0) && (
-                            'mb-5'
-                        )}
+                        'mb-5'
+                    )}
                     `}>
 
-                        {students
-                            .filter(s => {
+                    {students
+                        .filter(s => {
 
-                                const matchesSearch =
-                                    s.name?.toLowerCase().includes(search.toLowerCase()) ||
-                                    String(s.roomNo || '')
-                                        .toLowerCase()
-                                        .includes(search.toLowerCase())
+                            const matchesSearch =
+                                s.name?.toLowerCase().includes(search.toLowerCase()) ||
+                                String(s.roomNo || '')
+                                    .toLowerCase()
+                                    .includes(search.toLowerCase())
 
-                                let matchesFilter = true
+                            let matchesFilter = true
 
-                                if (filter === 'VEG') {
-                                    matchesFilter =
-                                        s.foodPreference === 'Veg'
-                                }
+                            if (filter === 'VEG') {
+                                matchesFilter =
+                                    s.foodPreference === 'Veg'
+                            }
 
-                                if (filter === 'CHICKEN') {
-                                    matchesFilter =
-                                        s.dontEat?.includes('Chicken')
-                                }
+                            if (filter === 'CHICKEN') {
+                                matchesFilter =
+                                    s.dontEat?.includes('Chicken')
+                            }
 
-                                if (filter === 'FISH') {
-                                    matchesFilter =
-                                        s.dontEat?.includes('Fish')
-                                }
+                            if (filter === 'FISH') {
+                                matchesFilter =
+                                    s.dontEat?.includes('Fish')
+                            }
 
-                                if (filter === 'EGG') {
-                                    matchesFilter =
-                                        s.dontEat?.includes('Egg')
-                                }
+                            if (filter === 'EGG') {
+                                matchesFilter =
+                                    s.dontEat?.includes('Egg')
+                            }
 
-                                if (filter === 'PRESENT') {
-                                    matchesFilter = s.status === 'PRESENT'
-                                }
+                            if (filter === 'PRESENT') {
+                                matchesFilter = s.status === 'PRESENT'
+                            }
 
-                                if (filter === 'ABSENT') {
-                                    matchesFilter = s.status === 'ABSENT'
-                                }
+                            if (filter === 'ABSENT') {
+                                matchesFilter = s.status === 'ABSENT'
+                            }
 
-                                if (filter === 'UNREGISTERED') {
-                                    matchesFilter = s.status === 'UNREGISTERED'
-                                }
+                            if (filter === 'UNREGISTERED') {
+                                matchesFilter = s.status === 'UNREGISTERED'
+                            }
 
-                                return matchesSearch && matchesFilter
+                            return matchesSearch && matchesFilter
 
-                            })
-                            .map(s => (
+                        })
+                        .map(s => (
+
+                            <div
+                                key={s.id}
+                                className="col-12"
+                            >
 
                                 <div
-                                    key={s.id}
-                                    className="col-12"
-                                >
-
-                                    <div
-                                        className={`card shadow-sm border-0 rounded-4 
+                                    className={`card shadow-sm border-0 rounded-4 
                                         ${getCardClass(s.status)}
                                         ${selectedStudents[s.id] && ('card2')}`}
-                                    >
+                                >
 
-                                        <div className="card-body">
+                                    <div className="card-body">
 
-                                            <div className="d-fle justify-content-between">
+                                        <div className="d-fle justify-content-between">
 
-                                                <div className='d-flex w-100 gap-2 mb-2'>
-
-                                                    <div>
-                                                        <span
-                                                            className={`badge ${getBadge(s.status)}`}
-                                                        >
-                                                            {s.status}
-                                                        </span>
-                                                    </div>
-
-                                                    <p className={`m-0 d-flex gap-1 border-bottom
-                                                        ${selectedStudents[s.id] ?
-                                                            'color-official border-official'
-                                                            : 'text-muted border-secondary'
-                                                        }
-                                                    `}>
-
-                                                        {s.lastStatusChange
-                                                            ? <span >from</span>
-                                                            : null}
-
-                                                        {s.lastStatusChange
-                                                            ? new Date(
-                                                                s.lastStatusChange
-                                                            ).toLocaleString('en-IN', {
-                                                                hour: '2-digit',
-                                                                minute: '2-digit',
-                                                                day: '2-digit',
-                                                                month: '2-digit',
-                                                                year: '2-digit'
-                                                            })
-                                                            : null}
-                                                    </p>
-
-                                                </div>
+                                            <div className='d-flex w-100 gap-2 mb-2'>
 
                                                 <div>
+                                                    <span
+                                                        className={`badge ${getBadge(s.status)}`}
+                                                    >
+                                                        {s.status}
+                                                    </span>
+                                                </div>
 
-                                                    <h5>{s.name}</h5>
+                                                <p className={`m-0 d-flex gap-1 border-bottom
+                                                        ${selectedStudents[s.id] ?
+                                                        'color-official border-official'
+                                                        : 'text-muted border-secondary'
+                                                    }
+                                                    `}>
 
-                                                    <div className='d-flex justify-content-between'>
-                                                        {s.status === 'UNREGISTERED'
-                                                            ? null
-                                                            : <div className='d-flex gap-3'>
-                                                                <p className='mb-1 d-flex gap-1 align-items-center'>
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor" className="color-official bi bi-telephone-fill" viewBox="0 0 16 16">
-                                                                        <path fillRule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z" />
-                                                                    </svg>
-                                                                    {s.mobile}
-                                                                </p>
-                                                                <p className="mb-1">
-                                                                    Room: {s.roomNo}
-                                                                </p>
-                                                            </div>
-                                                        }
+                                                    {s.lastStatusChange
+                                                        ? <span >from</span>
+                                                        : null}
+
+                                                    {s.lastStatusChange
+                                                        ? new Date(
+                                                            s.lastStatusChange
+                                                        ).toLocaleString('en-IN', {
+                                                            hour: '2-digit',
+                                                            minute: '2-digit',
+                                                            day: '2-digit',
+                                                            month: '2-digit',
+                                                            year: '2-digit'
+                                                        })
+                                                        : null}
+                                                </p>
+
+                                            </div>
+
+                                            <div>
+
+                                                <h5>{s.name}</h5>
+
+                                                <div className='d-flex justify-content-between'>
+                                                    {s.status === 'UNREGISTERED'
+                                                        ? null
+                                                        : <div className='d-flex gap-3'>
+                                                            <p className='mb-1 d-flex gap-1 align-items-center'>
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor" className="color-official bi bi-telephone-fill" viewBox="0 0 16 16">
+                                                                    <path fillRule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z" />
+                                                                </svg>
+                                                                {s.mobile}
+                                                            </p>
+                                                            <p className="mb-1">
+                                                                Room: {s.roomNo}
+                                                            </p>
+                                                        </div>
+                                                    }
 
 
-                                                        <div className={`d-flex justify-content-end align-items-center gap-2
+                                                    <div className={`d-flex justify-content-end align-items-center gap-2
                                                         ${s.status === 'UNREGISTERED' && ('w-100')}
                                                         `}>
-                                                            {/* Go to Stident Detail Page */}
-                                                            <div className='d-flex' style={{ cursor: "pointer" }} onClick={() => {
-                                                                setSelectedStudentId(s.id);
-                                                                localStorage.setItem("studentId", (s.id))
-                                                                setActiveTab("single");
-                                                                localStorage.setItem("saveAdminTab", "single")
-                                                            }}>
+                                                        {/* Go to Stident Detail Page */}
+                                                        <div className='d-flex' style={{ cursor: "pointer" }} onClick={() => {
+                                                            setSelectedStudentId(s.id);
+                                                            localStorage.setItem("studentId", (s.id))
+                                                            setActiveTab("single");
+                                                            localStorage.setItem("saveAdminTab", "single")
+                                                        }}>
 
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" className="color-official bi bi-person-fill-gear" viewBox="0 0 16 16">
-                                                                    <path d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0m-9 8c0 1 1 1 1 1h5.256A4.5 4.5 0 0 1 8 12.5a4.5 4.5 0 0 1 1.544-3.393Q8.844 9.002 8 9c-5 0-6 3-6 4m9.886-3.54c.18-.613 1.048-.613 1.229 0l.043.148a.64.64 0 0 0 .921.382l.136-.074c.561-.306 1.175.308.87.869l-.075.136a.64.64 0 0 0 .382.92l.149.045c.612.18.612 1.048 0 1.229l-.15.043a.64.64 0 0 0-.38.921l.074.136c.305.561-.309 1.175-.87.87l-.136-.075a.64.64 0 0 0-.92.382l-.045.149c-.18.612-1.048.612-1.229 0l-.043-.15a.64.64 0 0 0-.921-.38l-.136.074c-.561.305-1.175-.309-.87-.87l.075-.136a.64.64 0 0 0-.382-.92l-.148-.045c-.613-.18-.613-1.048 0-1.229l.148-.043a.64.64 0 0 0 .382-.921l-.074-.136c-.306-.561.308-1.175.869-.87l.136.075a.64.64 0 0 0 .92-.382zM14 12.5a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0" />
-                                                                </svg>
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" className="color-official bi bi-person-fill-gear" viewBox="0 0 16 16">
+                                                                <path d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0m-9 8c0 1 1 1 1 1h5.256A4.5 4.5 0 0 1 8 12.5a4.5 4.5 0 0 1 1.544-3.393Q8.844 9.002 8 9c-5 0-6 3-6 4m9.886-3.54c.18-.613 1.048-.613 1.229 0l.043.148a.64.64 0 0 0 .921.382l.136-.074c.561-.306 1.175.308.87.869l-.075.136a.64.64 0 0 0 .382.92l.149.045c.612.18.612 1.048 0 1.229l-.15.043a.64.64 0 0 0-.38.921l.074.136c.305.561-.309 1.175-.87.87l-.136-.075a.64.64 0 0 0-.92.382l-.045.149c-.18.612-1.048.612-1.229 0l-.043-.15a.64.64 0 0 0-.921-.38l-.136.074c-.561.305-1.175-.309-.87-.87l.075-.136a.64.64 0 0 0-.382-.92l-.148-.045c-.613-.18-.613-1.048 0-1.229l.148-.043a.64.64 0 0 0 .382-.921l-.074-.136c-.306-.561.308-1.175.869-.87l.136.075a.64.64 0 0 0 .92-.382zM14 12.5a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0" />
+                                                            </svg>
 
+                                                        </div>
+
+                                                        {/* Select box */}
+                                                        {markActiveAdmin ?
+
+                                                            <div className='d-flex shadow-sm' style={{ cursor: "pointer" }} onClick={() => toggleMark(s.id)}>
+                                                                {selectedStudents[s.id] ?
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" className="color-official bi bi-check-square-fill" viewBox="0 0 16 16">
+                                                                        <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm10.03 4.97a.75.75 0 0 1 .011 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.75.75 0 0 1 1.08-.022z" />
+                                                                    </svg>
+                                                                    : <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" className="color-official bi bi-square" viewBox="0 0 16 16">
+                                                                        <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z" />
+                                                                    </svg>
+                                                                }
                                                             </div>
 
-                                                            {/* Select box */}
-                                                            {markActiveAdmin ?
-
-                                                                <div className='d-flex shadow-sm' style={{ cursor: "pointer" }} onClick={() => toggleMark(s.id)}>
-                                                                    {selectedStudents[s.id] ?
-                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" className="color-official bi bi-check-square-fill" viewBox="0 0 16 16">
-                                                                            <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm10.03 4.97a.75.75 0 0 1 .011 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.75.75 0 0 1 1.08-.022z" />
-                                                                        </svg>
-                                                                        : <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" className="color-official bi bi-square" viewBox="0 0 16 16">
-                                                                            <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z" />
-                                                                        </svg>
-                                                                    }
-                                                                </div>
-
-                                                                : null
-                                                            }
-                                                        </div>
+                                                            : null
+                                                        }
                                                     </div>
-
-                                                    {s.foodPreference === 'Veg' && (
-                                                        <p className='mb-1'>
-                                                            Food Preference: Pure Veg
-                                                        </p>
-                                                    )}
-
-                                                    {s.dontEat?.length > 0 && (
-                                                        <p className='mb-1'>
-                                                            Doesn't Eat: {s.dontEat.join(', ')}
-                                                        </p>
-                                                    )}
-
                                                 </div>
+
+                                                {s.foodPreference === 'Veg' && (
+                                                    <p className='mb-1'>
+                                                        Food Preference: Pure Veg
+                                                    </p>
+                                                )}
+
+                                                {s.dontEat?.length > 0 && (
+                                                    <p className='mb-1'>
+                                                        Doesn't Eat: {s.dontEat.join(', ')}
+                                                    </p>
+                                                )}
 
                                             </div>
 
@@ -556,32 +547,33 @@ export default function AdminAllStudents({
 
                                 </div>
 
-                            ))
-                        }
+                            </div>
 
-                        <div className='position-absolute start-0 bottom-0 mb-2 py-0'
-                            style={{ width: "min-content" }}
-                        >
+                        ))
+                    }
 
-                            {/* Button - Delete Selected */}
-                            {(Object.keys(selectedStudents).length !== 0) && (
-                                <div className='card bg-white shadow-sm p-1 rounded-circle'>
-                                    <button className='btn btn-danger rounded-circle d-flex p-2' onClick={() => setDeleteModal(true)}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-trash-fill" viewBox="0 0 16 16">
-                                            <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0" />
-                                        </svg>
-                                    </button>
-                                </div>
-                            )}
+                    <div className='position-absolute start-0 bottom-0 mb-2 py-0'
+                        style={{ width: "min-content" }}
+                    >
 
-                        </div>
-
-
-
-
+                        {/* Button - Delete Selected */}
+                        {(Object.keys(selectedStudents).length !== 0) && (
+                            <div className='card bg-white shadow-sm p-1 rounded-circle'>
+                                <button className='btn btn-danger rounded-circle d-flex p-2' onClick={() => setDeleteModal(true)}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-trash-fill" viewBox="0 0 16 16">
+                                        <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0" />
+                                    </svg>
+                                </button>
+                            </div>
+                        )}
 
                     </div>
-                }
+
+
+
+
+
+                </div>
 
             </div>
 

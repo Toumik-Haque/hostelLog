@@ -57,17 +57,19 @@ export default function StudentHostelStatus({
 
       try {
         await fetchingData()
+        toast.dismiss(toastId)
 
-        if (isMounted.current) {
-          toast.success("Loaded!",
-            {
-              id: toastId,
-              toasterId: 'center',
-            }
-          )
-        } else {
-          toast.dismiss(toastId)
-        }
+        // if (isMounted.current) {
+        //   toast.success("Loaded!",
+        //     {
+        //       id: toastId,
+        //       toasterId: 'center',
+        //     }
+        //   )
+        // } else {
+        //   toast.dismiss(toastId)
+        // }
+        
       } catch (err) {
 
         if (isMounted.current) {
@@ -98,10 +100,10 @@ export default function StudentHostelStatus({
   if (!stats || !user) {
     return <div className='container px-4 py-3'>
       <p className='text-center'>
-        <span
+        {/* <span
           className="spinner-border spinner-border-sm"
           role="status"
-        ></span>
+        ></span> */}
       </p>
     </div>
   }
