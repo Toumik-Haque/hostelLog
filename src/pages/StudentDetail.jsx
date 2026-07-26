@@ -76,6 +76,10 @@ export default function StudentDetail({ id, fetchingData, }) {
 
   }
 
+  const toggleStatus = async () => {
+    const res = await adminApi.put(`hostel/toggle-status/${id}`)
+  }
+
   const handleSave = async () => {
 
     try {
@@ -230,8 +234,6 @@ export default function StudentDetail({ id, fetchingData, }) {
 
           <div className="card-body">
 
-
-
             {/* Student Details */}
             <div className="row g-3">
 
@@ -247,11 +249,13 @@ export default function StudentDetail({ id, fetchingData, }) {
                       : (userForm.name || "")
                   }
                   disabled={!isEditing}
-                  onChange={
-                    type === "UNREGISTERED"
-                      ? (handleApprovedChange)
-                      : (handleUserChange)
-                  }
+                  onChange={(e) => {
+                    handleApprovedChange(e)
+                    
+                    if (type !== "UNREGISTERED"){
+                      handleUserChange(e)
+                    }
+                  }}
                 />
               </div>
 
@@ -267,11 +271,13 @@ export default function StudentDetail({ id, fetchingData, }) {
                       : (userForm.rollNo || "")
                   }
                   disabled={!isEditing}
-                  onChange={
-                    type === "UNREGISTERED"
-                      ? (handleApprovedChange)
-                      : (handleUserChange)
-                  }
+                  onChange={(e) => {
+                    handleApprovedChange(e)
+                    
+                    if (type !== "UNREGISTERED"){
+                      handleUserChange(e)
+                    }
+                  }}
                 />
               </div>
 
@@ -287,11 +293,13 @@ export default function StudentDetail({ id, fetchingData, }) {
                       : (userForm.email || "")
                   }
                   disabled={!isEditing}
-                  onChange={
-                    type === "UNREGISTERED"
-                      ? (handleApprovedChange)
-                      : (handleUserChange)
-                  }
+                  onChange={(e) => {
+                    handleApprovedChange(e)
+
+                    if (type !== "UNREGISTERED"){
+                      handleUserChange(e)
+                    }
+                  }}
                 />
               </div>
 
@@ -522,7 +530,10 @@ export default function StudentDetail({ id, fetchingData, }) {
                     name="hostelStatus"
                     value={userForm.hostelStatus || ''}
                     disabled={!isEditing}
-                    onChange={handleUserChange}
+                    onChange={(e) => {
+                      handleUserChange(e);
+                      toggleStatus();
+                    }}
                   >
 
                     <option value="IN">IN</option>
@@ -545,7 +556,13 @@ export default function StudentDetail({ id, fetchingData, }) {
                     className="form-control"
                     value={new Date(
                       userForm.lastStatusChange
-                    ).toLocaleString()}
+                    ).toLocaleString('en-IN', {
+                      hour: '2-digit',
+                      minute: '2-digit',
+                      day: '2-digit',
+                      month: '2-digit',
+                      year: '2-digit'
+                    })}
                     disabled
                   />
 

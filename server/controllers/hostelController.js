@@ -6,9 +6,17 @@ export const toggleHostelStatus = async (req, res) => {
   console.log("toggleHostelStatus called");
   try {
 
-    const userId = req.user.id
+    let user;
 
-    const user = await User.findById(userId)
+    if (req.user) {
+      const userId = req.user.id
+      user = await User.findById(userId)
+    }
+
+    else if (req.admin) {
+      const { id } = req.params
+      user = await User.findById(id)
+    }
 
     if (!user) {
       return res.status(404).json({

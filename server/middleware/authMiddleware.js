@@ -1,12 +1,12 @@
 import jwt from "jsonwebtoken"
 import User from "../models/User.js"
+import Admin from "../models/Admin.js"
 
 const protect = async (req, res, next) => {
   try {
 
     // 1. Get token from header
-    const authHeader =
-      req.headers.authorization
+    const authHeader = req.headers.authorization
 
     if (!authHeader) {
       return res.status(401).json({
@@ -15,8 +15,7 @@ const protect = async (req, res, next) => {
     }
 
     // 2. Format: "Bearer token"
-    const token =
-      authHeader.split(' ')[1]
+    const token = authHeader.split(' ')[1]
 
     if (!token) {
       return res.status(401).json({
@@ -32,18 +31,31 @@ const protect = async (req, res, next) => {
       )
 
     // 4. Attach user data to request
+
+          // Check if it's a student
     const user = await User.findById(decoded.id)
       .select('-password')
 
-    if (!user) {
+    if (user) {
+      req.user = user;
+      req.role = "student";
+      return next();
+    }
+
+          // Otherwise check if it's an admin
+    const admin = await Admin.findById(decoded.id).select("-password");
+
+    if (admin) {
+      req.admin = admin;
+      req.role = "admin";
+      return next();
+    }
+
+    if (!user && !admin) {
       return res.status(404).json({
         message: 'User not found'
       })
     }
-
-    req.user = user
-
-    next()
 
   } catch (error) {
 

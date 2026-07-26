@@ -208,7 +208,7 @@ export const deleteStudent = async (req, res) => {
 
 export const updateStudent = async (req, res) => {
 
-  try {
+  try { 
 
     console.log("ID:", req.params.id)
 
