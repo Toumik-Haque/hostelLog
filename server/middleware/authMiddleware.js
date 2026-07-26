@@ -32,7 +32,7 @@ const protect = async (req, res, next) => {
 
     // 4. Attach user data to request
 
-          // Check if it's a student
+    // Check if it's a student
     const user = await User.findById(decoded.id)
       .select('-password')
 
@@ -42,7 +42,7 @@ const protect = async (req, res, next) => {
       return next();
     }
 
-          // Otherwise check if it's an admin
+    // Otherwise check if it's an admin
     const admin = await Admin.findById(decoded.id).select("-password");
 
     if (admin) {
@@ -51,11 +51,9 @@ const protect = async (req, res, next) => {
       return next();
     }
 
-    if (!user && !admin) {
-      return res.status(404).json({
-        message: 'User not found'
-      })
-    }
+    return res.status(404).json({
+      message: 'User not found'
+    })
 
   } catch (error) {
 

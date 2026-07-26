@@ -42,6 +42,7 @@ export default function StudentDetail({ id, fetchingData, }) {
 
         setUser(res.data.user)
         setUserForm(res.data.user)
+        console.log(userForm);
 
       }
 
@@ -77,7 +78,8 @@ export default function StudentDetail({ id, fetchingData, }) {
   }
 
   const toggleStatus = async () => {
-    const res = await adminApi.put(`hostel/toggle-status/${id}`)
+    console.log(user._id)
+    const res = await adminApi.put(`hostel/toggle-status/${user._id}`)
   }
 
   const handleSave = async () => {

@@ -14,7 +14,12 @@ export const toggleHostelStatus = async (req, res) => {
     }
 
     else if (req.admin) {
-      
+      if (!req.params.id) {
+        return res.status(400).json({
+          message: "Student ID is required"
+        });
+      }
+
       user = await User.findById(req.params.id)
     }
 
