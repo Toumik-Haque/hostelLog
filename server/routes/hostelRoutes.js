@@ -10,7 +10,13 @@ import {
 
 // Toggle IN/OUT
 router.put(
-  '/toggle-status/:id?',
+  '/toggle-status/',
+  protect,
+  toggleHostelStatus
+)
+
+router.put(
+  '/toggle-status/:id',
   protect,
   toggleHostelStatus
 )

@@ -14,8 +14,8 @@ export const toggleHostelStatus = async (req, res) => {
     }
 
     else if (req.admin) {
-      const { id } = req.params
-      user = await User.findById(id)
+      
+      user = await User.findById(req.params.id)
     }
 
     if (!user) {
