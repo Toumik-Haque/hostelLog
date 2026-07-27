@@ -17,13 +17,18 @@ export default function AdminAllStudents({
 
     const [markActiveAdmin, setMarkActiveAdmin] = useState(false)
     const [selectedStudents, setSelectedStudents] = useState({})
+    const [markedList, setMarkedList] = useState([])
     const [markAll, setMarkAll] = useState(false)
 
     const navigate = useNavigate()
 
     const [loading, setLoading] = useState(false)
 
+    const [btnShow, setBtnShow] = useState(false)
+
     const [deleteModal, setDeleteModal] = useState(false)
+    const [absentModal, setAbsentModal] = useState(false)
+    const [presentModal, setPresentModal] = useState(false)
 
     const showMark = () => {
         setMarkActiveAdmin(true)
@@ -36,8 +41,12 @@ export default function AdminAllStudents({
 
         setSelectedStudents({})
         localStorage.removeItem("selectedStudents")
+        setMarkedList([])
+        localStorage.removeItem("markedList")
         setMarkAll(false)
         localStorage.removeItem("markAll")
+
+        setBtnShow(false)
     }
 
     useEffect(() => {
@@ -106,6 +115,12 @@ export default function AdminAllStudents({
 
         setSelectedStudents(savedMarks)
 
+        const savedList = JSON.parse(
+            localStorage.getItem("markedList") || "[]"
+        )
+
+        setMarkedList(savedList)
+
     }, [])
 
     const toggleMark = (studentId) => {
@@ -147,6 +162,42 @@ export default function AdminAllStudents({
 
     }
 
+    const listManage = (student) => {
+
+        // copy previously existed in markedStudent to updatedMarks
+        let updatedList = [...markedList]
+
+        // check is in updatedList or not
+        const exists = updatedList.some(any =>
+            any.id === student.id
+        )
+
+        if (exists) {
+
+            // if in, remove it
+            updatedList = updatedList.filter(any =>
+                any.id !== student.id
+            )
+
+        } else {
+
+            // if not in, add it
+            updatedList.push(student)
+
+        }
+        console.log(updatedList)
+
+        // change markedList with updatedList
+        setMarkedList(updatedList)
+
+        // store updatedList as string to local-storage in 'markedList' key
+        localStorage.setItem(
+            "markedList",
+            JSON.stringify(updatedList)
+        )
+
+    }
+
     const toggleAllMark = () => {
 
         // check is selectedStudents not empty
@@ -156,19 +207,26 @@ export default function AdminAllStudents({
             setSelectedStudents({});
             localStorage.removeItem("selectedStudents");
 
+            setMarkedList([]);
+            localStorage.removeItem("markedList");
+
             setMarkAll(false);
             localStorage.removeItem("markAll");
         }
         else {
             const allMarked = {};
+            const listItem = [];
 
             students.forEach((student) => {
                 allMarked[student.id] = true;
+                listItem.push(student);
             });
 
             setSelectedStudents(allMarked);
-
             localStorage.setItem("selectedStudents", JSON.stringify(allMarked));
+
+            setMarkedList(listItem);
+            localStorage.setItem("markedList", JSON.stringify(listItem));
 
             setMarkAll(true);
             localStorage.setItem("markAll", JSON.stringify(true));
@@ -199,6 +257,72 @@ export default function AdminAllStudents({
             console.log(err);
 
             toast.err(err.response?.data?.message || "Delete Failed");
+
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    const absentSelected = async () => {
+        try {
+            setLoading(true)
+            // const selected = Object.keys(markedList);
+            const selected = [...markedList];
+
+            await Promise.all(
+                selected.filter((student) =>
+                    student.hostelStatus === 'IN').map(async (student) => {
+                        const res = await adminApi.put(`hostel/toggle-status/${student.id}`,
+                            {}
+                        )
+                        return res.data;
+                    }
+                    )
+            );
+
+            await fetchingData();
+
+            hideMark();
+            setAbsentModal(false);
+            toast.success("Marked Successfully");
+        } catch (err) {
+
+            console.log(err);
+
+            toast.err(err.response?.data?.message || "Marking Failed");
+
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    const presentSelected = async () => {
+        try {
+            setLoading(true)
+            // const selected = Object.keys(markedList);
+            const selected = [...markedList];
+
+            await Promise.all(
+                selected.filter((student) =>
+                    student.hostelStatus === 'OUT').map(async (student) => {
+                        const res = await adminApi.put(`hostel/toggle-status/${student.id}`,
+                            {}
+                        )
+                        return res.data;
+                    }
+                    )
+            );
+
+            await fetchingData();
+
+            hideMark();
+            setPresentModal(false);
+            toast.success("Marked Successfully");
+        } catch (err) {
+
+            console.log(err);
+
+            toast.err(err.response?.data?.message || "Marking Failed");
 
         } finally {
             setLoading(false)
@@ -511,7 +635,10 @@ export default function AdminAllStudents({
                                                         {/* Select box */}
                                                         {markActiveAdmin ?
 
-                                                            <div className='d-flex shadow-sm' style={{ cursor: "pointer" }} onClick={() => toggleMark(s.id)}>
+                                                            <div className='d-flex shadow-sm' style={{ cursor: "pointer" }} onClick={() => {
+                                                                toggleMark(s.id);
+                                                                listManage(s);
+                                                            }}>
                                                                 {selectedStudents[s.id] ?
                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" className="color-official bi bi-check-square-fill" viewBox="0 0 16 16">
                                                                         <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm10.03 4.97a.75.75 0 0 1 .011 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.75.75 0 0 1 1.08-.022z" />
@@ -557,15 +684,69 @@ export default function AdminAllStudents({
                     >
 
                         {/* Button - Delete Selected */}
-                        {(Object.keys(selectedStudents).length !== 0) && (
-                            <div className='card bg-white shadow-sm p-1 rounded-circle'>
-                                <button className='btn btn-danger rounded-circle d-flex p-2' onClick={() => setDeleteModal(true)}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-trash-fill" viewBox="0 0 16 16">
-                                        <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0" />
+                        {(btnShow) && (Object.keys(selectedStudents).length !== 0) && (
+                            <div className='card rounded-5 shadow-sm border-official'>
+                                <button className='btn btn-official rounded-5 d-flex py-2 px-3 align-items-center gap-2' onClick={() => setDeleteModal(true)}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-trash" viewBox="0 0 16 16">
+                                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+                                        <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
                                     </svg>
+                                    <p className='m-0'>Delete</p>
                                 </button>
                             </div>
                         )}
+
+                        {/* Button - Mark Absent */}
+                        {(btnShow) && (Object.keys(selectedStudents).length !== 0) && (
+                            <div className='card rounded-5 shadow-sm border-official mt-2'>
+                                <button className='btn btn-official rounded-5 d-flex py-2 px-3 align-items-center gap-2' onClick={() => setAbsentModal(true)}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-slash-circle" viewBox="0 0 16 16">
+                                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                                        <path d="M11.354 4.646a.5.5 0 0 0-.708 0l-6 6a.5.5 0 0 0 .708.708l6-6a.5.5 0 0 0 0-.708" />
+                                    </svg>
+                                    <p className='m-0'>Absent</p>
+                                </button>
+                            </div>
+                        )}
+
+                        {/* Button - Mark Present */}
+                        {(btnShow) && (Object.keys(selectedStudents).length !== 0) && (
+                            <div className='card rounded-5 shadow-sm border-official mt-2'>
+                                <button className='btn btn-official rounded-5 d-flex py-2 px-3 align-items-center gap-2' onClick={() => setPresentModal(true)}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-check2-circle" viewBox="0 0 16 16">
+                                        <path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0" />
+                                        <path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0z" />
+                                    </svg>
+                                    <p className='m-0'>Present</p>
+                                </button>
+                            </div>
+                        )}
+
+                        {/* Cancel Button */}
+                        {(btnShow) && (Object.keys(selectedStudents).length !== 0) && (
+                            <div className='card rounded-5 shadow-sm mt-2 border-official'>
+                                <button className='btn color-official rounded-5 d-flex py-2 px-3 align-items-center gap-2' onClick={() => setBtnShow(false)}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-x-lg" viewBox="0 0 16 16">
+                                        <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z" />
+                                    </svg>
+                                    <p className='m-0'>Cancel</p>
+                                </button>
+                            </div>
+                        )}
+
+                        {/* Menu Button */}
+                        {(!btnShow) && (Object.keys(selectedStudents).length !== 0) && (
+                            <div className='card rounded-5 shadow-sm border-official'>
+                                <button className='btn btn-official rounded-5 d-flex py-2 px-3 align-items-center gap-2' onClick={() => setBtnShow(true)}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-distribute-vertical" viewBox="0 0 16 16">
+                                        <path fillRule="evenodd" d="M1 1.5a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 0-1h-13a.5.5 0 0 0-.5.5m0 13a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 0-1h-13a.5.5 0 0 0-.5.5" />
+                                        <path d="M2 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z" />
+                                    </svg>
+                                    <p className='m-0'>Menu</p>
+                                </button>
+                            </div>
+                        )}
+
 
                     </div>
 
@@ -622,6 +803,120 @@ export default function AdminAllStudents({
                                             ></span>
                                         </p>
                                         : "Permanent Delete"
+                                    }
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            )}
+
+            {/* Absent Modal */}
+            {absentModal && (
+                <div className="modal d-block bg-dark bg-opacity-75" onClick={() => setAbsentModal(false)}>
+
+                    <div className="modal-dialog modal-dialog-centered" onClick={(e) => e.stopPropagation()}>
+
+                        <div className="modal-content">
+
+                            <div className='modal-body'>
+
+                                <div>
+                                    <p>Are you sure you want to {' '}
+                                        {(Object.keys(selectedStudents).length !== students.length) ?
+                                            <span className='text-danger fw-medium'>mark absent the <span className='color-official'>Selected</span> students?</span>
+                                            : <span className='text-danger fw-medium'>mark absent <span className='color-official'>All</span> students?</span>
+                                        }
+                                    </p>
+                                </div>
+
+                            </div>
+
+                            <div className="modal-footer">
+
+                                <button
+                                    className="btn bg-secondary text-white rounded-3 "
+                                    onClick={() => {
+                                        setAbsentModal(false)
+                                    }}
+                                >Cancel</button>
+
+                                <button
+                                    className="btn btn-danger text-white rounded-3 "
+                                    onClick={absentSelected}
+                                    disabled={loading}
+                                >
+                                    {loading ?
+                                        <p className='m-0'>
+                                            Marking...
+                                            <span
+                                                className="spinner-border spinner-border-sm ms-2"
+                                                role="status"
+                                            ></span>
+                                        </p>
+                                        : "Mark Absent"
+                                    }
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            )}
+
+            {/* Absent Modal */}
+            {presentModal && (
+                <div className="modal d-block bg-dark bg-opacity-75" onClick={() => setPresentModal(false)}>
+
+                    <div className="modal-dialog modal-dialog-centered" onClick={(e) => e.stopPropagation()}>
+
+                        <div className="modal-content">
+
+                            <div className='modal-body'>
+
+                                <div>
+                                    <p>Are you sure you want to {' '}
+                                        {(Object.keys(selectedStudents).length !== students.length) ?
+                                            <span className='text-danger fw-medium'>mark present the <span className='color-official'>Selected</span> students?</span>
+                                            : <span className='text-danger fw-medium'>mark present <span className='color-official'>All</span> students?</span>
+                                        }
+                                    </p>
+                                </div>
+
+                            </div>
+
+                            <div className="modal-footer">
+
+                                <button
+                                    className="btn bg-secondary text-white rounded-3 "
+                                    onClick={() => {
+                                        setPresentModal(false)
+                                    }}
+                                >Cancel</button>
+
+                                <button
+                                    className="btn btn-official text-white rounded-3 "
+                                    onClick={presentSelected}
+                                    disabled={loading}
+                                >
+                                    {loading ?
+                                        <p className='m-0'>
+                                            Marking...
+                                            <span
+                                                className="spinner-border spinner-border-sm ms-2"
+                                                role="status"
+                                            ></span>
+                                        </p>
+                                        : "Mark Present"
                                     }
 
                                 </button>

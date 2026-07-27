@@ -79,7 +79,13 @@ export default function StudentDetail({ id, fetchingData, }) {
 
   const toggleStatus = async () => {
     console.log(user._id)
-    const res = await adminApi.put(`hostel/toggle-status/${user._id}`)
+    const toastId = toast.loading("Loading...", { toasterId: 'center' })
+    const res = await adminApi.put(`hostel/toggle-status/${user._id}`,
+      {}
+    )
+
+    await fetchData()
+    toast.dismiss(toastId)
   }
 
   const handleSave = async () => {
