@@ -15,6 +15,12 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 
+// Disable caching for API responses
+app.use((req, res, next) => {
+  res.set("Cache-Control", "no-store")
+  next()
+})
+
 import approvedStudentRoutes from "./routes/approvedStudentRoutes.js"
 app.use(
   '/api/approved-students',
