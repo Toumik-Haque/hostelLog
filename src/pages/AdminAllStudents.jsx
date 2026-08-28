@@ -22,6 +22,29 @@ export default function AdminAllStudents({
 
     const navigate = useNavigate()
 
+    const totalCount = (students || []).length
+    const vegCount = (students || []).filter(
+        s => s.foodPreference === 'Veg'
+    ).length
+    const chickenCount = (students || []).filter(
+        s => s.dontEat?.includes('Chicken')
+    ).length
+    const fishCount = (students || []).filter(
+        s => s.dontEat?.includes('Fish')
+    ).length
+    const eggCount = (students || []).filter(
+        s => s.dontEat?.includes('Egg')
+    ).length
+    const presentCount = (students || []).filter(
+        s => s.status === 'PRESENT'
+    ).length
+    const absentCount = (students || []).filter(
+        s => s.status === 'ABSENT'
+    ).length
+    const unregisteredCount = (students || []).filter(
+        s => s.status === 'UNREGISTERED'
+    ).length
+
     const [loading, setLoading] = useState(false)
 
     const [btnShow, setBtnShow] = useState(false)
@@ -89,12 +112,6 @@ export default function AdminAllStudents({
 
         loadData()
 
-        return () => {
-            isMounted.current = false
-            // controller.abort(); // cancel fetch
-            toast.dismiss(toastId)    // remove toast
-        }
-
         console.log('Students data fetched')
 
         const savedMarkAll = JSON.parse(
@@ -120,6 +137,12 @@ export default function AdminAllStudents({
         )
 
         setMarkedList(savedList)
+
+        return () => {
+            isMounted.current = false
+            // controller.abort(); // cancel fetch
+            toast.dismiss(toastId)    // remove toast
+        }
 
     }, [])
 
@@ -434,56 +457,56 @@ export default function AdminAllStudents({
                         className={`btn btn-sm flex-shrink-0 ${filter === 'ALL' ? 'btn rounded-5 px-3 activeTab btn-outline-official' : 'btn-outline-secondary rounded-5 px-3'}`}
                         onClick={() => setFilter('ALL')}
                     >
-                        All
+                        All <span>{totalCount}</span>
                     </button>
 
                     <button
                         className={`btn btn-sm flex-shrink-0 ${filter === 'VEG' ? 'btn rounded-5 activeTab btn-outline-official' : 'btn-outline-secondary rounded-5'}`}
                         onClick={() => setFilter('VEG')}
                     >
-                        Pure Veg
+                        Pure Veg <span>{vegCount}</span>
                     </button>
 
                     <button
                         className={`btn btn-sm flex-shrink-0 ${filter === 'CHICKEN' ? 'btn rounded-5 activeTab btn-outline-official' : 'btn-outline-secondary rounded-5'}`}
                         onClick={() => setFilter('CHICKEN')}
                     >
-                        No Chicken
+                        No Chicken <span>{chickenCount}</span>
                     </button>
 
                     <button
                         className={`btn btn-sm flex-shrink-0 ${filter === 'FISH' ? 'btn rounded-5 activeTab btn-outline-official' : 'btn-outline-secondary rounded-5'}`}
                         onClick={() => setFilter('FISH')}
                     >
-                        No Fish
+                        No Fish <span>{fishCount}</span>
                     </button>
 
                     <button
                         className={`btn btn-sm flex-shrink-0 flex-shrink-0 ${filter === 'EGG' ? 'btn rounded-5 activeTab btn-outline-official' : 'btn-outline-secondary rounded-5'}`}
                         onClick={() => setFilter('EGG')}
                     >
-                        No Egg
+                        No Egg <span>{eggCount}</span>
                     </button>
 
                     <button
                         className={`btn btn-sm flex-shrink-0 ${filter === 'PRESENT' ? 'btn rounded-5 activeTab btn-outline-official' : 'btn-outline-secondary rounded-5'}`}
                         onClick={() => setFilter('PRESENT')}
                     >
-                        Present
+                        Present <span>{presentCount}</span>
                     </button>
 
                     <button
                         className={`btn btn-sm flex-shrink-0 ${filter === 'ABSENT' ? 'btn rounded-5 activeTab btn-outline-official' : 'btn-outline-secondary rounded-5'}`}
                         onClick={() => setFilter('ABSENT')}
                     >
-                        Absent
+                        Absent <span>{absentCount}</span>
                     </button>
 
                     <button
                         className={`btn btn-sm flex-shrink-0 ${filter === 'UNREGISTERED' ? 'btn rounded-5 activeTab btn-outline-official' : 'btn-outline-secondary rounded-5'}`}
                         onClick={() => setFilter('UNREGISTERED')}
                     >
-                        Unregistered
+                        Unregistered <span>{unregisteredCount}</span>
                     </button>
 
                 </div>
@@ -873,7 +896,7 @@ export default function AdminAllStudents({
                 </div>
             )}
 
-            {/* Absent Modal */}
+            {/* Present Modal */}
             {presentModal && (
                 <div className="modal d-block bg-dark bg-opacity-75" onClick={() => setPresentModal(false)}>
 

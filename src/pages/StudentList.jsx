@@ -13,6 +13,37 @@ export default function StudentList({ students, fetchingData, }) {
     const [markedStudents, setMarkedStudents] = useState({})
 
     const navigate = useNavigate()
+    const totalCount = (students || []).length
+
+    const vegCount = (students || []).filter(
+        s => s.foodPreference === 'Veg'
+    ).length
+
+    const chickenCount = (students || []).filter(
+        s => s.dontEat?.includes('Chicken')
+    ).length
+
+    const fishCount = (students || []).filter(
+        s => s.dontEat?.includes('Fish')
+    ).length
+
+    const eggCount = (students || []).filter(
+        s => s.dontEat?.includes('Egg')
+    ).length
+
+    const presentCount = (students || []).filter(
+        s => s.status === 'PRESENT'
+    ).length
+
+    const absentCount = (students || []).filter(
+        s => s.status === 'ABSENT'
+    ).length
+
+    const unregisteredCount = (students || []).filter(
+        s => s.status === 'UNREGISTERED'
+    ).length
+
+    const [btnShow, setBtnShow] = useState(false)
 
     const showMark = () => {
         setMarkActive(true)
@@ -58,12 +89,6 @@ export default function StudentList({ students, fetchingData, }) {
 
         loadData()
 
-        return () => {
-            isMounted.current = false
-            // controller.abort(); // cancel fetch
-            toast.dismiss(toastId)    // remove toast
-        }
-
         console.log('students fetched')
 
         const savedMarkActive = JSON.parse(
@@ -77,6 +102,12 @@ export default function StudentList({ students, fetchingData, }) {
         )
 
         setMarkedStudents(savedMarks)
+
+        return () => {
+            isMounted.current = false
+            // controller.abort(); // cancel fetch
+            toast.dismiss(toastId)    // remove toast
+        }
 
     }, [])
 
@@ -140,19 +171,23 @@ export default function StudentList({ students, fetchingData, }) {
     return (
 
         <div
-            className="containerActive d-flex flex-column h-100 pt-3"
+            className="containerActive d-flex flex-column h-100 pt-3 position-relative"
         >
 
             {/* Search + markActive btn */}
             <div className="search-box sticky-top mx-4 mb-3 d-flex gap-2">
 
                 {markActive === true ?
-                    <button className='btn bg-dark rounded-1 text-white shadow-sm' onClick={hideMark}>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-x-lg" viewBox="0 0 16 16">
+                    <button className='btn bg-official rounded-1 text-white shadow-sm' onClick={hideMark}>
+                        {/* <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-x-lg" viewBox="0 0 16 16">
                             <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z" />
+                        </svg> */}
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-check2-square" viewBox="0 0 16 16">
+                            <path d="M3 14.5A1.5 1.5 0 0 1 1.5 13V3A1.5 1.5 0 0 1 3 1.5h8a.5.5 0 0 1 0 1H3a.5.5 0 0 0-.5.5v10a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V8a.5.5 0 0 1 1 0v5a1.5 1.5 0 0 1-1.5 1.5z" />
+                            <path d="m8.354 10.354 7-7a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0" />
                         </svg>
                     </button>
-                    : <button className='btn bg-official rounded-1 text-white shadow-sm' onClick={showMark}>
+                    : <button className='btn bg-white rounded-1 shadow-sm' onClick={showMark}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-check2-square" viewBox="0 0 16 16">
                             <path d="M3 14.5A1.5 1.5 0 0 1 1.5 13V3A1.5 1.5 0 0 1 3 1.5h8a.5.5 0 0 1 0 1H3a.5.5 0 0 0-.5.5v10a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V8a.5.5 0 0 1 1 0v5a1.5 1.5 0 0 1-1.5 1.5z" />
                             <path d="m8.354 10.354 7-7a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0" />
@@ -201,62 +236,66 @@ export default function StudentList({ students, fetchingData, }) {
                         className={`btn btn-sm flex-shrink-0 ${filter === 'ALL' ? 'btn rounded-5 px-3 activeTab btn-outline-official' : 'btn-outline-secondary rounded-5 px-3'}`}
                         onClick={() => setFilter('ALL')}
                     >
-                        All
+                        All <span>{totalCount}</span>
                     </button>
 
                     <button
                         className={`btn btn-sm flex-shrink-0 ${filter === 'VEG' ? 'btn rounded-5 activeTab btn-outline-official' : 'btn-outline-secondary rounded-5'}`}
                         onClick={() => setFilter('VEG')}
                     >
-                        Pure Veg
+                        Pure Veg <span>{vegCount}</span>
                     </button>
 
                     <button
                         className={`btn btn-sm flex-shrink-0 ${filter === 'CHICKEN' ? 'btn rounded-5 activeTab btn-outline-official' : 'btn-outline-secondary rounded-5'}`}
                         onClick={() => setFilter('CHICKEN')}
                     >
-                        No Chicken
+                        No Chicken <span>{chickenCount}</span>
                     </button>
 
                     <button
                         className={`btn btn-sm flex-shrink-0 ${filter === 'FISH' ? 'btn rounded-5 activeTab btn-outline-official' : 'btn-outline-secondary rounded-5'}`}
                         onClick={() => setFilter('FISH')}
                     >
-                        No Fish
+                        No Fish <span>{fishCount}</span>
                     </button>
 
                     <button
                         className={`btn btn-sm flex-shrink-0 flex-shrink-0 ${filter === 'EGG' ? 'btn rounded-5 activeTab btn-outline-official' : 'btn-outline-secondary rounded-5'}`}
                         onClick={() => setFilter('EGG')}
                     >
-                        No Egg
+                        No Egg <span>{eggCount}</span>
                     </button>
 
                     <button
                         className={`btn btn-sm flex-shrink-0 ${filter === 'PRESENT' ? 'btn rounded-5 activeTab btn-outline-official' : 'btn-outline-secondary rounded-5'}`}
                         onClick={() => setFilter('PRESENT')}
                     >
-                        Present
+                        Present <span>{presentCount}</span>
                     </button>
 
                     <button
                         className={`btn btn-sm flex-shrink-0 ${filter === 'ABSENT' ? 'btn rounded-5 activeTab btn-outline-official' : 'btn-outline-secondary rounded-5'}`}
                         onClick={() => setFilter('ABSENT')}
                     >
-                        Absent
+                        Absent <span>{absentCount}</span>
                     </button>
 
                     <button
                         className={`btn btn-sm flex-shrink-0 ${filter === 'UNREGISTERED' ? 'btn rounded-5 activeTab btn-outline-official' : 'btn-outline-secondary rounded-5'}`}
                         onClick={() => setFilter('UNREGISTERED')}
                     >
-                        Unregistered
+                        Unregistered <span>{unregisteredCount}</span>
                     </button>
 
                 </div>
 
                 {/* Students List */}
-                <div className="row g-3 containerList">
+                <div className={`row g-3 containerList
+                        ${(Object.keys(markedStudents).length !== 0) && (
+                        'mb-5'
+                    )}
+                    `}>
 
                     {(students || [])
                         .filter(s => {
@@ -424,6 +463,23 @@ export default function StudentList({ students, fetchingData, }) {
 
                         ))
                     }
+
+                    <div className='position-absolute start-0 bottom-0 mb-2 py-0'
+                        style={{ width: "min-content" }}
+                    >
+
+                        {/* Menu Button */}
+                        {(!btnShow) && (Object.keys(markedStudents).length !== 0) && (
+                            <div className='card rounded-5 shadow-sm border-official'>
+                                <button className='btn btn-official rounded-5 d-flex py-2 px-3 align-items-center gap-2' onClick={() => setBtnShow(true)}>
+                                    <span>{Object.keys(markedStudents).length}</span>
+                                    <p className='m-0'>Marked</p>
+                                </button>
+                            </div>
+                        )}
+
+
+                    </div>
 
                 </div>
 

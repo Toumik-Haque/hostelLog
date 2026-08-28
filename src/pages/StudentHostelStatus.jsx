@@ -27,15 +27,6 @@ export default function StudentHostelStatus({
         }
       )
 
-      // console.log(res.data)
-
-      // update UI instantly
-      // setUser({
-      //   ...user,
-      //   hostelStatus: res.data.hostelStatus,
-      //   lastStatusChange: res.data.lastStatusChange
-      // })
-
       await fetchingData()
 
 
@@ -58,17 +49,6 @@ export default function StudentHostelStatus({
       try {
         await fetchingData()
         toast.dismiss(toastId)
-
-        // if (isMounted.current) {
-        //   toast.success("Loaded!",
-        //     {
-        //       id: toastId,
-        //       toasterId: 'center',
-        //     }
-        //   )
-        // } else {
-        //   toast.dismiss(toastId)
-        // }
         
       } catch (err) {
 
@@ -87,13 +67,13 @@ export default function StudentHostelStatus({
 
     loadData()
 
+    console.log('home fetched')
+
     return () => {
       isMounted.current = false
       // controller.abort(); // cancel fetch
       toast.dismiss(toastId)    // remove toast
     }
-
-    console.log('home fetched')
 
   }, [])
 

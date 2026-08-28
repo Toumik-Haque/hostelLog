@@ -86,17 +86,6 @@ export default function StudentProfile({ user, fetchingData, }) {
       try {
         await fetchingData()
         toast.dismiss(toastId)
-
-        // if (isMounted.current) {
-        //   toast.success("Loaded!",
-        //     {
-        //       id: toastId,
-        //       toasterId: 'center',
-        //     }
-        //   )
-        // } else {
-        //   toast.dismiss(toastId)
-        // }
         
       } catch (err) {
 
@@ -115,13 +104,13 @@ export default function StudentProfile({ user, fetchingData, }) {
 
     loadData()
 
+    console.log('profile fetched')
+
     return () => {
       isMounted.current = false
       // controller.abort(); // cancel fetch
       toast.dismiss(toastId)    // remove toast
     }
-
-    console.log('profile fetched')
 
   }, [])
 

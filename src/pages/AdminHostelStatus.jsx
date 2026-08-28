@@ -47,17 +47,6 @@ export default function AdminHostelStatus({ stats, fetchingData, }) {
             try {
                 await fetchingData()
                 toast.dismiss(toastId)
-
-                // if (isMounted.current) {
-                //     toast.success("Loaded!",
-                //         {
-                //             id: toastId,
-                //             toasterId: 'center',
-                //         }
-                //     )
-                // } else {
-                //     toast.dismiss(toastId)
-                // }
                 
             } catch (err) {
 
@@ -76,13 +65,13 @@ export default function AdminHostelStatus({ stats, fetchingData, }) {
 
         loadData()
 
+        console.log('Status fetched')
+
         return () => {
             isMounted.current = false
             // controller.abort(); // cancel fetch
             toast.dismiss(toastId)    // remove toast
         }
-
-        console.log('Status fetched')
 
     }, [])
 
