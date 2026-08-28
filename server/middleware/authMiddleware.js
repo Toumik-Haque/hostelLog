@@ -57,12 +57,12 @@ const protect = async (req, res, next) => {
 
   } catch (error) {
 
-    console.log("JWT ERROR:", error.name, error.message)
+  console.log("JWT ERROR:", error.name, error.message)
 
-    return res.status(401).json({
-      message: 'Token is not valid'
-    })
-  }
+  return res.status(401).json({
+    message: 'Token is not valid'
+  })
+}
 }
 
 export default protect

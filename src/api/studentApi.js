@@ -15,4 +15,21 @@ studentApi.interceptors.request.use((config) => {
   return config
 })
 
+// Handle expired / invalid user token
+studentApi.interceptors.response.use(
+  (response) => response,
+
+  (error) => {
+
+    if (error.response?.status === 401) {
+
+      localStorage.removeItem('token')
+
+      window.location.href = '/login'
+    }
+
+    return Promise.reject(error)
+  }
+)
+
 export default studentApi

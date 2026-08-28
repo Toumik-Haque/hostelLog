@@ -41,17 +41,6 @@ export default function StudentList({ students, fetchingData, }) {
                 await fetchingData()
                 toast.dismiss(toastId)
 
-                // if (isMounted.current) {
-                //     toast.success("Loaded!",
-                //         {
-                //             id: toastId,
-                //             toasterId: 'center',
-                //         }
-                //     )
-                // } else {
-                //     toast.dismiss(toastId)
-                // }
-
             } catch (err) {
 
                 if (isMounted.current) {
@@ -269,7 +258,7 @@ export default function StudentList({ students, fetchingData, }) {
                 {/* Students List */}
                 <div className="row g-3 containerList">
 
-                    {students
+                    {(students || [])
                         .filter(s => {
 
                             const matchesSearch =
